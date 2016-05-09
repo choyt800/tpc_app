@@ -1,0 +1,76 @@
+<%= form_for(@member) do |f| %>
+  <% if @member.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@member.errors.count, "error") %> prohibited this member from being saved:</h2>
+
+      <ul>
+      <% @member.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :first_name %><br>
+    <%= f.text_field :first_name %>
+  </div>
+  <div class="field">
+    <%= f.label :last_name %><br>
+    <%= f.text_field :last_name %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :membership_type %><br>
+    <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]) )%>
+  </div>
+  <div class="field">
+    <%= f.label :payment_type %><br>
+    <%= f.select(:payment_type, options_for_select([['Prepaid', "Prepaid"], ['Month-to-month', "Month-to-month"], ['N/A', "N/A"]]) )%>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br>
+    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]) )%>
+  </div>
+  <div class="field">
+    <%= f.label :access %><br>
+    <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]) )%>
+  </div>
+  <div class="field">
+    <%= f.label :start_date %><br>
+    <%= f.date_select :start_date, :ampm => true, :discard_hours => true  %>
+  </div>
+  <div class="field">
+    <%= f.label :has_mail_service %><br>
+    <%= f.select(:access, options_for_select([['Yes', true], ['No', false]]) )%>
+  </div>
+  <div class="field">
+    
+      Keycard:
+      <ul>
+        <%= f.fields_for :keycard do |keycard_form| %>
+          <li>
+            <%= keycard_form.label :number %>
+            <%= keycard_form.text_field :number %>
+     
+            <%= keycard_form.label :hours %>
+            <%= keycard_form.select(:hours, options_for_select([['24/7', "24/7"], ['8-6', "8-6"]]) )%>
+     
+          </li>
+        <% end %>
+      </ul>
+ 
+  </div>
+  
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
