@@ -1,34 +1,53 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-sm-12">
+  <h1>Showing member <%= @member.first_name + " " + @member.last_name %></h1>
 
-<p>
-  <strong>First name:</strong>
-  <%= @member.first_name %>
-</p>
+    <p id="notice"><%= notice %></p>
+    
+    
+    <p>
+      <strong>Status:</strong>
+      <%= @member.status + " member" %>
+    </p>
+    
+    <p>
+      <strong>Start date:</strong>
+      <%= @member.start_date %>
+    </p> 
+    
+    <p>
+      <strong>Membership type:</strong>
+      <%= @member.membership_type %>
+    </p>
+    
+    <p>
+      <strong>Building access:</strong>
+      <%= @member.access %>
+    </p>
+    
+    <p>
+      <strong>Keycard:</strong>
+      <%= @member.keycard.number + " " + @member.keycard.hours %>
+    </p>
+    
+    <p>
+      <strong>Payment type:</strong>
+      <%= @member.payment_type %>
+    </p>
+    
+    <p>
+      <strong>Email:</strong>
+      <%= @member.email %>
+    </p>
+    
+    
+    <p>
+      <strong>Notes:</strong>
+      <%= @member.notes %>
+    </p>
+    
+    <%= link_to 'Edit', edit_member_path(@member) %> |
+    <%= link_to 'View all members', members_path %>
 
-<p>
-  <strong>Last name:</strong>
-  <%= @member.last_name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @member.email %>
-</p>
-
-<p>
-  <strong>Membership type:</strong>
-  <%= @member.membership_type %>
-</p>
-
-<p>
-  <strong>Keycard:</strong>
-  <%= @member.keycard.number %>
-</p>
-
-<p>
-  <strong>Notes:</strong>
-  <%= @member.notes %>
-</p>
-
-<%= link_to 'Edit', edit_member_path(@member) %> |
-<%= link_to 'Back', members_path %>
+  </div>
+</div>

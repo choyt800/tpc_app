@@ -9,7 +9,6 @@
       <th>Last name</th>
       <th>Email</th>
       <th>Membership type</th>
-      <th>Keycard</th>
       <th>Building access</th>
       <th>Start date</th>
       <th>Time as member</th>
@@ -27,7 +26,6 @@
         <td><%= member.last_name %></td>
         <td><%= member.email %></td>
         <td><%= member.membership_type %></td>
-        <td><%= member.keycard.number %></td>
         <td><%= member.access %></td>
         <td><%= member.start_date %></td>
         <td><%= member.days_as_member %> days</td>
@@ -44,4 +42,4 @@
 
 <br>
 
-<%= link_to 'New Member', new_member_path %>
+<%= link_to 'Create New Member', new_member_path, class:"btn btn-default" %>

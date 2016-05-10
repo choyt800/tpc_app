@@ -7,8 +7,43 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <h1 class="main-title">The Pioneer Collective</h1>
+    <nav>
+     <ul>
+        <li><a href="http://www.thepioneercollective.com/">Home</a></li>
 
-<%= yield %>
+        <li>
+              <a href="http://www.thepioneercollective.com/membership/">Membership</a>
+        </li>
 
+        <li>
+              <a href="http://www.thepioneercollective.com//pioneer-square/">'Hood</a>
+        </li>
+
+        <li>
+              <a href="http://www.thepioneercollective.com//about-us/">About</a>
+        </li>
+
+        <li>
+              <a href="http://www.thepioneercollective.com//meeting-space/">Meetings</a>
+        </li>
+
+        <li>
+              <a href="http://www.thepioneercollective.com//event-space/">Events</a>
+        </li>
+
+        <li class="blog-collection">
+              <a href="http://www.thepioneercollective.com//blog/">Blog</a>
+        </li>
+        <li class="page-collection active-link"><a href="/contact/">Contact</a> </li>
+      </ul>
+    </nav>
+
+  <div class="container-fluid">
+
+    <%= yield %>
+    
+  </div>
+  
 </body>
 </html>
