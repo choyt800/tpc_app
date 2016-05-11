@@ -48,6 +48,10 @@
     <%= f.select(:has_mail_service, options_for_select([['Yes', true], ['No', false]]) )%>
   </div>
   <div class="field">
+    <%= f.label :mailbox_number %><br>
+    <%= f.text_field :mailbox_number%>
+  </div>
+  <div class="field">
     
       Keycard:
       <ul>

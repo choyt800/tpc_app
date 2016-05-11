@@ -13,7 +13,7 @@
       <th>Start date</th>
       <th>Time as member</th>
       <th>Payment type</th>
-      <th>Mail service</th>
+      <th>Mailbox number</th>
       <th>Notes</th>
       <th colspan="3"></th>
     </tr>
@@ -30,7 +30,12 @@
         <td><%= member.start_date %></td>
         <td><%= member.days_as_member %> days</td>
         <td><%= member.payment_type %></td>
-        <td><%= member.has_mail_service? %></td>
+        <td><%= if member.has_mail_service
+                    member.mailbox_number
+                else
+                    "No mail"
+                end
+                    %></td>
         <td><%= member.notes %></td>
         <td><%= link_to 'Show', member %></td>
         <td><%= link_to 'Edit', edit_member_path(member) %></td>

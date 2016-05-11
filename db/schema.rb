@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506234027) do
+ActiveRecord::Schema.define(version: 20160511051352) do
 
   create_table "keycards", force: :cascade do |t|
     t.string   "number"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20160506234027) do
     t.string   "payment_type"
     t.boolean  "has_mail_service"
     t.integer  "keycard_id"
+    t.string   "mailbox_number"
   end
 
 end
