@@ -1,4 +1,4 @@
-class keycardsController < ApplicationController
+class KeycardsController < ApplicationController
   before_action :set_keycard, only: [:show, :edit, :update, :destroy]
   
   # GET /keycards
