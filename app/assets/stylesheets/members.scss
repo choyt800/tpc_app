@@ -13,5 +13,16 @@ table {
         
         th {
             text-align: center;
+            text-transform: uppercase;
+            background-color: #9966CC;
+            color: #FFFFFF ;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #F8F8F8 ;
+        }
+        
+        tr:nth-child(odd) {
+            background-color: #F0F0F0  ;
         }
     }
