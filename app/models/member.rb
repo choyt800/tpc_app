@@ -7,7 +7,7 @@ class Member < ActiveRecord::Base
     validates :last_name, presence: true
     validates :email, presence: true
     validates :membership_type, presence: true
-    validates :mailbox_number, length: { is: 3,  message: " should be 3 digits" }
+    validates :mailbox_number, :allow_blank => true, length: { is: 3,  message: " should be 3 digits" }
     
   
     def days_as_member
