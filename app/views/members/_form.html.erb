@@ -25,19 +25,21 @@
   </div>
   <div class="field">
     <%= f.label :membership_type %><br>
-    <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]) )%>
+    <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], 
+    ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]), :prompt => true )%>
   </div>
   <div class="field">
     <%= f.label :payment_type %><br>
-    <%= f.select(:payment_type, options_for_select([['Prepaid', "Prepaid"], ['Month-to-month', "Month-to-month"], ['N/A', "N/A"]]) )%>
+    <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
+    ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
   </div>
   <div class="field">
     <%= f.label :status %><br>
-    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]) )%>
+    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]), :prompt => true )%>
   </div>
   <div class="field">
     <%= f.label :access %><br>
-    <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]) )%>
+    <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]), :prompt => true )%>
   </div>
   <div class="field">
     <%= f.label :start_date %><br>
@@ -45,7 +47,7 @@
   </div>
   <div class="field">
     <%= f.label :has_mail_service %><br>
-    <%= f.select(:has_mail_service, options_for_select([['Yes', true], ['No', false]]) )%>
+    <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]]), :prompt => true)%>
   </div>
   <div class="field">
     <%= f.label :mailbox_number %><br>
@@ -61,7 +63,7 @@
             <%= keycard_form.text_field :number %>
      
             <%= keycard_form.label :hours %>
-            <%= keycard_form.select(:hours, options_for_select([['24/7', "24/7"], ['8-6', "8-6"]]) )%>
+            <%= keycard_form.select(:hours, options_for_select([['24/7', "24/7"], ['8-6', "8-6"]]), :prompt => true )%>
      
           </li>
         <% end %>

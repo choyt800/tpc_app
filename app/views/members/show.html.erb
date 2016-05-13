@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-12">
-  <h1>Showing member <%= @member.first_name + " " + @member.last_name %></h1>
+  <h1>Showing member <%= @member.first_name  %> <%= @member.last_name %></h1>
 
     <p id="notice"><%= notice %></p>
     
@@ -27,7 +27,7 @@
     
     <p>
       <strong>Keycard:</strong>
-      <%= @member.keycard.number + " " + @member.keycard.hours %>
+      <%= @member.keycard.number %>  
     </p>
     
     <p>
@@ -38,6 +38,16 @@
     <p>
       <strong>Email:</strong>
       <%= @member.email %>
+    </p>
+    
+    <p>
+      <strong>Mail service:</strong>
+      <%= if @member.has_mail_service
+            "Box #" + @member.mailbox_number
+          else
+            "No mail"
+          end
+          %>
     </p>
     
     
