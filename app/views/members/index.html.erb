@@ -24,7 +24,7 @@
       </thead>
     
       <tbody>
-        <% @members.each do |member| %>
+        <% @members.where(:status => "Active").each do |member| %>
           <tr>
             <td><%= member.first_name %></td>
             <td><%= member.last_name %></td>

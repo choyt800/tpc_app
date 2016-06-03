@@ -11,26 +11,27 @@ class MembersController < ApplicationController
   # GET /members/1
   # GET /members/1.json
   def show
-    @members = Member.find(params[:id])
+    @member = Member.find(params[:id])
     
   end
 
   # GET /members/new
   def new
     @member = Member.new
-    @member.build_keycard
+    @keycard = @member.build_keycard
     
   end
 
   # GET /members/1/edit
   def edit
+
   end
 
   # POST /members
   # POST /members.json
   def create
     @member = Member.new(member_params)
-    @keycard = @member.create_keycard(params[:keycard])
+    
 
     respond_to do |format|
       if @member.save
@@ -80,3 +81,5 @@ class MembersController < ApplicationController
       :access, :start_date, :payment_type, :has_mail_service, :mailbox_number, :phone, :company, :notes, keycard_attributes:[:id, :number, :hours, :_destroy])
     end
 end
+
+

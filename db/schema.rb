@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513234128) do
+ActiveRecord::Schema.define(version: 20160603004607) do
 
   create_table "keycards", force: :cascade do |t|
     t.string   "number"
     t.string   "hours"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "member_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -33,10 +34,10 @@ ActiveRecord::Schema.define(version: 20160513234128) do
     t.datetime "start_date"
     t.string   "payment_type"
     t.boolean  "has_mail_service"
-    t.integer  "keycard_id"
     t.string   "mailbox_number"
     t.string   "phone"
     t.string   "company"
+    t.integer  "keycard_id"
   end
 
 end
