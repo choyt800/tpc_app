@@ -1,87 +1,115 @@
-<h1>Editing Member</h1>
+<div class= "container">
 
-<%= form_for(@member) do |f| %>
-  <% if @member.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@member.errors.count, "error") %> prohibited this member from being saved:</h2>
-
-      <ul>
-      <% @member.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <h1>Editing Member <%= @member.first_name and @member.last_name %></h1>
+  
+  <%= form_for(@member) do |f| %>
+    <% if @member.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@member.errors.count, "error") %> prohibited this member from being saved:</h2>
+  
+        <ul>
+        <% @member.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class= "row">
+      <div class = "col-sm-12 form-group">
+        <div class="field float-left">
+          <%= f.label :first_name %><br>
+          <%= f.text_field :first_name %>
+        </div>
+        <div class="field float-left">
+          <%= f.label :last_name %><br>
+          <%= f.text_field :last_name %>
+        </div>
+        <div class="field">
+          <%= f.label :email %><br>
+          <%= f.text_field :email %>
+        </div>
+         <div class="field">
+          <%= f.label :status %><br>
+          <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]), :prompt => true )%>
+        </div>
+        <%= image_tag @member.avatar.url(:medium) %>
+        <div class="field">
+          <%= f.label :avatar %><br>
+          <%= f.file_field :avatar %>
+        </div>
+      </div>
+      <div class = "col-sm-12 form-group">
+        <div class="field float-left">
+          <%= f.label :membership_type %><br>
+          <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], 
+          ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]), :prompt => true )%>
+        </div>
+        <div class="field float-left">
+          <%= f.label :payment_type %><br>
+          <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
+          ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
+        </div>
+       
+        <div class="field">
+          <%= f.label :last_change_date %><br>
+          <%= f.date_select :last_change_date, :ampm => true, :discard_hours => true  %>
+        </div>
+      </div>
+      <div class = "col-sm-12 form-group">
+        <div class="field">
+          <%= f.label :access %><br>
+          <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]), :prompt => true )%>
+        </div>
+        
+        <div class="field">
+          <%= f.label :has_mail_service %><br>
+          <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]]), :prompt => true)%>
+        </div>
+         <div class="field">
+          <%= f.label :mailbox_number %><br>
+          <%= f.text_field :mailbox_number%>
+        </div>
+        
+      </div>
+     
+      
+        
+        
+     
+      <div class = "col-sm-12 form-group">
+        <div class="field">
+          <%= f.label :phone %><br>
+          <%= f.text_field :phone %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :company %><br>
+          <%= f.text_field :company %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :notes %><br>
+          <%= f.text_area :notes %>
+        </div>
+        
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+      </div>
+    <% end %>
+    
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :first_name %><br>
-    <%= f.text_field :first_name %>
-  </div>
-  <div class="field">
-    <%= f.label :last_name %><br>
-    <%= f.text_field :last_name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :membership_type %><br>
-    <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], 
-    ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]), :prompt => true )%>
-  </div>
-  <div class="field">
-    <%= f.label :payment_type %><br>
-    <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
-    ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]), :prompt => true )%>
-  </div>
-  <div class="field">
-    <%= f.label :access %><br>
-    <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]), :prompt => true )%>
-  </div>
-  <div class="field">
-    <%= f.label :start_date %><br>
-    <%= f.date_select :start_date, :ampm => true, :discard_hours => true  %>
-  </div>
-  <div class="field">
-    <%= f.label :has_mail_service %><br>
-    <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]]), :prompt => true)%>
-  </div>
-  <div class="field">
-    <%= f.label :mailbox_number %><br>
-    <%= f.text_field :mailbox_number%>
-  </div>
-  
+    
+    <p>Current Keycard - <%= if @member.keycard != nil
+                          @member.keycard.number
+                        else
+                          "No key"
+                        end
+                        %></p>
     
     
- 
-  
-  <div class="field">
-    <%= f.label :phone %><br>
-    <%= f.text_field :phone %>
-  </div>
-  
-  <div class="field">
-    <%= f.label :company %><br>
-    <%= f.text_field :company %>
-  </div>
-  
-  <div class="field">
-    <%= f.label :notes %><br>
-    <%= f.text_area :notes %>
-  </div>
-  
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-
-<p>Current Keycard - <%= @member.keycard.number %></p>
-
-
-<%= link_to 'Show', @member %> |
-<%= link_to 'Back', members_path %>
+    <%= link_to 'Show', @member %> |
+    <%= link_to 'Back', members_path %> |
+    <td><%= link_to 'Destroy', @member, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</div>

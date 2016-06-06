@@ -7,6 +7,10 @@ class MembersController < ApplicationController
   def index
     @members = Member.all
   end
+  
+  def inactive
+    @members = Member.all
+  end
 
   # GET /members/1
   # GET /members/1.json
@@ -24,7 +28,7 @@ class MembersController < ApplicationController
 
   # GET /members/1/edit
   def edit
-
+    
   end
 
   # POST /members
@@ -77,8 +81,8 @@ class MembersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
-      params.require(:member).permit(:first_name, :last_name, :email, :membership_type, :status, 
-      :access, :start_date, :payment_type, :has_mail_service, :mailbox_number, :phone, :company, :notes, keycard_attributes:[:id, :number, :hours, :_destroy])
+      params.require(:member).permit(:first_name, :last_name, :email, :membership_type, :last_change_date, :status, 
+      :access, :start_date, :payment_type, :has_mail_service, :mailbox_number, :phone, :company, :notes, :avatar, keycard_attributes:[:id, :number, :hours, :_destroy])
     end
 end
 

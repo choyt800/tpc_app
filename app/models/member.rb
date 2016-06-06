@@ -3,7 +3,8 @@ class Member < ActiveRecord::Base
     require 'date'
     require 'time'
     
-    
+    has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
+    validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
     
     
     belongs_to :keycard
@@ -16,6 +17,7 @@ class Member < ActiveRecord::Base
     validates :start_date, presence: true
     validates :mailbox_number, :allow_blank => true, length: { is: 3,  message: " should be 3 digits" }
     
+    
   
 
   
@@ -26,7 +28,13 @@ class Member < ActiveRecord::Base
     end
     
     
-    
+    def current_membership_start_date 
+        if last_change_date != nil
+            start_date = last_change_date
+        else
+            start_date = start_date
+        end
+    end
     
 
   

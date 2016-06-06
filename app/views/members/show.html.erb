@@ -10,6 +10,8 @@
       <%= @member.status + " member" %>
     </p>
     
+    <%= image_tag @member.avatar.url(:medium) %>
+   
     <p>
       <strong>Start date:</strong>
       <%= @member.start_date %>
@@ -25,9 +27,13 @@
       <%= @member.access %>
     </p>
     
-    <p>
-      <strong>Keycard:</strong>
-      <%= @member.keycard.number %>  
+    <p>Keycard:
+      <%= if @member.keycard != nil
+                      @member.keycard.number
+                    else
+                      "No key"
+                    end
+      %> 
     </p>
     
     <p>

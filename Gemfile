@@ -11,6 +11,7 @@ gem 'jbuilder',     '2.2.3'
 gem 'sdoc',         '0.4.0', group: :doc
 gem "stripe"
 gem "stripe_event"
+gem "paperclip", "~> 5.0.0.beta1"
 
 
 group :development, :test do
