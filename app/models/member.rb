@@ -17,9 +17,6 @@ class Member < ActiveRecord::Base
     validates :start_date, presence: true
     validates :mailbox_number, :allow_blank => true, length: { is: 3,  message: " should be 3 digits" }
     
-    
-  
-
   
     def days_as_member
       if start_date != nil 
@@ -36,11 +33,6 @@ class Member < ActiveRecord::Base
         end
     end
     
-
-  
-    
-    
- 
     
     def next_bill_date
         if start_date != nil
