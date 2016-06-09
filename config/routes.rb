@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :memberships
   resources :members
   get '/inactive' => 'members#inactive'
   # The priority is based upon order of creation: first created -> highest priority.

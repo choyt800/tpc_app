@@ -35,7 +35,7 @@
   </div>
   <div class="field">
     <%= f.label :status %><br>
-    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]), :prompt => true )%>
+    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]) )%>
   </div>
   <div class="field">
     <%= f.label :access %><br>
@@ -43,7 +43,7 @@
   </div>
   <div class="field">
     <%= f.label :start_date %><br>
-    <%= f.date_select :start_date, :ampm => true, :discard_hours => true  %>
+    <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
   <div class="field">
     <%= f.label :has_mail_service %><br>

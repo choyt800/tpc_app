@@ -31,7 +31,7 @@
         </div>
          <div class="field">
           <%= f.label :status %><br>
-          <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]), :prompt => true )%>
+          <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]], @member.status), :prompt => true )%>
         </div>
         <%= image_tag @member.avatar.url(:medium) %>
         <div class="field">
@@ -51,20 +51,17 @@
           ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
         </div>
        
-        <div class="field">
-          <%= f.label :last_change_date %><br>
-          <%= f.date_select :last_change_date, :ampm => true, :discard_hours => true  %>
-        </div>
+
       </div>
       <div class = "col-sm-12 form-group">
         <div class="field">
           <%= f.label :access %><br>
-          <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]), :prompt => true )%>
+          <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]], @member.access), :prompt => true )%>
         </div>
         
         <div class="field">
           <%= f.label :has_mail_service %><br>
-          <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]]), :prompt => true)%>
+          <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]], @member.has_mail_service), :prompt => true)%>
         </div>
          <div class="field">
           <%= f.label :mailbox_number %><br>
