@@ -43,12 +43,12 @@
         <div class="field float-left">
           <%= f.label :membership_type %><br>
           <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], 
-          ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]), :prompt => true )%>
+          ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]], @member.membership_type), :prompt => true )%>
         </div>
         <div class="field float-left">
           <%= f.label :payment_type %><br>
           <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
-          ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
+          ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]], @member.payment_type), :prompt => true )%>
         </div>
        
 
