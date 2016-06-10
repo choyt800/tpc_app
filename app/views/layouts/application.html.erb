@@ -9,9 +9,13 @@
 <body>
   <h1 class="main-title">The Pioneer Collective</h1>
   <h2 class="main-title">Staff portal</h2>
+  
     <nav class="nav-bar">
      <ul>
-        <li><a href="http://www.thepioneercollective.com/">Home</a></li>
+        <li><a href="http://www.thepioneercollective.com/">tPC Homepage</a></li>
+        <li><%= link_to "Add member to stripe", new_charge_path %></li>
+        <li><%= link_to "View and edit members database", members_path %></li>
+        <li><%= link_to "Manage keycards", keycards_path %></li>
       
       </ul>
     </nav>
