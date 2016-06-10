@@ -29,7 +29,7 @@
         <td><%= if keycard.member_id? 
                 keycard.member.last_name
                 end %></td>
-          <td><%=if keycard.status?
+          <td><%=if keycard.status != nil
                     keycard.status
                 end %></td>
         
