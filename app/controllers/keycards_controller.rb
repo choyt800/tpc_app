@@ -4,7 +4,7 @@ class KeycardsController < ApplicationController
   # GET /keycards
   # GET /keycards.json
   def index
-    @keycards = keycard.all
+    @keycards = Keycard.all
   end
 
   # GET /keycards/1
@@ -14,7 +14,7 @@ class KeycardsController < ApplicationController
 
   # GET /keycards/new
   def new
-    @keycard = keycard.new
+    @keycard = Keycard.new
   end
 
   # GET /keycards/1/edit
@@ -24,7 +24,7 @@ class KeycardsController < ApplicationController
   # POST /keycards
   # POST /keycards.json
   def create
-    @keycard = keycard.new(keycard_params)
+    @keycard = Keycard.new(keycard_params)
 
     respond_to do |format|
       if @keycard.save
@@ -42,7 +42,7 @@ class KeycardsController < ApplicationController
   def update
     respond_to do |format|
       if @keycard.update(keycard_params)
-        format.html { redirect_to @keycard, notice: 'keycard was successfully updated.' }
+        format.html { redirect_to keycards_path, notice: 'keycard ' + @keycard.id.to_s + ' was successfully updated.' }
         format.json { render :show, status: :ok, location: @keycard }
       else
         format.html { render :edit }
@@ -65,11 +65,11 @@ class KeycardsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_keycard
-      @keycard = keycard.find(params[:id])
+      @keycard = Keycard.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def keycard_params
-      params.require(:keycard).permit( :number, :hours)
+      params.require(:keycard).permit(:id, :number, :hours, :member_id, :status)
     end
 end

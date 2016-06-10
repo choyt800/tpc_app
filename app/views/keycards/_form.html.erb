@@ -1,0 +1,39 @@
+<%= form_for(@keycard) do |f| %>
+  <% if @keycard.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@member.errors.count, "error") %> prohibited this member from being saved:</h2>
+
+      <ul>
+      <% @keycard.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+  <div class="field">
+    <%= f.label :number %>
+    <%= f.text_field :number %>
+     
+    <%= f.label :hours %>
+    <%= f.select(:hours, options_for_select([['24/7', "24/7"], ['8-6', "8-6"]]), :prompt => true )%>
+    
+    <%= f.label :status %>
+    <%= f.select(:status, options_for_select([['Lost', "Lost"], ['Live', "Live"]] , @keycard.status), :include_blank => true )%>
+
+  </div>
+  
+   <div class="field">
+       <%= f.label :member_id %>
+       <%= f.collection_select(:member_id, Member.all, :id, :full_name, :include_blank => true) %>
+  </div>
+  
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  
+ 
+  
+<% end %>

@@ -7,8 +7,8 @@ class Member < ActiveRecord::Base
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
     
     
-    belongs_to :keycard
-    accepts_nested_attributes_for :keycard, allow_destroy: true
+    has_one :keycard
+    
     
     validates :first_name, presence: true
     validates :last_name, presence: true
@@ -17,6 +17,9 @@ class Member < ActiveRecord::Base
     validates :start_date, presence: true
     validates :mailbox_number, :allow_blank => true, length: { is: 3,  message: " should be 3 digits" }
     
+    def full_name
+        "#{last_name}, #{first_name}"
+    end
   
     def days_as_member
       if start_date != nil 

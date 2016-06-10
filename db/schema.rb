@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609181006) do
+ActiveRecord::Schema.define(version: 20160610003126) do
+
+  create_table "active_members", force: :cascade do |t|
+    t.integer  "member_id"
+    t.integer  "membership_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "payment_type"
+    t.string   "notes"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "keycards", force: :cascade do |t|
     t.string   "number"
@@ -19,6 +30,7 @@ ActiveRecord::Schema.define(version: 20160609181006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "member_id"
+    t.string   "status"
   end
 
   create_table "members", force: :cascade do |t|
@@ -46,11 +58,10 @@ ActiveRecord::Schema.define(version: 20160609181006) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.string   "type"
-    t.string   "start_date"
-    t.string   "datetime"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "notes"
+    t.string   "name"
   end
 
 end

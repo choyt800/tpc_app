@@ -53,23 +53,6 @@
     <%= f.label :mailbox_number %><br>
     <%= f.text_field :mailbox_number%>
   </div>
-  <div class="field">
-    
-      Keycard:
-      <ul>
-        <%= f.fields_for :keycard do |keycard_form| %>
-          <li>
-            <%= keycard_form.label :number %>
-            <%= keycard_form.text_field :number %>
-     
-            <%= keycard_form.label :hours %>
-            <%= keycard_form.select(:hours, options_for_select([['24/7', "24/7"], ['8-6', "8-6"]]), :prompt => true )%>
-     
-          </li>
-        <% end %>
-      </ul>
- 
-  </div>
   
   <div class="field">
     <%= f.label :phone %><br>

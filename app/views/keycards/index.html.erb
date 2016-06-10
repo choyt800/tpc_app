@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing keycards</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Hours</th>
+      <th>Assignment</th>
+      <th>Member</th>
+      <th>Status</th>
+     
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @keycards.each do |keycard| %>
+      <tr>
+        <td><%= keycard.number %></td>
+        <td><%= keycard.hours %></td>
+        <td><%= if keycard.member_id?  
+                      "assigned"
+                else
+                    "unassigned"
+                
+                end
+                %></td>
+        <td><%= if keycard.member_id?
+                keycard.member.last_name
+                end %></td>
+          <td><%= keycard.status %></td>
+        
+        <td><%= link_to 'Show', keycard %></td>
+        <td><%= link_to 'Edit', edit_keycard_path(keycard) %></td>
+        <td><%= link_to 'Destroy', keycard, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New keycard', new_keycard_path %>

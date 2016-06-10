@@ -13,6 +13,7 @@ gem "stripe"
 gem "stripe_event"
 gem "paperclip", "~> 5.0.0.beta1"
 gem 'aws-sdk', '>= 2.0.34'
+gem "high_voltage"
 
 
 group :development, :test do

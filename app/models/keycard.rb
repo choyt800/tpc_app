@@ -1,3 +1,5 @@
 class Keycard < ActiveRecord::Base
-    has_one :member
+    belongs_to :member
+    
+    
 end
