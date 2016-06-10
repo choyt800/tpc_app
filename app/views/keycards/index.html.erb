@@ -29,7 +29,9 @@
         <td><%= if keycard.member_id? 
                 keycard.member.last_name
                 end %></td>
-          <td><%=if keycard.status keycard.status end %></td>
+          <td><%=if keycard.status?
+                    keycard.status
+                end %></td>
         
         <td><%= link_to 'Show', keycard %></td>
         <td><%= link_to 'Edit', edit_keycard_path(keycard) %></td>
