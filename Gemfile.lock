@@ -177,6 +177,7 @@ GEM
     tilt (1.4.1)
     turbolinks (2.3.0)
       coffee-rails
+    typekit-rails (0.0.4)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.5.3)
@@ -213,5 +214,6 @@ DEPENDENCIES
   stripe
   stripe_event
   turbolinks (= 2.3.0)
+  typekit-rails
   uglifier (= 2.5.3)
   web-console (= 2.0.0.beta3)

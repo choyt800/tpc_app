@@ -1,15 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Active Members <%= link_to 'View Inactive Members', inactive_path, class:"btn btn-default" %></h1>
+<h2 class="default-title uppercase">Listing Active Members</h2> 
 
-
-
-    <table class="members">
-      <thead>
+    <table class="table table-condensed">
+      <thead class="tpc-head">
         <tr>
           <th>Headshot</th>
-          <th><strong>First name</strong></th>
-          <th><strong>Last name</strong></th>
+          <th>First name</th>
+          <th>Last name</th>
           <th>Company</th>
           <th>Email</th>
           <th>Membership Type</th>
@@ -60,5 +58,6 @@
 
 <br>
 
-<%= link_to 'Create New Member', new_member_path, class:"btn btn-default" %>
+<button type="button" class="btn btn-default pad-5"><%= link_to 'Create New Member', new_member_path %></button>
+<button type="button" class="btn btn-default pad-5"><%= link_to 'View Inactive Members', inactive_path %></button>
 

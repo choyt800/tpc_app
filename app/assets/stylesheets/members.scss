@@ -3,26 +3,3 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-table {
-    border: 1px solid;
-    
-        th, td{
-            padding: 20px;
-            border-bottom: 1px solid;
-        }
-        
-        th {
-            text-align: center;
-            text-transform: uppercase;
-            background-color: #9966CC;
-            color: #FFFFFF ;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #F8F8F8 ;
-        }
-        
-        tr:nth-child(odd) {
-            background-color: #F0F0F0  ;
-        }
-    }

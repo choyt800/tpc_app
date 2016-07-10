@@ -1,69 +1,130 @@
-@import "bootstrap-sprockets";
 
+
+@import "bootstrap-sprockets";
 @import "bootstrap";
 
-nav.nav-bar {
-    height: 100px;
-    border-bottom: 1px solid grey;
+body { 
+  background: url('blur.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'le-havre'!important;
+}
+
+
+
+.default-title {
+    color: white;
+    font-family: "le-havre";
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+
+
+.align-center {
+    text-align: center;
+}
+
+.btn.btn-default {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: black 2px solid;
+    font-weight: bold;
+    height: 50px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    width: 250px;
     
-    
-    
-    li { float: left;
-         text-align: center;
-         margin-left: 10px;
-         margin-right: 10px;
-         
+    a:hover, a:visited, a:link {
+        color: black;
+        background: none;
+        text-decoration: none;
     }
     
-    ul { 
-         
-         letter-spacing: 3px;
-         list-style: none;
-         max-width: 1500px;
-         padding-top: 20px;
-         text-transform: uppercase;
+}
+
+.btn.btn-default:hover {
+    background: rgba(237, 222, 93, .8);
+    border: black 2px solid;
+}
+
+.welcome-menu {
+    
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 50px;
+    width: 75%;
+    text-align: center;
+    
+    ul {
         
     }
+    
+    li {
+        float: left;
+        list-style: none;
+        display: inline-block; 
+    }
+    
+    
 }
 
-h1.main-title {
-    font-size: 20pt;
-    letter-spacing: 5px;
-    margin-left: 45px;
+
+.main-title {
+
+    margin-left: auto;
+    margin-right: auto;
     text-transform: uppercase;
+    text-align: center;
+    width: 300px;
 }
 
-h2.main-title {
-    font-size: 10pt;
-    letter-spacing: 5px;
-    margin-left: 45px;
-    text-transform: uppercase;
+.navbar.navbar-default {
+    background-color: white;
+}
+.navbar-brand {
+    padding-top:0!important;
+    
 }
 
-.members {
-    
-    td,th {
-        padding: 0px 5px 0px 5px;
-        margin-left: 2px;
-        margin-right: 2px;
-        max-width: 120px;
-        word-wrap: break-word;
-    }
-    
-    th {
-        border-right: white 1px solid;
-    }
-    
-    td {
-        border-right: gray 1px solid;
-    }
-}
-
-.float-left {
-    float: left;
+.pad-5 {
+    padding: 5px;
 }
 
 .form-group {
     border: black 1px solid;
     background: #F0F0F0 ;
+}
+
+
+
+.table {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: black 2px solid;
+    margin-top: 50px;
+    vertical-align: middle;
+     
+     td {
+        font-size: 12pt;
+        padding: 15px;
+        vertical-align: middle!important;
+    }
+    
+    th {
+        background: rgba(0, 0, 0, 0.4);
+        color: white;
+        text-align: center;
+    }
+    
+    .tpc-head {
+        font-size: 14pt;
+    }
+    
+ }
+
+.uppercase {
+    text-transform: uppercase;
 }
