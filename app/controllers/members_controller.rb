@@ -5,11 +5,11 @@ class MembersController < ApplicationController
   # GET /members
   # GET /members.json
   def index
-    @members = Member.all
+    @members = Member.all.order('lower(last_name) ASC')
   end
   
   def inactive
-    @members = Member.all
+    @members = Member.all.order('lower(last_name) ASC')
   end
 
   # GET /members/1

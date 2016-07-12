@@ -12,6 +12,11 @@ body {
   font-family: 'le-havre'!important;
 }
 
+h1, h2, h3 {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
 
 
 .default-title {
@@ -30,11 +35,13 @@ body {
 .btn.btn-default {
     background-color: rgba(255, 255, 255, 0.6);
     border: black 2px solid;
+    color: black;
     font-weight: bold;
     height: 50px;
     margin-bottom: 10px;
     margin-right: 10px;
     margin-top: 10px;
+    padding-top: 15px;
     text-transform: uppercase;
     width: 250px;
     
@@ -51,6 +58,11 @@ body {
     border: black 2px solid;
 }
 
+.center-box {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding-bottom: 50px;
+    
+}
 .welcome-menu {
     
     margin-left: auto;

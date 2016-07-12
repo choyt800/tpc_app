@@ -1,36 +1,40 @@
-<%= form_tag charges_path do %>
-  <article>
-    <% if flash[:error].present? %>
-      <div id="error_explanation">
-        <p><%= flash[:error] %></p>
-      </div>
-    <% end %>
-    <!--<label class="amount">-->
-    <!--  <span>Amount: $5.00</span>-->
-    <!--</label>-->
-    <h1>Create a new member</h1>
-  </article>
+<div class="row">
+  <div class="col-sm-3"></div>
  
-  <input type="text" name="firstname" placeholder="First Name" />
-  <input type="text" name="lastname" placeholder="Last Name"  />
-  
-  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-          data-name="Create new customer"
-          data-description="Add customer to system"
-          data-allow-remember-me="false"
-          data-panel-label="Sign up"
-          data-label="Sign up"
-          data-locale="auto">
     
-  </script>
-<% end %>
-<br/>
-<br/>
-
-<button><a href="http://www.thepioneercollective.com/">The Pioneer Collective Homepage</a></button>
-<br/>
-<br/>
-<button><a href="http://www.thepioneercollective.com/member-resources">TPC Member Resources</a></button>
-
-<%= link_to 'Add member to db', members_path, class:"btn btn-default" %>
+  <div class="col-sm-6 center-box">
+    <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-9">
+              <%= form_tag charges_path do %>
+                <article>
+                  <% if flash[:error].present? %>
+                    <div id="error_explanation">
+                      <p><%= flash[:error] %></p>
+                    </div>
+                  <% end %>
+                  <!--<label class="amount">-->
+                  <!--  <span>Amount: $5.00</span>-->
+                  <!--</label>-->
+                  
+                  <h2>Add Member to Stripe</h2>
+                </article>
+               
+                    <input type="text" name="firstname" placeholder="First Name" />
+                    <input type="text" name="lastname" placeholder="Last Name"  />
+                    
+                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                            data-name="Create new customer"
+                            data-description="Add customer to system"
+                            data-allow-remember-me="false"
+                            data-panel-label="Sign up"
+                            data-label="Sign up"
+                            data-locale="auto">
+                      
+                    </script>
+              <% end %>
+            </div>
+      </div>
+  </div>
+</div>
