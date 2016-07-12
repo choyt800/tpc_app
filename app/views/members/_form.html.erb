@@ -12,67 +12,105 @@
           </ul>
         </div>
       <% end %>
+      
+    <div class= "row">
+      <div class = "col-sm-12 form-group">
+      
+      
+        
+        <div class="field">
+          <%= image_tag @member.avatar.url(:medium) %>
+          <%= f.label :avatar %>
+          <%= f.file_field :avatar %>
+        </div>
+       
+      
+      </div>
+    </div>
+     <div class= "row">
+      <div class = "col-sm-12 form-group">
     
-      <div class="field">
-        <%= f.label :first_name %><br>
-        <%= f.text_field :first_name %>
+        <div class="field">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name %>
+        </div>
+        <div class="field">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name %>
+        </div>
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.text_field :email %>
+        </div>
       </div>
-      <div class="field">
-        <%= f.label :last_name %><br>
-        <%= f.text_field :last_name %>
+    </div>
+    
+    <div class= "row">
+      <div class = "col-sm-12 form-group">
+        <h3 class="uppercase">Membership details</h3>
+        <div class="field">
+          <%= f.label :membership_type %>
+          <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], 
+          ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]), :prompt => true )%>
+        </div>
+        <div class="field">
+          <%= f.label :payment_type %>
+          <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
+          ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
+        </div>
+        <div class="field">
+          <%= f.label :status %>
+          <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]) )%>
+        </div>
+        <div class="field">
+          <%= f.label :access %>
+          <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]), :prompt => true )%>
+        </div>
+        <div class="field">
+          <%= f.label :start_date %>
+          <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
+        </div>
+        <div class="field">
+          <%= f.label :has_mail_service %>
+          <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]]), :prompt => true)%>
+        </div>
+        <div class="field">
+          <%= f.label :mailbox_number %>
+          <%= f.text_field :mailbox_number%>
+        </div>
       </div>
-      <div class="field">
-        <%= f.label :email %><br>
-        <%= f.text_field :email %>
-      </div>
-      <div class="field">
-        <%= f.label :membership_type %><br>
-        <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], 
-        ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]), :prompt => true )%>
-      </div>
-      <div class="field">
-        <%= f.label :payment_type %><br>
-        <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
-        ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
-      </div>
-      <div class="field">
-        <%= f.label :status %><br>
-        <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]) )%>
-      </div>
-      <div class="field">
-        <%= f.label :access %><br>
-        <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]), :prompt => true )%>
-      </div>
-      <div class="field">
-        <%= f.label :start_date %><br>
-        <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
-      </div>
-      <div class="field">
-        <%= f.label :has_mail_service %><br>
-        <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]]), :prompt => true)%>
-      </div>
-      <div class="field">
-        <%= f.label :mailbox_number %><br>
-        <%= f.text_field :mailbox_number%>
-      </div>
+    </div>
+    
+    <div class= "row">
+      <div class = "col-sm-12 form-group">
+        <h3 class="uppercase">Additional info</h3>
       
-      <div class="field">
-        <%= f.label :phone %><br>
-        <%= f.text_field :phone %>
+        <div class="field">
+          <%= f.label :phone %>
+          <%= f.text_field :phone %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :company %>
+          <%= f.text_field :company %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :notes %>
+          <%= f.text_area :notes %>
+        </div>
+        <br/>
+        
+        <div class="actions">
+            <%= f.submit %>
+        </div>
+        
       </div>
-      
-      <div class="field">
-        <%= f.label :company %><br>
-        <%= f.text_field :company %>
-      </div>
-      
-      <div class="field">
-        <%= f.label :notes %><br>
-        <%= f.text_area :notes %>
-      </div>
-      
-      <div class="actions">
-        <%= f.submit %>
-      </div>
+    </div>
+    
+    
+    
+  
+        
     <% end %>
 

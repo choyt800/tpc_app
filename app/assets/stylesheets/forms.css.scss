@@ -1,0 +1,16 @@
+label{
+ width: 150px;
+ float: left;
+}
+input {
+  display: inline-block;
+}
+
+.field {
+    padding-top: 10px;
+}
+
+.form-group {
+    border: 1px black solid;
+    background-color: rgba(255, 255, 255, 0.6);
+}
