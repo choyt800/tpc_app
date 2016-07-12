@@ -5,8 +5,7 @@ class Member < ActiveRecord::Base
     
     has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
-    
-    
+ 
     has_one :keycard
     
     
@@ -16,6 +15,8 @@ class Member < ActiveRecord::Base
     validates :membership_type, presence: true
     validates :start_date, presence: true
     validates :mailbox_number, :allow_blank => true, length: { is: 3,  message: " should be 3 digits" }
+    
+
     
     def full_name
         "#{last_name}, #{first_name}"
