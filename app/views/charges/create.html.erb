@@ -1,7 +1,19 @@
-<h2>Thanks, you've registered a new customer! </h2>
 
-<button><a href="https://secret-thicket-9749.herokuapp.com/">Return to Staff Page</a></button>
+
+
 <br/><br/>
-<button><a href="http://www.thepioneercollective.com/">TPC Home Page</a></button>
-<br/><br/>
-<button><a href="http://www.thepioneercollective.com/member-resources">TPC Member Resources</a></button>
+
+
+
+<div class="align-center">
+    <h2>Thanks, you've registered a new customer! </h2>
+    <div class="welcome-menu">
+        
+            <ul style="list-style-type:none">
+                <li><%= link_to "Add member to stripe", new_charge_path, :class =>"button btn btn-default pad-5"  %></li>
+                <li>  <%= link_to "Members database", members_path, :class =>"button btn btn-default pad-5"  %></li>
+                <li>  <%= link_to "Manage keycards", keycards_path, :class =>"button btn btn-default pad-5"  %></li>
+                <li><%= link_to "tPC Staff Home", "https://secret-thicket-9749.herokuapp.com/", :class =>"button btn btn-default pad-5"  %></li>
+            </ul>
+    </div>
+</div>
