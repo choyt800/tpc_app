@@ -39,6 +39,10 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       if @member.save
+        
+        # Deliver the signup email
+        MemberNotifier.send_welcome_email(@member).deliver_now
+  
         format.html { redirect_to members_path, notice: 'Member was successfully created.' }
         format.json { render :show, status: :created, location: @member }
       else
