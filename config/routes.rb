@@ -9,6 +9,11 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'high_voltage/pages#show', id: 'management'
+  
+  # config/initializers/high_voltage.rb
+  HighVoltage.configure do |config|
+    config.route_drawer = HighVoltage::RouteDrawers::Root
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
