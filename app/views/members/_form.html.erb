@@ -51,20 +51,20 @@
         <div class="field">
           <%= f.label :membership_type %>
           <%= f.select(:membership_type, options_for_select([['Designated Desk', "Designated Desk"], ['Community 20', "Community 20"], 
-          ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]]), :prompt => true )%>
+          ['Community 10', "Community 10"], ['Community 5', "Community 5"], ['Punchcard', "Punchcard"], ['Staff', "Staff"], ['Owner', "Owner"]], :selected => f.object.membership_type), :prompt => true )%>
         </div>
         <div class="field">
           <%= f.label :payment_type %>
           <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
-          ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]]), :prompt => true )%>
+          ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
         </div>
         <div class="field">
           <%= f.label :status %>
-          <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]]) )%>
+          <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]], :selected => f.object.status) )%>
         </div>
         <div class="field">
           <%= f.label :access %>
-          <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]]), :prompt => true )%>
+          <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]], :selected => f.object.access), :prompt => true )%>
         </div>
         <div class="field">
           <%= f.label :start_date %>
@@ -72,7 +72,7 @@
         </div>
         <div class="field">
           <%= f.label :has_mail_service %>
-          <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]]), :prompt => true)%>
+          <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]], :selected => f.object.has_mail_service), :prompt => true)%>
         </div>
         <div class="field">
           <%= f.label :mailbox_number %>
