@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Checkins</h1>
+
+<table class="table table-condensed">
+  <thead class="tpc-head">
+    <tr>
+     
+      <th>Date</th>
+      <th>Member Last Name</th>
+      <th>Member First Name</th>
+     
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @checkins.each do |checkin| %>
+      <tr>
+        
+        <td><%= checkin.date %></td>
+         <td><%= if checkin.member_id? 
+                checkin.member.last_name
+                end %></td>
+          <td><%= if checkin.member_id? 
+        checkin.member.first_name
+        end %></td>
+        
+      
+    <% end %>
+  </tbody>
+</table>

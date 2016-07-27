@@ -7,6 +7,7 @@ class Member < ActiveRecord::Base
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
  
     has_one :keycard
+    has_many :checkins
     
     
     validates :first_name, presence: true
