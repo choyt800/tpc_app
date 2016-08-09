@@ -8,6 +8,7 @@ class Member < ActiveRecord::Base
  
     has_one :keycard
     has_many :checkins
+    has_many :memberships
     
     
     validates :first_name, presence: true

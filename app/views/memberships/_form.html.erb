@@ -10,19 +10,33 @@
       </ul>
     </div>
   <% end %>
+  
+  <div class="field">
+    <%= f.label :payment_type %>
+    <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
+    ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
+  </div>
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]], :selected => f.object.status) )%>
+  </div>
+  <div class="field">
+    <%= f.label :access %>
+    <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]], :selected => f.object.access), :prompt => true )%>
+  </div>
+   <div class="field">
+      <%= f.label :start_date %>
+      <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
+    </div>
+    <div class="field">
+      <%= f.label :has_mail_service %>
+      <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]], :selected => f.object.has_mail_service), :prompt => true)%>
+    </div>
+    <div class="field">
+      <%= f.label :mailbox_number %>
+      <%= f.text_field :mailbox_number%>
+    </div>
 
-  <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
-  </div>
-  <div class="field">
-    <%= f.label :start_date %><br>
-    <%= f.text_field :start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :datetime %><br>
-    <%= f.text_field :datetime %>
-  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

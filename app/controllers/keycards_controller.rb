@@ -70,6 +70,6 @@ class KeycardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def keycard_params
-      params.require(:keycard).permit(:id, :number, :hours, :member_id, :status)
+      params.require(:keycard).permit(:id, :number, :hours, :member_id, :status, :notes)
     end
 end

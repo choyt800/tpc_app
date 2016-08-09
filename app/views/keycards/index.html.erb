@@ -7,7 +7,6 @@
     <tr>
       <th>Number</th>
       <th>Hours</th>
-      <th>Assignment</th>
       <th>Member</th>
       <th>Status</th>
       <th colspan="3"></th>
@@ -19,15 +18,10 @@
       <tr>
         <td><%= keycard.number %></td>
         <td><%= keycard.hours %></td>
-        <td><%= if keycard.member_id?  
-                      "assigned"
-                else
-                    "unassigned"
-                
-                end
-                %></td>
+       
         <td><%= if keycard.member_id? 
-                keycard.member.last_name
+                keycard.member.last_name + ", " + keycard.member.first_name
+                else "unassigned"
                 end %></td>
           <td><%=if keycard.status != nil
                     keycard.status

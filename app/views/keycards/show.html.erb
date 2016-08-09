@@ -1,7 +1,29 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-sm-12">
     
+    <p id="notice"><%= notice %></p>
+  
+  
+  
+    <h1>Showing keycard <%= @keycard.number  %> </h1>
+
+     <p>
+      <strong>Hours:</strong>
+      <%= @keycard.hours%>
+      </p>
+      <p>
+      <strong>Assigned to:</strong>
+      <%= if @keycard.member_id? 
+            @keycard.member.last_name + ", " + @keycard.member.first_name
+          else "unassigned"
+          end %>
+       </p>
+       <p>      
+         <strong>Notes:</strong>
+         <%= @keycard.notes %>
+        </p>
     
-    <p>
-      <strong>Keycard:</strong>
-      <%= @keycard.number %>
-    </p>
+    </div>
+</div>
+    
+     

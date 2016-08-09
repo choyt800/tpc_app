@@ -1,3 +1,17 @@
 // Place all the styles related to the checkins controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+select {
+    min-width:265px;
+    min-height: 45px;
+    border-width: 3px;
+    border-color: rgba(50, 50, 50, 0.14);
+    margin: 10px 10px 10px 0px;
+}
+
+.checkin {
+    font-size: 1.6em;
+}
