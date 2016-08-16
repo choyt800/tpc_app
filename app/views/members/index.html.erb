@@ -10,10 +10,9 @@
           <th>Last name</th>
           <th>Company</th>
           <th>Email</th>
-          <th>Building access</th>
+          
           <th>Keycard #</th>
-          <th>Time as member</th>
-          <th>Payment type</th>
+     
           <th>Mailbox number</th>
           <th>Notes</th>
           <th>Membership type</th>
@@ -29,7 +28,6 @@
             <td><strong><%= member.last_name %></strong></td>
             <td><%= member.company %></td>
             <td><%= member.email %></td>
-            <td><%= member.access %></td>
             <td><%= if member.keycard != nil
                       member.keycard.number
                     else
@@ -37,9 +35,7 @@
                     end
                     %>
             </td>
-            
-            <td><%= member.days_as_member %> days</td>
-            <td><%= member.payment_type %></td>
+
             <td><%= if member.has_mail_service
                         member.mailbox_number
                     else
