@@ -21,7 +21,6 @@
     <% @memberships.each do |membership| %>
       <tr>
         <td><%= membership.member.last_name %>, <%= membership.member.first_name %> </td>
-        <td><%= membership.membership_type %></td>
         <td><%= membership.start_date %></td>
         <td><%= membership.end_date %></td>
          <td><%= membership.length_of_membership.to_s + " days"%></td>

@@ -25,7 +25,7 @@
   
   <div class="field">
     <%= f.label :payment_type %>
-    <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
+    <%= f.select(:payment_type, options_for_select([['Month-to-month (Stripe)', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
     ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
   </div>
  

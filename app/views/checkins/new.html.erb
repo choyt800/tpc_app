@@ -7,6 +7,32 @@
           <h1 class="default-title huge">Check in to tPC</h2>
     
             <%= render 'form' %>
+            <hr>
+            
+          <table class="table table-condensed">
+            <h3>Today's Checkins</h3>
+            <thead class="tpc-head">
+              <tr>
+                <th>ID</th>
+                <th>Date & Time</th>
+                <th>Member Name</th>
+                <th colspan="1"></th>
+              </tr>
+             </thead>
+              
+              <tbody>
+                <% Checkin.where("created_at >= ?", 1.week.ago.utc).order("created_at DESC").each do |checkin| %>
+                    <tr>
+                      <td><%= checkin.id %></td>
+                      <td><%= checkin.date %></td>
+                      <td><%= checkin.member.last_name %></td>
+                      <td><%= checkin.member.first_name %></td>
+                    </tr>
+                  
+                <% end %>
+              </tbody>
+            
+            </table>
             
           
         

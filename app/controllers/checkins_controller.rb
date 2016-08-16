@@ -2,6 +2,8 @@ class CheckinsController < ApplicationController
     def new
         @members = Member.all.order('lower(last_name) ASC')
         @checkin = Checkin.new
+        @checkins = Checkin.all
+        render :layout => "member_facing"
     end
     
     def create
@@ -10,7 +12,7 @@ class CheckinsController < ApplicationController
        
        if @checkin.save
            flash[:success]="Yay you checked in"
-           redirect_to checkins_path
+           redirect_to new_checkin_path
            
        else
            flash[:error]=":-) epic fail"
@@ -34,4 +36,8 @@ class CheckinsController < ApplicationController
     def checkin_params
         params.require(:checkin).permit(:date, :member_id)
     end
+    
+    
+   
+    
 end
