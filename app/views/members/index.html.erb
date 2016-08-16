@@ -50,8 +50,17 @@
             
             
             <td>
-                <% member.memberships.each do |membership| %> 
-                      <%= membership.plan.name %> ( <%= membership.status %> <%=membership.end_date %>) <br/> 
+                <% if member.memberships.blank? %>
+                    No membership has been assigned.
+                   
+                <% else %>
+                <ul>
+                  <li>
+                   <% member.memberships.each do |membership| %>
+                        <%= membership.plan.name %> ( <%= membership.status %> <%=membership.end_date %>)<br/>
+                   <% end %>
+                   </li>
+                </ul>
                 <% end %>
             </td>
             
