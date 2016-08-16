@@ -10,6 +10,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/1
   # GET /memberships/1.json
   def show
+    @membership = Membership.find(params[:id])
   end
 
   # GET /memberships/new
@@ -69,6 +70,6 @@ class MembershipsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
-      params.require(:membership).permit(:type, :start_date, :end_date, :payment_type, :datetime)
+      params.require(:membership).permit(:type, :start_date, :end_date, :membership_type, :payment_type, :notes, :member_id, :plan_id)
     end
 end

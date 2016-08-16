@@ -11,31 +11,40 @@
     </div>
   <% end %>
   
+
+    
+   <div class="field">
+       <%= f.label :member_id %>
+       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true) %>
+  </div>
+  
+   <div class="field">
+       <%= f.label :plan_id %>
+       <%= f.collection_select(:plan_id, Plan.order("lower(name) ASC").all, :id, :name, :include_blank => true) %>
+  </div>
+  
   <div class="field">
     <%= f.label :payment_type %>
     <%= f.select(:payment_type, options_for_select([['Month-to-month', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
     ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
   </div>
-  <div class="field">
-    <%= f.label :status %>
-    <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]], :selected => f.object.status) )%>
-  </div>
-  <div class="field">
-    <%= f.label :access %>
-    <%= f.select(:access, options_for_select([['24/7', "24/7"], ['Business hours', "Business hours"]], :selected => f.object.access), :prompt => true )%>
-  </div>
+ 
    <div class="field">
       <%= f.label :start_date %>
       <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
     </div>
+    
     <div class="field">
-      <%= f.label :has_mail_service %>
-      <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]], :selected => f.object.has_mail_service), :prompt => true)%>
+      <%= f.label :end_date %>
+      <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
     </div>
+    
     <div class="field">
-      <%= f.label :mailbox_number %>
-      <%= f.text_field :mailbox_number%>
+       <%= f.label :notes %>
+       <%= f.text_area :notes %>
     </div>
+  
+ 
 
   <div class="actions">
     <%= f.submit %>

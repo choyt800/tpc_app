@@ -1,9 +1,17 @@
 <p id="notice"><%= notice %></p>
 
+<h1>Viewing Membership Record <%= @membership.id %></h1>
+
 <p>
-  <strong>Type:</strong>
-  <%= @membership.type %>
+  <strong>Member</strong>
+  <%= @membership.member.full_name  %>
 </p>
+
+<p>
+  <strong>Plan</strong>
+  <%= @membership.plan.name  %>
+</p>
+
 
 <p>
   <strong>Start date:</strong>
@@ -11,8 +19,17 @@
 </p>
 
 <p>
-  <strong>Datetime:</strong>
-  <%= @membership.datetime %>
+  <strong>End date:</strong>
+  <%= if @membership.end_date
+      @membership.end_date 
+      else "live"
+      end %>
+</p>
+
+<p>Length of membership in days
+
+   <%= @membership.length_of_membership %>
+
 </p>
 
 <%= link_to 'Edit', edit_membership_path(@membership) %> |

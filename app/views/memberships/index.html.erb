@@ -5,9 +5,14 @@
 <table>
   <thead>
     <tr>
+      <th>Member name</th>
       <th>Type</th>
       <th>Start date</th>
-      <th>Datetime</th>
+      <th>End date</th>
+      <th>Length of membership</th>
+      <th>Payment type</th>
+      <th>Status</th>
+      <th>Notes</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,9 +20,14 @@
   <tbody>
     <% @memberships.each do |membership| %>
       <tr>
-        <td><%= membership.type %></td>
+        <td><%= membership.member.last_name %>, <%= membership.member.first_name %> </td>
+        <td><%= membership.membership_type %></td>
         <td><%= membership.start_date %></td>
-        <td><%= membership.datetime %></td>
+        <td><%= membership.end_date %></td>
+         <td><%= membership.length_of_membership.to_s + " days"%></td>
+         <td><%= membership.payment_type %></td>
+         <td><%= membership.status %></td>
+         <td><%= membership.notes %></td>
         <td><%= link_to 'Show', membership %></td>
         <td><%= link_to 'Edit', edit_membership_path(membership) %></td>
         <td><%= link_to 'Destroy', membership, method: :delete, data: { confirm: 'Are you sure?' } %></td>

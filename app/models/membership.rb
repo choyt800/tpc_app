@@ -44,4 +44,22 @@ class Membership < ActiveRecord::Base
         end
     end
     
+    
+    def length_of_membership
+        if end_date != nil
+            length_of_membership = ((end_date - start_date) / 86400).to_i
+        else 
+            length_of_membership = (Date.today.mjd - start_date.to_date.mjd).to_i
+        end
+    end
+    
+    def status
+        if end_date? 
+            "cancelled"
+        else
+            "live"
+        end
+    end
+    
+    
 end

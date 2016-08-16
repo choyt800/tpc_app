@@ -10,13 +10,13 @@
           <th>Last name</th>
           <th>Company</th>
           <th>Email</th>
-          <th>Membership Type</th>
           <th>Building access</th>
           <th>Keycard #</th>
           <th>Time as member</th>
           <th>Payment type</th>
           <th>Mailbox number</th>
           <th>Notes</th>
+          <th>Membership type</th>
           <th colspan="3">
         </tr>
       </thead>
@@ -29,7 +29,6 @@
             <td><strong><%= member.last_name %></strong></td>
             <td><%= member.company %></td>
             <td><%= member.email %></td>
-            <td><%= member.membership_type %></td>
             <td><%= member.access %></td>
             <td><%= if member.keycard != nil
                       member.keycard.number
@@ -48,6 +47,15 @@
                     end
                         %></td>
             <td><%= member.notes %></td>
+            
+            
+            <td>
+                <% member.memberships.each do |membership| %> 
+                      <%= membership.plan.name %> ( <%= membership.status %> <%=membership.end_date %>) <br/> 
+                <% end %>
+            </td>
+            
+            
             <td><%= link_to 'Show', member %></td>
             <td><%= link_to 'Edit', edit_member_path(member) %></td>
             
