@@ -10,7 +10,6 @@ class Member < ActiveRecord::Base
     has_many :checkins
     has_many :memberships
     
-    accepts_nested_attributes_for :memberships, :keycards, allow_destroy: true
     
     
     validates :first_name, presence: true
