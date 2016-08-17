@@ -4,7 +4,7 @@ class MembershipsController < ApplicationController
   # GET /memberships
   # GET /memberships.json
   def index
-    @memberships = Membership.all
+    @memberships = Membership.all.order('lower(paid_by) ASC')
   end
 
   # GET /memberships/1
@@ -70,6 +70,7 @@ class MembershipsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
-      params.require(:membership).permit(:type, :start_date, :end_date, :membership_type, :payment_type, :notes, :member_id, :plan_id)
+      params.require(:membership).permit(:type, :start_date, :end_date, :membership_type, :payment_type, :notes,
+      :member_id, :plan_id, :paid_by)
     end
 end

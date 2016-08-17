@@ -46,6 +46,24 @@
           %>
     </p>
     
+    <p>
+      <strong>Membership history</strong>
+      
+      <% if @member.memberships.blank? %>
+                    No membership has been assigned.
+                   
+                <% else %>
+                <ul>
+                 
+                   <% @member.memberships.each do |membership| %>
+                         <li><%= membership.plan.name %> ( <%= membership.status %>) <%= membership.start_date %> - <%= membership.end_date %></li>
+                   <% end %>
+                   
+                </ul>
+      <% end %>
+      
+      
+    </p>
     
     <p>
       <strong>Notes:</strong>

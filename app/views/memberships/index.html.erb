@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Member name</th>
+      <th>Paid by</th>
       <th>Type</th>
       <th>Start date</th>
       <th>End date</th>
@@ -21,6 +22,15 @@
     <% @memberships.each do |membership| %>
       <tr>
         <td><%= membership.member.last_name %>, <%= membership.member.first_name %> </td>
+        <td> 
+        
+             <% if membership.paid_by = nil %>
+                    <%= membership.paid_by %> 
+             <% else %>
+                    <%= membership.member.last_name %>, <%= membership.member.first_name %>
+             <% end %>
+          
+          </td>
         <td><%= membership.start_date %></td>
         <td><%= membership.end_date %></td>
          <td><%= membership.length_of_membership.to_s + " days"%></td>

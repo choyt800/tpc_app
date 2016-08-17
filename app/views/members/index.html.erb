@@ -11,9 +11,7 @@
           <th>Role</th>
           <th>Company</th>
           <th>Email</th>
-          
           <th>Keycard #</th>
-     
           <th>Mailbox number</th>
           <th>Notes</th>
           <th>Membership type</th>
@@ -53,11 +51,11 @@
                    
                 <% else %>
                 <ul>
-                  <li>
+                 
                    <% member.memberships.each do |membership| %>
-                        <%= membership.plan.name %> ( <%= membership.status %> <%=membership.end_date %>)<br/>
+                         <li><%= membership.plan.name %> ( <%= membership.status %>)</li>
                    <% end %>
-                   </li>
+                   
                 </ul>
                 <% end %>
             </td>

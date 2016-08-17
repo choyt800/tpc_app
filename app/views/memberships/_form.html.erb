@@ -15,7 +15,13 @@
     
    <div class="field">
        <%= f.label :member_id %>
-       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true) %>
+       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true ) %>
+  </div>
+  
+  <div class="field">
+       <%= f.label :paid_by %>
+       <%= f.collection_select(:paid_by, Member.order("lower(last_name) ASC").all, :full_name, :full_name, :include_blank => true ) %>
+         <p>Leave blank unless paid on a group account</p>
   </div>
   
    <div class="field">

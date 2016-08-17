@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817121419) do
+ActiveRecord::Schema.define(version: 20160817155303) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160817121419) do
     t.integer  "plan_id"
     t.datetime "end_date"
     t.string   "payment_type"
+    t.string   "paid_by"
   end
 
   create_table "plans", force: :cascade do |t|
