@@ -3,14 +3,19 @@
   <div class="col-sm-6 center-box checkin">
       <div class="row">
           <div class="col-sm-1"></div>
-          <div class="col-sm-8">
+          <div class="col-sm-9">
           <h1 class="default-title huge">Check in to tPC</h2>
-    
+       
+            <br/>
+            <br/>
             <%= render 'form' %>
             <hr>
+            <br/>
+            <br/>
+            <br/>
             
           <table class="table table-condensed">
-            <h3>Today's Checkins</h3>
+            <h3><strong>Today's Checkins</strong> - last 12 hours</h3>
             <thead class="tpc-head">
               <tr>
                 <th>ID</th>
@@ -21,7 +26,7 @@
              </thead>
               
               <tbody>
-                <% Checkin.where("created_at >= ?", 1.week.ago.utc).order("created_at DESC").each do |checkin| %>
+                <% Checkin.where("created_at >= ?", 12.hours.ago.utc).order("created_at DESC").each do |checkin| %>
                     <tr>
                       <td><%= checkin.id %></td>
                       <td><%= checkin.date %></td>

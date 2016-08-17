@@ -42,6 +42,10 @@
           <%= f.label :email %>
           <%= f.text_field :email %>
         </div>
+        <div class="field">
+          <%= f.label :role %>
+           <%= f.select(:role, options_for_select([['Member', "Member"], ['Community Lead', "Community Lead"], ['Owner', "Owner"]], :selected => f.object.role) )%>
+        </div>
       </div>
     </div>
     

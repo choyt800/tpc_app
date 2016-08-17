@@ -8,6 +8,7 @@
           <th>Headshot</th>
           <th>First name</th>
           <th>Last name</th>
+          <th>Role</th>
           <th>Company</th>
           <th>Email</th>
           
@@ -26,6 +27,7 @@
             <td><%= image_tag member.avatar.url(:thumb) %></td>
             <td><strong><%= member.first_name %></strong></td>
             <td><strong><%= member.last_name %></strong></td>
+            <td><%= member.role %></td>
             <td><%= member.company %></td>
             <td><%= member.email %></td>
             <td><%= if member.keycard != nil

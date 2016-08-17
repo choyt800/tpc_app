@@ -12,20 +12,14 @@
     
     <%= image_tag @member.avatar.url(:medium) %>
    
-    <p>
-      <strong>Start date:</strong>
-      <%= @member.start_date %>
-    </p> 
+
     
     <p>
-      <strong>Membership type:</strong>
-      <%= @member.membership_type %>
+      <strong>Role:</strong>
+      <%= @member.role %>
     </p>
     
-    <p>
-      <strong>Building access:</strong>
-      <%= @member.access %>
-    </p>
+
     
     <p>Keycard:
       <%= if @member.keycard != nil
@@ -36,10 +30,6 @@
       %> 
     </p>
     
-    <p>
-      <strong>Payment type:</strong>
-      <%= @member.payment_type %>
-    </p>
     
     <p>
       <strong>Email:</strong>
