@@ -49,6 +49,12 @@
     <div class= "row">
       <div class = "col-sm-12 form-group">
         <h3 class="uppercase">Membership details</h3>
+        
+        
+         <div class="field">
+          <%= f.label :role %>
+          <%= f.select(:role, options_for_select([['Member', "Member"], ['Owner', "Owner"]], :selected => f.object.role) )%>
+        </div>
        
         <div class="field">
           <%= f.label :status %>
