@@ -53,7 +53,7 @@
         
          <div class="field">
           <%= f.label :role %>
-          <%= f.select(:role, options_for_select([['Member', "Member"], ['Owner', "Owner"], ['Community Lead', "Community Lead"]], :selected => f.object.role):prompt => true )%>
+          <%= f.select(:role, options_for_select([['Member', "Member"], ['Owner', "Owner"], ['Community Lead', "Community Lead"]], :selected => f.object.role), :prompt => true )%>
         </div>
        
         <div class="field">
