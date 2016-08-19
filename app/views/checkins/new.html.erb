@@ -4,12 +4,13 @@
       <div class="row">
           <div class="col-sm-1"></div>
           <div class="col-sm-9">
-          <h1 class="default-title huge">Check in to tPC</h2>
+          <h1 class="default-title">Check in to</h1>
+          <a href="#"><%= image_tag("logo.png", :alt => "brandy") %></a>
        
             <br/>
             <br/>
             <%= render 'form' %>
-            <hr>
+          
             <br/>
             <br/>
             <br/>
@@ -30,8 +31,16 @@
                     <tr>
                       <td><%= checkin.id %></td>
                       <td><%= checkin.date %></td>
-                      <td><%= checkin.member.last_name %></td>
-                      <td><%= checkin.member.first_name %></td>
+                           
+                      </td>
+                      <td><%= if checkin.member_id? 
+                            checkin.member.last_name
+                            end %>, 
+                      
+                      <%= if checkin.member_id? 
+                              checkin.member.first_name
+                          end %>
+                      </td>
                     </tr>
                   
                 <% end %>

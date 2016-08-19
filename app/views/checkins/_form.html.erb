@@ -19,8 +19,7 @@
  
   
    <div class="field">
-       <%= f.label "Choose your name " %>
-       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true) %>
+       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, {:include_blank => 'Please Choose Your Name'} ) %>
   </div>
   
   

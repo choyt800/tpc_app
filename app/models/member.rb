@@ -39,6 +39,5 @@ class Member < ActiveRecord::Base
     end
     
 
-    
    
 end

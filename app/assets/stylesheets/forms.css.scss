@@ -2,19 +2,57 @@ label{
  width: 150px;
  float: left;
 }
+
 input {
-  display: inline-block;
+    display: inline-block;
+    border: 0;
+    border-bottom:1px solid white;
+    padding-top: 10px;
+    font-size: 16pt;
+    color: white;
+    background-color: transparent;
+}
+
+textarea {
+    border:1px solid white;
+    padding-top: 10px;
+    font-size: 16pt;
+    color: white;
+    background-color: transparent;
+    
 }
 
 .field {
     padding-top: 10px;
+    font-size: 16pt;
+    color: white;
+    background-color: transparent;
 }
 
 .field-wide {
     width: 500px;
+    background-color: transparent;
 }
 
 .form-group {
-    border: 1px black solid;
-    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px white solid;
+    background-color: transparent;
+}
+
+ select
+    {
+        border-bottom:1px solid white;
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        outline:0px;
+        background-color: transparent;
+    }
+    
+
+option { 
+    /* Whatever color  you want */
+    background-color: rgba(255, 255, 255, 0.2)!important;
+    color: black;
+
 }
