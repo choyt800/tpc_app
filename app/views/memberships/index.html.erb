@@ -25,13 +25,14 @@
         <td><%= membership.member.last_name %>, <%= membership.member.first_name %> </td>
         <td> 
         
-             <% if membership.paid_by != nil %>
-                    <%= membership.paid_by %> 
-             <% else %>
+             <%= if membership.paid_by.empty?
+                    membership.member.last_name + ", " + membership.member.first_name
+                else
+                    membership.paid_by 
+                    
                    
-                    <%= membership.member.last_name %>, <%= membership.member.first_name %>  
-                   
-             <% end %>
+                end %>
+          
           
           </td>
         <td><%= membership.plan.name %></td>
@@ -39,7 +40,7 @@
         <td><%= if membership.end_date? 
                 else 
                 "Current"
-                end%></td>
+                end %></td>
          <td><%= membership.length_of_membership.to_s + " days"%></td>
          <td><%= membership.next_bill_date %></td>
          <td><%= membership.payment_type %></td>
