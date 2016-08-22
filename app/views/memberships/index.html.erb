@@ -2,8 +2,8 @@
 
 <h1>Listing Memberships</h1>
 
-<table>
-  <thead>
+<table class="table table-condensed">
+  <thead class="tpc-head">
     <tr>
       <th>Member name</th>
       <th>Paid by</th>
@@ -11,6 +11,7 @@
       <th>Start date</th>
       <th>End date</th>
       <th>Length of membership</th>
+      <th>Next bill date</th>
       <th>Payment type</th>
       <th>Status</th>
       <th>Notes</th>
@@ -24,16 +25,23 @@
         <td><%= membership.member.last_name %>, <%= membership.member.first_name %> </td>
         <td> 
         
-             <% if membership.paid_by = nil %>
+             <% if membership.paid_by != nil %>
                     <%= membership.paid_by %> 
              <% else %>
-                    <%= membership.member.last_name %>, <%= membership.member.first_name %>
+                   
+                    <%= membership.member.last_name %>, <%= membership.member.first_name %>  
+                   
              <% end %>
           
           </td>
+        <td><%= membership.plan.name %></td>
         <td><%= membership.start_date %></td>
-        <td><%= membership.end_date %></td>
+        <td><%= if membership.end_date? 
+                else 
+                "Current"
+                end%></td>
          <td><%= membership.length_of_membership.to_s + " days"%></td>
+         <td><%= membership.next_bill_date %></td>
          <td><%= membership.payment_type %></td>
          <td><%= membership.status %></td>
          <td><%= membership.notes %></td>
