@@ -4,7 +4,7 @@ class MembershipsController < ApplicationController
   # GET /memberships
   # GET /memberships.json
   def index
-    @memberships = Membership.all.order('lower(paid_by) ASC')
+    @memberships = Membership.all
   end
 
   # GET /memberships/1
