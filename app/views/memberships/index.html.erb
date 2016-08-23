@@ -25,7 +25,7 @@
         <td><%= membership.member.last_name %>, <%= membership.member.first_name %> </td>
         <td> 
         
-             <%= if membership.paid_by.empty?
+             <%= if membership.paid_by.blank?
                     membership.member.last_name + ", " + membership.member.first_name
                 else
                     membership.paid_by 
