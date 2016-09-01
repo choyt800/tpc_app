@@ -1,0 +1,46 @@
+<%= form_for(@keycard_checkout) do |f| %>
+  <% if @keycard_checkout.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@keycard_checkout.errors.count, "error") %> prohibited this membership from being saved:</h2>
+
+      <ul>
+      <% @keycard_checkout.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+
+    
+   <div class="field">
+       <%= f.label :member_id %>
+       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true ) %>
+  </div>
+  
+ 
+  
+   <div class="field">
+       <%= f.label :keycard_id %>
+       <%= f.collection_select(:keycard_id, Keycard.order("lower(number) ASC").all, :id, :number, :include_blank => true) %>
+  </div>
+  
+  
+ 
+   <div class="field">
+      <%= f.label :start_date %>
+      <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
+    </div>
+    
+    <div class="field">
+      <%= f.label :end_date %>
+      <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
+    </div>
+    
+   
+ 
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

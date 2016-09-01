@@ -11,7 +11,7 @@
           <th>Role</th>
           <th>Company</th>
           <th>Email</th>
-          <th>Keycard #</th>
+         
           <th>Mailbox number</th>
           <th>Notes</th>
           <th>Membership type</th>
@@ -28,13 +28,7 @@
             <td><%= member.role %></td>
             <td><%= member.company %></td>
             <td><%= member.email %></td>
-            <td><%= if member.keycard != nil
-                      member.keycard.number
-                    else
-                      "No key"
-                    end
-                    %>
-            </td>
+            
 
             <td><%= if member.has_mail_service
                         member.mailbox_number

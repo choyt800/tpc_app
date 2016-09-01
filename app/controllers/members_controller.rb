@@ -17,7 +17,7 @@ class MembersController < ApplicationController
   # GET /members/1.json
   def show
     @member = Member.find(params[:id])
-    
+    @members = Member.all.order('lower(last_name) ASC')
   end
 
   # GET /members/new
@@ -87,7 +87,7 @@ class MembersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
       params.require(:member).permit(:first_name, :last_name, :email, :role, :status, 
-       :has_mail_service, :mailbox_number, :phone, :company, :notes, :avatar, keycard_attributes:[:id, :number, :hours, :_destroy])
+       :has_mail_service, :mailbox_number, :phone, :company, :notes, :avatar)
     end
 end
 

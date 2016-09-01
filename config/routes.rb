@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :charges
   resources :checkins
   resources :plans
+  resources :keycard_checkouts
   get '/inactive' => 'members#inactive'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

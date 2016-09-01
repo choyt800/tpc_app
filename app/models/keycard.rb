@@ -1,3 +1,4 @@
 class Keycard < ActiveRecord::Base
-    belongs_to :member
+
+    has_many :keycard_checkouts
 end

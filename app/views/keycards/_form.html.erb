@@ -27,10 +27,6 @@
     <%= f.select(:status, options_for_select([['Lost', "Lost"], ['Live', "Live"], ['Loaned', "Loaned"]] , @keycard.status), :include_blank => true )%>
   </div>
   
-   <div class="field">
-       <%= f.label :member_id %>
-       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true) %>
-  </div>
   
   <div class="field">
        <%= f.label :notes %>

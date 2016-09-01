@@ -7,19 +7,15 @@
      <table class="table table-condensed">
       <thead class="tpc-head">
         <tr>
-          <th>Headshot</th>
-          <th><strong>First name</strong></th>
-          <th><strong>Last name</strong></th>
+         <th>Headshot</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Role</th>
           <th>Company</th>
           <th>Email</th>
-          <th>Membership Type</th>
-          <th>Building access</th>
-          <th>Keycard #</th>
-          <th>Last Membership Start Date</th>
-          <th>Time as member</th>
-          <th>Payment type</th>
           <th>Mailbox number</th>
           <th>Notes</th>
+          <th>Membership type</th>
           <th colspan="3">
         </tr>
       </thead>
@@ -30,20 +26,11 @@
             <td><%= image_tag member.avatar.url(:thumb) %></td>
             <td><strong><%= member.first_name %></strong></td>
             <td><strong><%= member.last_name %></strong></td>
+            <td><%= member.role %></td>
             <td><%= member.company %></td>
             <td><%= member.email %></td>
-            <td><%= member.membership_type %></td>
-            <td><%= member.access %></td>
-            <td><%= if member.keycard != nil
-                      member.keycard.number
-                    else
-                      "No key"
-                    end
-                    %>
-            </td>
-            <td><%= member.start_date.to_date %></td>
-            <td><%= member.days_as_member %> days</td>
-            <td><%= member.payment_type %></td>
+       
+      
             <td><%= if member.has_mail_service
                         member.mailbox_number
                     else
@@ -51,6 +38,20 @@
                     end
                         %></td>
             <td><%= member.notes %></td>
+             <td>
+                <% if member.memberships.blank? %>
+                    No membership has been assigned.
+                   
+                <% else %>
+                <ul>
+                 
+                   <% member.memberships.each do |membership| %>
+                         <li><%= membership.plan.name %> ( <%= membership.status %>)</li>
+                   <% end %>
+                   
+                </ul>
+                <% end %>
+            </td>
             <td><%= link_to 'Show', member %></td>
             <td><%= link_to 'Edit', edit_member_path(member) %></td>
             

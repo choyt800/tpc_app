@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Viewing Keycard Checkout Record <%= @keycard_checkout.id %></h1>
+
+<p>
+  <strong>Member</strong>
+  <%= @keycard_checkout.member.full_name  %>
+</p>
+
+<p>
+  <strong>Keycard</strong>
+  <%= @keycard_checkout.keycard.number  %>
+</p>
+
+
+
+<p>
+  <strong>Start date:</strong>
+  <%= @keycard_checkout.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= if @keycard_checkout.end_date
+      @keycard_checkout.end_date 
+      else "live"
+      end %>
+</p>
+
+
+<%= link_to 'Edit', edit_keycard_checkout_path(@keycard_checkout) %> |
+<%= link_to 'Back', keycard_checkouts_path %>
