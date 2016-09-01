@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :mail_services
+  resources :mailboxes
   resources :memberships
   resources :members
   resources :keycards

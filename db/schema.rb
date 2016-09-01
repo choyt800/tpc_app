@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901181541) do
+ActiveRecord::Schema.define(version: 20160901215813) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -48,6 +48,22 @@ ActiveRecord::Schema.define(version: 20160901181541) do
     t.datetime "updated_at", null: false
     t.string   "status"
     t.text     "notes"
+  end
+
+  create_table "mail_services", force: :cascade do |t|
+    t.integer  "member_id"
+    t.integer  "mailbox_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.text     "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "mailboxes", force: :cascade do |t|
+    t.integer  "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "members", force: :cascade do |t|

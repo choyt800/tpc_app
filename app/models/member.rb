@@ -9,6 +9,7 @@ class Member < ActiveRecord::Base
     has_many :checkins
     has_many :memberships
     has_many :keycard_checkouts
+    has_many :mail_services
     
     
     
