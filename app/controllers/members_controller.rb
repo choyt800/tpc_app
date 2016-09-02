@@ -23,7 +23,6 @@ class MembersController < ApplicationController
   # GET /members/new
   def new
     @member = Member.new
-    @keycard = @member.build_keycard
     
   end
 
