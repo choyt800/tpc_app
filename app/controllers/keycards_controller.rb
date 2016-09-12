@@ -4,7 +4,7 @@ class KeycardsController < ApplicationController
   # GET /keycards
   # GET /keycards.json
   def index
-    @keycards = Keycard.all
+    @keycards = Keycard.order("number")
   end
 
   # GET /keycards/1

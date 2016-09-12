@@ -4,7 +4,7 @@ class MailboxesController < ApplicationController
   # GET /mailboxes
   # GET /mailboxes.json
   def index
-    @mailboxes = Mailbox.all
+    @mailboxes = Mailbox.order("number")
   end
 
   # GET /mailboxes/1

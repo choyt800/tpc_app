@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :mailbox_id %>
-    <%= f.collection_select(:mailbox_id, Mailbox.order("lower(number) ASC").all, :id, :number, :include_blank => true ) %>
+    <%= f.collection_select(:mailbox_id, Mailbox.all.order("number"), :id, :number, :include_blank => true ) %>
   </div>
   <div class="field">
     <%= f.label :start_date %><br>

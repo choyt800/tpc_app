@@ -4,7 +4,7 @@ class KeycardCheckoutsController < ApplicationController
   # GET /keycard_checkouts
   # GET /keycard_checkouts.json
   def index
-    @keycard_checkouts = KeycardCheckout.all
+    @keycard_checkouts = KeycardCheckout.joins(:keycard).order("number")
   end
 
   # GET /keycard_checkouts/1
