@@ -20,16 +20,21 @@
     <%= f.collection_select(:mailbox_id, Mailbox.all.order("number"), :id, :number, :include_blank => true ) %>
   </div>
   <div class="field">
-    <%= f.label :start_date %><br>
-    <%= f.datetime_select :start_date %>
+    <%= f.label :start_date %>
+    <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
+  
   <div class="field">
-    <%= f.label :end_date %><br>
-    <%= f.datetime_select :end_date %>
+    <%= f.label :end_date %>
+    <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
   <div class="field">
     <%= f.label :notes %><br>
     <%= f.text_area :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :average_monthly_payment %><br>
+    <%= f.text_field :average_monthly_payment %>
   </div>
   <div class="actions">
     <%= f.submit %>

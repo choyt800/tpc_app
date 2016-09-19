@@ -71,6 +71,6 @@ class MembershipsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
       params.require(:membership).permit(:type, :start_date, :end_date, :membership_type, :payment_type, :notes,
-      :member_id, :plan_id, :paid_by)
+      :member_id, :plan_id, :paid_by, :average_monthly_payment)
     end
 end

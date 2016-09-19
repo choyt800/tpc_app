@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901215813) do
+ActiveRecord::Schema.define(version: 20160919175047) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -56,8 +56,9 @@ ActiveRecord::Schema.define(version: 20160901215813) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.text     "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.decimal  "average_monthly_payment"
   end
 
   create_table "mailboxes", force: :cascade do |t|
@@ -88,8 +89,8 @@ ActiveRecord::Schema.define(version: 20160901215813) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.text     "notes"
     t.datetime "start_date"
     t.integer  "member_id"
@@ -97,6 +98,7 @@ ActiveRecord::Schema.define(version: 20160901215813) do
     t.datetime "end_date"
     t.string   "payment_type"
     t.string   "paid_by"
+    t.decimal  "average_monthly_payment"
   end
 
   create_table "plans", force: :cascade do |t|

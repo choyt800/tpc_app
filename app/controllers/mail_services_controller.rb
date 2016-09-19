@@ -69,6 +69,6 @@ class MailServicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mail_service_params
-      params.require(:mail_service).permit(:member_id, :mailbox_id, :start_date, :end_date, :notes)
+      params.require(:mail_service).permit(:member_id, :mailbox_id, :start_date, :end_date, :notes, :average_monthly_payment)
     end
 end
