@@ -2,6 +2,7 @@
 
 <h1>Listing Memberships</h1>
 
+
 <table class="table table-condensed">
   <thead class="tpc-head">
     <tr>
@@ -22,6 +23,10 @@
 
   <tbody>
     <% @memberships.each do |membership| %>
+        <% @total_days = [] %>
+        <% @total_days.push(membership.length_of_membership) %>
+     
+       
       <tr>
         <td><%= membership.member.last_name %>, <%= membership.member.first_name %> </td>
         <td> 
@@ -39,6 +44,7 @@
         <td><%= membership.plan.name %></td>
         <td><%= membership.start_date %></td>
         <td><%= if membership.end_date? 
+                membership.end_date
                 else 
                 "Current"
                 end %></td>
@@ -55,6 +61,13 @@
     <% end %>
   </tbody>
 </table>
+
+<div class = "center-box">
+  <h1>Business Vitals</h1>
+  <p class="white">Average membership length: <%= @average_length = ((@total_days.sum.to_f / @total_days.size) / 30.4167).round(2)  %> months</p>
+  <p class="white">Average monthly revenue per membership: $ <%= @avg_rev_per_membership = (Membership.average(:average_monthly_payment)).round(2) %></p>
+  <p class="white">Lifetime value of customer: $ <%= (@average_length * @avg_rev_per_membership).round(2) %> </p>
+</div>
 
 <br>
 
