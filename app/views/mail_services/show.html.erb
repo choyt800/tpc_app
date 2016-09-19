@@ -25,5 +25,10 @@
   <%= @mail_service.notes %>
 </p>
 
+<p>
+  <strong>Notes:</strong>
+  <%= @mail_service.average_monthly_payment %>
+</p>
+
 <%= link_to 'Edit', edit_mail_service_path(@mail_service) %> |
 <%= link_to 'Back', mail_services_path %>
