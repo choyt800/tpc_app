@@ -66,6 +66,10 @@
   <p class="white">Average membership length: <%= @average_length = ((@total_days.sum.to_f / @total_days.size) / 30.4167).round(2)  %> months</p>
   <p class="white">Average monthly revenue per membership: $ <%= @avg_rev_per_membership = (Membership.average(:average_monthly_payment)).round(2) %></p>
   <p class="white">Lifetime value of customer: $ <%= (@average_length * @avg_rev_per_membership).round(2) %> </p>
+  <% @current_memberships = Membership.where(:end_date => nil).count %>
+
+
+  <p class="white">Current Memberships Count: <%= @current_memberships %></p>
 </div>
 
 <br>
