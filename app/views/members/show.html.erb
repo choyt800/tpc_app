@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-12">
+  <div class="col-sm-12 center-box field">
   <h1>Showing member <%= @member.first_name  %> <%= @member.last_name %></h1>
 
     <p id="notice"><%= notice %></p>
@@ -29,13 +29,17 @@
       <%= @member.email %>
     </p>
     
+    
     <p>
       <strong>Mail service:</strong>
-      <%= if @member.has_mail_service
-            "Box #" + @member.mailbox_number
-          else
-            "No mail"
-          end
+ 
+    </p>
+    
+    <p>
+      <strong>Keycard:</strong>
+      <%= 
+           
+         
           %>
     </p>
     
@@ -55,6 +59,21 @@
                 </ul>
       <% end %>
       
+      <p> <strong>Keycard</strong>
+      
+      <% if @member.keycard_checkouts.blank? %>
+                    No keycard has been assigned.
+                   
+                <% else %>
+                <ul>
+                 
+                   <% @member.keycard_checkouts.each do |keycard_checkout| %>
+                         <li><%= keycard_checkout.keycard.number %></li>
+                   <% end %>
+                   
+                </ul>
+      <% end %>
+      
       
     </p>
     
@@ -63,7 +82,9 @@
       <%= @member.notes %>
     </p>
     
-    <%= link_to 'Edit', edit_member_path(@member) %> |
+    <%= link_to 'Edit member details', edit_member_path(@member), :class =>"button btn btn-default pad-5"%> |
+    <%= link_to 'Add membership', new_membership_path(@member), :class =>"button btn btn-default pad-5" %> |
+    <%= link_to 'Add keycard', new_keycard_checkout_path, :class =>"button btn btn-default pad-5" %> |
     <%= link_to 'View all members', members_path %>
 
   </div>

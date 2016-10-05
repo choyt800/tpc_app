@@ -18,12 +18,16 @@
        <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true ) %>
   </div>
   
+  
+  
  
   
    <div class="field">
        <%= f.label :keycard_id %>
        <%= f.collection_select(:keycard_id, Keycard.order("lower(number) ASC").all, :id, :number, :include_blank => true) %>
+       <%= link_to 'Add new keycard', new_keycard_path, :class =>"button btn btn-default pad-5" %>
   </div>
+  
   
   
  
