@@ -4,6 +4,7 @@ class Checkin < ActiveRecord::Base
     require 'time'
     
     belongs_to :member
+  
     
     
  

@@ -16,9 +16,10 @@
    <div class="field">
        <%= f.label :member_id %>
        <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true ) %>
+       
   </div>
   
-  
+    
   
  
   

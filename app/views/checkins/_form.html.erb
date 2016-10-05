@@ -21,10 +21,15 @@
    <div class="field">
        <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, {:include_blank => 'Please Choose Your Name'} ) %>
   </div>
+ 
+       <br/>
+       <br/>
+       <br/>
+       <br/>
   
   
   <div class="actions">
-    <%= f.submit "Check in!", :class=>"button btn btn-default pad-5", data: { confirm: 'Thank you for checking in to tPC.  Have a great day!' } %>
+    <%= f.submit "CHECK IN", :class=>"button btn btn-default pad-5", data: { confirm: 'Thank you for checking in to tPC.  Have a great day!' } %>
   </div>
   
  
