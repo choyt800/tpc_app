@@ -16,7 +16,7 @@
   <tbody>
     <% @keycard_checkouts.each do |keycard_checkout| %>
       <tr>
-        <td><%= keycard_checkout.member.last_name if keycard_checkout.member.last_name %>, <%= keycard_checkout.member.first_name %> </td>
+        <td><%= keycard_checkout.member.id %>, <%= keycard_checkout.member.first_name %> </td>
         <td><%= keycard_checkout.keycard.number %></td>
         <td><%= keycard_checkout.start_date %></td>
         <td><%= if keycard_checkout.end_date? 
