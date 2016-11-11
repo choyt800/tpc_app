@@ -15,7 +15,7 @@
     
    <div class="field">
        <%= f.label :member_id %>
-       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true) %>
+       <%= f.collection_select(:member_id, Member.order("lower(last_name) ASC").all, :id, :full_name, :include_blank => true, :selected => @member_id) %>
   </div>
   
   
@@ -60,6 +60,6 @@
  
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit name: button_name %>
   </div>
 <% end %>

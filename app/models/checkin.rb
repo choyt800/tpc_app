@@ -4,8 +4,10 @@ class Checkin < ActiveRecord::Base
     require 'time'
     
     belongs_to :member
-  
     
+    validates :member_id, presence: true
+    validates :date, presence: true
+  
     
  
     

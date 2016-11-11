@@ -3,6 +3,9 @@ class Membership < ActiveRecord::Base
     belongs_to :member
     belongs_to :plan
     
+    validates :member_id, presence: true
+    validates :plan_id, presence: true
+    
      def next_bill_date
         if start_date?
             #calculate next bill date if member is on month-to-month membership

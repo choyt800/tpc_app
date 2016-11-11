@@ -16,9 +16,8 @@ class Member < ActiveRecord::Base
     validates :first_name, presence: true
     validates :last_name, presence: true
     validates :email, presence: true
-    validates :mailbox_number, :allow_blank => true, length: { is: 3,  message: " should be 3 digits" }
+ 
     
-
     
     def full_name
         "#{last_name}, #{first_name}"
@@ -38,6 +37,8 @@ class Member < ActiveRecord::Base
             start_date = start_date
         end
     end
+    
+
     
 
    

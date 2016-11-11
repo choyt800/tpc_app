@@ -28,7 +28,7 @@ class KeycardsController < ApplicationController
 
     respond_to do |format|
       if @keycard.save
-        format.html { redirect_to new_keycard_checkout_path, notice: 'keycard was successfully created.' }
+        format.html { redirect_to new_keycard_checkout_path(@member), notice: 'keycard was successfully created.' }
         format.json { render :show, status: :created, location: @keycard }
       else
         format.html { render :new }

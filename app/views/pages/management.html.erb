@@ -5,13 +5,23 @@
         
             <ul style="list-style-type:none">
                 <li><%= link_to "Add member to Stripe", new_charge_path, :class =>"button btn btn-default pad-5"  %></li>
-                <li>  <%= link_to "Members Database", members_path, :class =>"button btn btn-default pad-5"  %></li>
-                <li>  <%= link_to "Add/edit Keycards", keycards_path, :class =>"button btn btn-default pad-5"  %></li>
+                <li><%= link_to "Members Database", members_path, :class =>"button btn btn-default blue pad-5"  %></li>
+               
+            </ul>
+            
+            
+          
+    </div>
+    <div class="welcome-menu">
+          <hr>
+            <ul>
+             <li>  <%= link_to "Add/edit Keycards", keycards_path, :class =>"button btn btn-default pad-5"  %></li>
                 <li>  <%= link_to "Manage Key Checkouts", keycard_checkouts_path, :class =>"button btn btn-default pad-5"  %></li>
                 <li>  <%= link_to "Member Check Ins", checkins_path, :class =>"button btn btn-default pad-5"  %></li>
                 <li>  <%= link_to "Manage Memberships", memberships_path, :class =>"button btn btn-default pad-5"  %></li>
                 <li>  <%= link_to "Add/edit Mailboxes", mailboxes_path, :class =>"button btn btn-default pad-5"  %></li>
                 <li>  <%= link_to "Manage Mail Service", mail_services_path, :class =>"button btn btn-default pad-5"  %></li>
             </ul>
+    
     </div>
 </div>

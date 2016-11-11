@@ -60,14 +60,6 @@
           <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]], :selected => f.object.status) )%>
         </div>
         
-        <div class="field">
-          <%= f.label :has_mail_service %>
-          <%= f.select(:has_mail_service, options_for_select([['No', false], ['Yes', true]], :selected => f.object.has_mail_service), :prompt => true)%>
-        </div>
-        <div class="field">
-          <%= f.label :mailbox_number %>
-          <%= f.text_field :mailbox_number%>
-        </div>
       </div>
     </div>
     
