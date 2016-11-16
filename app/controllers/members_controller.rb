@@ -43,7 +43,7 @@ class MembersController < ApplicationController
         # # Deliver the signup email
         # MemberNotifier.send_welcome_email(@member).deliver_now
   
-        format.html { redirect_to members_path, notice: 'Member was successfully created.' }
+        format.html { redirect_to @member, notice: 'Member was successfully created.' }
         format.json { render :show, status: :created, location: @member }
       else
         format.html { render :new }
@@ -57,7 +57,7 @@ class MembersController < ApplicationController
   def update
     respond_to do |format|
       if @member.update(member_params)
-        format.html { redirect_to new_membership_path(@member), notice: 'Member was successfully updated.' }
+        format.html { redirect_to @member, notice: 'Member was successfully updated.' }
         format.json { render :show, status: :ok, location: @member }
       else
         format.html { render :edit }

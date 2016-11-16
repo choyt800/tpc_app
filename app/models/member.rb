@@ -38,7 +38,25 @@ class Member < ActiveRecord::Base
         end
     end
     
-
+    
+    def member_status
+       i = 0
+       @member.memberships.each do |membership|
+           if membership.end_date?
+               i = 0
+           else 
+               i = i + 1
+           end
+       end
+       
+       if i > 0 
+           @member_status = "Active"  
+       else 
+           @member_status = "Inactive"
+       end
+               
+        
+    end
     
 
    

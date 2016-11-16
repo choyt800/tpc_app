@@ -1,22 +1,25 @@
 <div class="row">
   <div class="col-sm-12 center-box field">
-  <h1>Showing member <%= @member.first_name  %> <%= @member.last_name %></h1>
+  
 
     <p id="notice"><%= notice %></p>
     
     
-    <p>
-      <strong>Status:</strong>
-      <%= @member.status + " member" %>
-    </p>
+    
     
     <%= image_tag @member.avatar.url(:medium) %>
    
-
+    <h1> <%= @member.first_name  %> <%= @member.last_name %></h1>
     
     <p>
+      
       <strong>Role:</strong>
       <%= @member.role %>
+    </p>
+    
+    <p>
+      <strong>Status:</strong>
+      <%= @member.status + " member" %>
     </p>
     
 
@@ -35,13 +38,9 @@
  
     </p>
     
-    <p>
-      <strong>Keycard:</strong>
-      <%= 
-           
-         
-          %>
-    </p>
+   
+    
+    <hr>
     
     <p>
       <strong>Membership history</strong>
@@ -58,6 +57,8 @@
                    
                 </ul>
       <% end %>
+      
+      <hr>
       
       <p> <strong>Keycard</strong>
       
@@ -82,10 +83,17 @@
       <%= @member.notes %>
     </p>
     
-    <%= link_to 'Edit member details', edit_member_path(@member), :class =>"button btn btn-default pad-5"%> |
-    <%= link_to 'Add membership', new_membership_path(@member), :class =>"button btn btn-default pad-5" %> |
-    <%= link_to 'Add keycard', new_keycard_checkout_path(@member), :class =>"button btn btn-default pad-5" %> |
+    <hr>
+    
+    <%= link_to 'Edit member details', edit_member_path, :class =>"button btn btn-default pad-5"%> |
+    <%= link_to 'Add membership', new_membership_path, :class =>"button btn btn-default pad-5" %> |
+    <%= link_to 'Add keycard', new_keycard_checkout_path, :class =>"button btn btn-default pad-5" %> |
+    <br>
+     <br>
+     <br>
+     <br>
     <%= link_to 'View all members', members_path %>
+   
 
   </div>
 </div>
