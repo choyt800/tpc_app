@@ -4,6 +4,7 @@
 
     <table class="table table-condensed">
       <thead class="tpc-head">
+        <tr><th colspan="14" class="orange">Assigned Members</th></tr>
         <tr>
           <th>Headshot</th>
           <th>First name</th>
@@ -12,7 +13,6 @@
           <th>Company</th>
           <th>Email</th>
           <th>Notes</th>
-          <th>Status</th>
           <th>Current membership type</th>
           <th>Mailbox number</th>
           <th>Keycard number</th>
@@ -21,7 +21,7 @@
       </thead>
     
       <tbody>
-        <% @members.where(:status => "Active").each do |member| %>
+        <% @members.active.each do |member| %>
           <tr>
             <td><%= image_tag member.avatar.url(:thumb) %></td>
             <td><strong><%= member.first_name %></strong></td>
@@ -31,8 +31,6 @@
             <td><%= member.email %></td>
             <td><%= member.notes %></td>
          
-            
-            
             <td>
                 <% if member.memberships.blank? %>
                     No membership has been assigned.
@@ -72,12 +70,72 @@
                 <% end %>
             </td>
             
-           
-            
             
             <td><%= link_to 'Edit Member', member, :class =>"button btn btn-default pad-5"  %></td>
          
+          <% end %>
+          </tr>
+          <tr><th colspan="14" class="orange">Unassigned Members</th></tr>
+          <tr>
+            <th>Headshot</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Role</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Notes</th>
+            <th>Current membership type</th>
+            <th>Mailbox number</th>
+            <th>Keycard number</th>
+            <th colspan="3">
+          </tr>
+          <% @members.unassigned.each do |member| %>
+          <tr>
+            <td><%= image_tag member.avatar.url(:thumb) %></td>
+            <td><strong><%= member.first_name %></strong></td>
+            <td><strong><%= member.last_name %></strong></td>
+            <td><%= member.role %></td>
+            <td><%= member.company %></td>
+            <td><%= member.email %></td>
+            <td><%= member.notes %></td>
+         
+            <td>
+                <% if member.memberships.blank? %>
+                    No membership has been assigned.
+                   
+                <% else %>
+                <ul>
+                 
+                   <% member.memberships.where(:end_date => nil).each do |membership| %>
+                         <li><%= membership.plan.name %> ( <%= membership.status %>)</li>
+                   <% end %>
+                   
+                </ul>
+                <% end %>
+            </td>
             
+            <td><% if member.mail_services.blank? %>
+                    No mail
+                <% else %>
+                   <% member.mail_services.each do |mail_service| %>
+                        <%= mail_service.mailbox.number %> 
+                   <% end %>
+                   
+                <% end %>
+            </td>
+            
+            <td><% if member.keycard_checkouts.blank? %>
+                    No key assigned
+                   
+                <% else %>
+                 
+                   <% member.keycard_checkouts.each do |keycard_checkouts| %>
+                        <%= keycard_checkouts.keycard.number %> 
+                   <% end %>
+                   
+                <% end %>
+            </td>
+            <td><%= link_to 'Edit Member', member, :class =>"button btn btn-default pad-5"  %></td>
           </tr>
         <% end %>
       </tbody>

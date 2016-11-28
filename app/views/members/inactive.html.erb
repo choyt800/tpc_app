@@ -21,7 +21,7 @@
       </thead>
     
       <tbody>
-        <% @members.where(:status => "Inactive").each do |member| %>
+        <% @members.inactive.each do |member| %>
           <tr>
             <td><%= image_tag member.avatar.url(:thumb) %></td>
             <td><strong><%= member.first_name %></strong></td>
@@ -38,7 +38,7 @@
                     end
                         %></td>
             <td><%= member.notes %></td>
-             <td>
+            <td>
                 <% if member.memberships.blank? %>
                     No membership has been assigned.
                    

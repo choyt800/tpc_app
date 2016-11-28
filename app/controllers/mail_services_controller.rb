@@ -1,4 +1,5 @@
 class MailServicesController < ApplicationController
+  before_action :set_member, except: [:index]
   before_action :set_mail_service, only: [:show, :edit, :update, :destroy]
 
   # GET /mail_services
@@ -14,7 +15,7 @@ class MailServicesController < ApplicationController
 
   # GET /mail_services/new
   def new
-    @mail_service = MailService.new
+    @mail_service = @member.mail_services.build
   end
 
   # GET /mail_services/1/edit
@@ -24,11 +25,11 @@ class MailServicesController < ApplicationController
   # POST /mail_services
   # POST /mail_services.json
   def create
-    @mail_service = MailService.new(mail_service_params)
+    @mail_service = @member.mail_services.build(mail_service_params)
 
     respond_to do |format|
       if @mail_service.save
-        format.html { redirect_to @mail_service, notice: 'Mail service was successfully created.' }
+        format.html { redirect_to @member, notice: 'Mail service was successfully created.' }
         format.json { render :show, status: :created, location: @mail_service }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class MailServicesController < ApplicationController
   def update
     respond_to do |format|
       if @mail_service.update(mail_service_params)
-        format.html { redirect_to @mail_service, notice: 'Mail service was successfully updated.' }
+        format.html { redirect_to @member, notice: 'Mail service was successfully updated.' }
         format.json { render :show, status: :ok, location: @mail_service }
       else
         format.html { render :edit }
@@ -56,7 +57,7 @@ class MailServicesController < ApplicationController
   def destroy
     @mail_service.destroy
     respond_to do |format|
-      format.html { redirect_to mail_services_url, notice: 'Mail service was successfully destroyed.' }
+      format.html { redirect_to @member, notice: 'Mail service was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -66,6 +67,10 @@ class MailServicesController < ApplicationController
     def set_mail_service
       @mail_service = MailService.find(params[:id])
     end
+    
+     def set_member
+       @member = Member.find(params[:member_id])
+     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mail_service_params

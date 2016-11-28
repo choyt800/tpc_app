@@ -11,7 +11,11 @@ class Member < ActiveRecord::Base
     has_many :keycard_checkouts
     has_many :mail_services
     
-    
+    scope :active, -> {joins(:memberships).distinct.where("memberships.end_date": nil)}
+    scope :inactive, -> {joins(:memberships).where.not(id: Member.active.select('member_id'))}
+    scope :unassigned, -> {includes(:memberships).where("memberships.id": nil)}
+   
+  
     
     validates :first_name, presence: true
     validates :last_name, presence: true
@@ -37,27 +41,5 @@ class Member < ActiveRecord::Base
             start_date = start_date
         end
     end
-    
-    
-    def member_status
-       i = 0
-       @member.memberships.each do |membership|
-           if membership.end_date?
-               i = 0
-           else 
-               i = i + 1
-           end
-       end
-       
-       if i > 0 
-           @member_status = "Active"  
-       else 
-           @member_status = "Inactive"
-       end
-               
-        
-    end
-    
 
-   
 end

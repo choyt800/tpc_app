@@ -1,5 +1,7 @@
 class MembershipsController < ApplicationController
+  before_action :set_member, except: [:index]
   before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  
 
   # GET /memberships
   # GET /memberships.json
@@ -10,12 +12,12 @@ class MembershipsController < ApplicationController
   # GET /memberships/1
   # GET /memberships/1.json
   def show
-    @membership = Membership.find(params[:id])
+   
   end
 
   # GET /memberships/new
   def new
-    @membership = Membership.new
+    @membership = @member.memberships.build
 
   end
 
@@ -26,11 +28,11 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    @membership = Membership.new(membership_params)
+    @membership = @member.memberships.build(membership_params)
 
     respond_to do |format|
       if @membership.save
-        format.html { redirect_to members_path, notice: 'Membership was successfully created.' }
+        format.html { redirect_to @member, notice: 'Membership was successfully created.' }
         format.json { render :show, status: :created, location: @membership }
       else
         format.html { render :new }
@@ -44,7 +46,7 @@ class MembershipsController < ApplicationController
   def update
     respond_to do |format|
       if @membership.update(membership_params)
-        format.html { redirect_to members_path, notice: 'Membership was successfully updated.' }
+        format.html { redirect_to @member, notice: 'Membership was successfully updated.' }
         format.json { render :show, status: :ok, location: @membership }
       else
         format.html { render :edit }
@@ -58,7 +60,7 @@ class MembershipsController < ApplicationController
   def destroy
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
+      format.html { redirect_to @member, notice: 'Membership was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -68,10 +70,15 @@ class MembershipsController < ApplicationController
     def set_membership
       @membership = Membership.find(params[:id])
     end
+    
+    def set_member
+      @member = Member.find(params[:member_id])
+    end
+    
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
       params.require(:membership).permit(:type, :start_date, :end_date, :membership_type, :payment_type, :notes,
-      :member_id, :plan_id, :paid_by, :average_monthly_payment, member_attributes: [:id, :first_name, :last_name])
+      :plan_id, :paid_by, :average_monthly_payment, member_attributes: [:id, :first_name, :last_name])
     end
 end

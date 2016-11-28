@@ -6,7 +6,6 @@ class MembersController < ApplicationController
   # GET /members.json
   def index
     @members = Member.all.order('lower(last_name) ASC')
-  
   end
   
   def inactive

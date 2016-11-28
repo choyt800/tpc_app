@@ -6,92 +6,103 @@
     
     
     
-    
-    <%= image_tag @member.avatar.url(:medium) %>
-   
-    <h1> <%= @member.first_name  %> <%= @member.last_name %></h1>
-    
-    <p>
+    <div class="form-group">
+      <%= image_tag @member.avatar.url(:medium) %>
       
-      <strong>Role:</strong>
-      <%= @member.role %>
-    </p>
+      <h1 class="member-name"> <%= @member.first_name  %> <%= @member.last_name %></h1>
+     
+     <table class="table details-table">
+       <tr><th>Role</th><td><%= @member.role %></td></tr>
+       <tr><th>Status</th><td><%= @member.status + " member" %></td></tr>
+       <tr><th>Email</th><td><%= @member.email %></td></tr>
+       <tr><th>Notes</th><td><%= @member.notes %></td></tr>
+     </table>
     
-    <p>
-      <strong>Status:</strong>
-      <%= @member.status + " member" %>
-    </p>
-    
-
-    
+       <%= link_to 'Edit member details', edit_member_path, :class =>"button btn btn-default pad-5"%> 
   
+      <p>
+        
+    </div>
     
     
-    <p>
-      <strong>Email:</strong>
-      <%= @member.email %>
-    </p>
+    <div class="form-group">
     
     
-    <p>
-      <strong>Mail service:</strong>
- 
-    </p>
-    
-   
-    
-    <hr>
-    
-    <p>
-      <strong>Membership history</strong>
+      <h2>Membership history</h2>
+      
       
       <% if @member.memberships.blank? %>
                     No membership has been assigned.
                    
                 <% else %>
-                <ul>
+               
                  
                    <% @member.memberships.each do |membership| %>
-                         <li><%= membership.plan.name %> ( <%= membership.status %>) <%= membership.start_date %> - <%= membership.end_date %></li>
+                     <table class="table details-table">
+                        <tr><th>Plan type</th><th>Status</th><th>Start date</th><th>End date</th><th>End date</th></tr>
+                        <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.start_date %></td><td><%= membership.end_date %></td><td><%= link_to 'Edit', edit_member_membership_path(@member, membership) %></td></tr>
+                     </table>
                    <% end %>
                    
-                </ul>
+               
       <% end %>
+          <%= link_to 'Add membership', new_member_membership_path(@member), :class =>"button btn btn-default pad-5" %>
+      </div>
       
-      <hr>
       
-      <p> <strong>Keycard</strong>
+      <div class="form-group">
+      <h2>Mail Service</h2>
+     
       
-      <% if @member.keycard_checkouts.blank? %>
-                    No keycard has been assigned.
+      <% if @member.mail_services.blank? %>
+                    No mailbox has been assigned.
                    
                 <% else %>
-                <ul>
+              
                  
-                   <% @member.keycard_checkouts.each do |keycard_checkout| %>
-                         <li><%= keycard_checkout.keycard.number %></li>
+                  <table class="table details-table">
+                   <tr><th>Mailbox #</th><th>Status</th><th>Edit</th></tr>
+                   <% @member.mail_services.each do |mail| %>
+                          <tr><td><%= mail.mailbox.number %></td> <td><%= mail.status %></td> <td><%= link_to 'Edit', edit_member_mail_service_path(@member, mail) %></td></tr>
+                        
+                        
+                         
+                        
                    <% end %>
+                  </table>
                    
-                </ul>
+                   
+           
       <% end %>
+    </div>
+    <div class="form-group">
+    
+    <%= link_to 'Add mailbox', new_member_mail_service_path(@member), :class =>"button btn btn-default pad-5" %>
+ 
+        <h2>Keycards</h2>
       
+        
+        <% if @member.keycard_checkouts.blank? %>
+                      No keycard has been assigned.
+                     
+                  <% else %>
+                  <table class="table details-table">
+                   <tr><th>Keycard #</th><th>Status</th><th>Edit</th></tr>
+                     <% @member.keycard_checkouts.each do |keycard_checkout| %>
+                        <tr><td><%= keycard_checkout.keycard.number %></td><td><%= keycard_checkout.status %></td><td><%= link_to 'Edit', edit_member_keycard_checkout_path(@member, keycard_checkout) %></td></tr>
+                     <% end %>
+                     
+                  </table>
+        <% end %>
+        
+        
+      </p>
+       <%= link_to 'Add keycard', new_member_keycard_checkout_path(@member), :class =>"button btn btn-default pad-5" %>
       
-    </p>
+   
+    </div>
+      
     
-    <p>
-      <strong>Notes:</strong>
-      <%= @member.notes %>
-    </p>
-    
-    <hr>
-    
-    <%= link_to 'Edit member details', edit_member_path, :class =>"button btn btn-default pad-5"%> |
-    <%= link_to 'Add membership', new_membership_path, :class =>"button btn btn-default pad-5" %> |
-    <%= link_to 'Add keycard', new_keycard_checkout_path, :class =>"button btn btn-default pad-5" %> |
-    <br>
-     <br>
-     <br>
-     <br>
     <%= link_to 'View all members', members_path %>
    
 

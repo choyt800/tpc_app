@@ -55,10 +55,6 @@
           <%= f.select(:role, options_for_select([['Member', "Member"], ['Owner', "Owner"], ['Community Lead', "Community Lead"]], :selected => f.object.role), :prompt => true )%>
         </div>
        
-        <div class="field">
-          <%= f.label :status %>
-          <%= f.select(:status, options_for_select([['Active', "Active"], ['Inactive', "Inactive"]], :selected => f.object.status) )%>
-        </div>
         
       </div>
     </div>

@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
-  resources :mail_services
   resources :mailboxes
-  resources :memberships
-  resources :members
+  resources :keycard_checkouts, only: [:index]
+  resources :mail_services, only: [:index]
+  resources :memberships, only: [:index]
+  resources :members do 
+    resources :memberships, except: [:index]
+    resources :keycard_checkouts, except: [:index]
+    resources :mail_services, except: [:index]
+  end
   resources :keycards
   resources :charges
   resources :checkins
   resources :plans
-  resources :keycard_checkouts
   get '/inactive' => 'members#inactive'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
