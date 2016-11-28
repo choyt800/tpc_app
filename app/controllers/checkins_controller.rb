@@ -1,6 +1,6 @@
 class CheckinsController < ApplicationController
     def new
-        @members = Member.all.order('lower(last_name) ASC')
+        @members = Member.all
         @checkin = Checkin.new
         @checkins = Checkin.all
         render :layout => "member_facing"
@@ -15,7 +15,7 @@ class CheckinsController < ApplicationController
            redirect_to new_checkin_path
            
        else
-           flash[:error]=":-) epic fail"
+           flash[:error]=":-) uh oh"
            render new
        end
     end
