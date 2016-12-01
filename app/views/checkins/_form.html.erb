@@ -19,7 +19,7 @@
  
   
    <div class="field">
-       <%= f.collection_select(:member_id, Member.active.joins(memberships: :plan).where("plans.name": ['Community 5','Community 10']), :id, :full_name, {:include_blank => 'Please Choose Your Name'} ) %>
+       <%= f.collection_select(:member_id, Member.active.joins(memberships: :plan).where("plans.name": ['Community 5','Community 10', 'Platinum Punchcard']), :id, :full_name, {:include_blank => 'Please Choose Your Name'} ) %>
   </div>
  
        <br/>
