@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :checkins
   resources :plans
   get '/inactive' => 'members#inactive'
+  get '/counts' => 'members#counts'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

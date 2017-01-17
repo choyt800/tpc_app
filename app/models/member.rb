@@ -42,5 +42,7 @@ class Member < ActiveRecord::Base
             start_date = start_date
         end
     end
+    
+    
 
 end

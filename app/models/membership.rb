@@ -6,6 +6,8 @@ class Membership < ActiveRecord::Base
     validates :member_id, presence: true
     validates :plan_id, presence: true
     
+    scope :active, -> { where("end_date": nil) }
+    
      def next_bill_date
         if start_date?
             #calculate next bill date if member is on month-to-month membership
@@ -64,6 +66,52 @@ class Membership < ActiveRecord::Base
         else
             "live"
         end
+    end
+    
+    def period_start
+   
+        @previous_month = (Date.today - 1.month).month
+        @previous_year = (Date.today - 1.year).year
+            #calculate period_start when today's day of month is before start_date day of month
+            if Date.today.strftime("%d").to_i < start_date.strftime("%d").to_i 
+                
+                if Date.today.month.to_i != 1  
+                    @period_start = "#{Date.today.year}-#{@previous_month}-#{start_date.strftime("%d")}"
+                else
+                    @period_start = "#{@previous_year}-#{@previous_month}-#{start_date.strftime("%d")}"
+                end
+            else
+            #calculate period_start when today's day of month is after start_date day of month 
+                @period_start = "#{Date.today.year}-#{Date.today.strftime("%m")}-#{start_date.strftime("%d")}" 
+        
+            end
+            
+    end
+    
+    def period_end
+        @period_end = @period_start.to_date + 1.month
+    end
+    
+    def checkins_in_period
+        
+        @start_date = @period_start.to_datetime
+        @end_date = @period_end.to_datetime
+        @checkins = member.checkins.where(:date => @start_date..@end_date).count
+        # @start_date.to_s
+        # @end_date.to_s
+    end
+  
+    def days
+        if plan.name != "Community FT"
+        @days = plan.name.gsub(/[^\d]/, '')
+        else 
+        end
+    end
+    
+    def days_left
+        
+        @days_left = @days.to_i - @checkins.to_i
+        
     end
     
     

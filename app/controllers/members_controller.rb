@@ -11,6 +11,10 @@ class MembersController < ApplicationController
   def inactive
     @members = Member.all
   end
+  
+  def counts
+    @members = Member.all
+  end
 
   # GET /members/1
   # GET /members/1.json

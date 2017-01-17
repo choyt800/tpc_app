@@ -22,13 +22,9 @@
        <%= f.collection_select(:member_id, Member.active.joins(memberships: :plan).where("plans.name": ['Community 5','Community 10', 'Platinum Punchcard']), :id, :full_name, {:include_blank => 'Please Choose Your Name'} ) %>
   </div>
  
-       <br/>
-       <br/>
-       <br/>
-       <br/>
   
   
-  <div class="actions">
+  <div class="actions float-right">
     <%= f.submit "CHECK IN", :class=>"button btn btn-default pad-5", data: { confirm: 'Thank you for checking in to tPC.  Have a great day!' } %>
   </div>
   
