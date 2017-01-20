@@ -13,7 +13,7 @@ class Member < ActiveRecord::Base
     
  
     scope :active, -> {joins(:memberships).distinct.where("memberships.end_date": nil)}
-    scope :inactive, -> {joins(:memberships).where.not(id: Member.active.select('member_id'))}
+    scope :inactive, -> {joins(:memberships).distinct.where.not(id: Member.active.select('member_id'))}
     scope :unassigned, -> {includes(:memberships).where("memberships.id": nil)}
    
   
