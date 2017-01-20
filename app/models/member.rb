@@ -11,7 +11,7 @@ class Member < ActiveRecord::Base
     has_many :keycard_checkouts
     has_many :mail_services
     
-    default_scope -> { order('last_name') } 
+ 
     scope :active, -> {joins(:memberships).distinct.where("memberships.end_date": nil)}
     scope :inactive, -> {joins(:memberships).where.not(id: Member.active.select('member_id'))}
     scope :unassigned, -> {includes(:memberships).where("memberships.id": nil)}
