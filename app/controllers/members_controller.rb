@@ -20,7 +20,7 @@ class MembersController < ApplicationController
   # GET /members/1.json
   def show
     @member = Member.find(params[:id])
-    @members = Member.all.order('lower(last_name) ASC')
+    
   end
 
   # GET /members/new
