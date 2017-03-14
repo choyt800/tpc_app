@@ -1,15 +1,17 @@
 class Member < ActiveRecord::Base
+    before_destroy :check
     
     require 'date'
     require 'time'
     
+    
     has_attached_file :avatar, styles: { medium: "300x300#", thumb: "100x100#" }, default_url: "/images/:style/missing.png"
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
  
-    has_many :checkins
-    has_many :memberships
-    has_many :keycard_checkouts
-    has_many :mail_services
+    has_many :checkins, dependent: :destroy
+    has_many :memberships, dependent: :destroy
+    has_many :keycard_checkouts, dependent: :destroy
+    has_many :mail_services, dependent: :destroy
     
  
     scope :active, -> {joins(:memberships).distinct.where("memberships.end_date": nil)}
