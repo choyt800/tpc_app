@@ -2,3 +2,4 @@
 
 <%= render 'form', button_name: "Update membership" %>
 
+ <%= link_to 'Destroy', @membership, method: :delete, data: { confirm: 'Are you sure?  This membership will be lost 4eva' } %>
