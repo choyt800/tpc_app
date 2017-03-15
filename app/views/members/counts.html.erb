@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h2 class="default-title uppercase">Listing Inactive Members</h2> 
+<h2 class="default-title uppercase">Listing Counts for Part Time Members</h2> 
 
 
 
@@ -22,7 +22,7 @@
       </thead>
     
       <tbody>
-        <% @members.active.joins(memberships: :plan).where("plans.name": ['Community 5','Community 10', 'Team 12', 'Team 24', 'Team 48']).each do |member| %>
+        <% @members.active.joins(memberships: :plan).where("plans.name": ['Community 5','Community 10', 'Team 12', 'Team 16', 'Team 24', 'Team 48', 'Platinum Punchcard 5']).each do |member| %>
           <tr>
             <td><%= image_tag member.avatar.url(:thumb) %></td>
             <td><strong><%= member.first_name %></strong></td>
