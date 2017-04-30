@@ -13,18 +13,23 @@ class Member < ActiveRecord::Base
     has_many :keycard_checkouts, dependent: :destroy
     has_many :mail_services, dependent: :destroy
     
- 
-    scope :active, -> {joins(:memberships).distinct.where("memberships.end_date": nil)}
-    scope :inactive, -> {joins(:memberships).distinct.where.not(id: Member.active.select('member_id'))}
-    scope :unassigned, -> {includes(:memberships).where("memberships.id": nil)}
-   
-  
+
     
     validates :first_name, presence: true
     validates :last_name, presence: true
     validates :email, presence: true
- 
     
+    def self.active
+         joins(:memberships).distinct.where("memberships.end_date": nil)
+    end
+    
+    def self.inactive
+        joins(:memberships).distinct.where.not(id: Member.active.select('member_id'))
+    end
+    
+    def self.unassigned
+        includes(:memberships).where("memberships.id": nil)
+    end
     
     def full_name
         "#{last_name}, #{first_name}"
