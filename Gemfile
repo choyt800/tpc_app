@@ -13,6 +13,7 @@ gem 'sdoc',         '0.4.0', group: :doc
 gem "stripe"
 gem "stripe_event"
 gem "paperclip", "~> 5.0.0.beta1"
+gem 'paperclip-ghostscript', '~> 0.1.0'
 gem 'aws-sdk', '>= 2.0.34'
 gem "high_voltage"
 gem 'typekit-rails'

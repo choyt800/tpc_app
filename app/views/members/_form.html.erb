@@ -22,6 +22,15 @@
           <%= f.label :avatar %>
           <%= f.file_field :avatar %>
         </div>
+        
+         <div class="field">
+      
+       
+          <%= link_to "Membership agreement for #{@member.last_name}, #{@member.first_name}", @member.document.url %>
+          <%= f.label :document %>
+          <%= f.file_field :document %>
+          
+         </div>
        
       
       </div>

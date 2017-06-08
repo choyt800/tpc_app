@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919175047) do
+ActiveRecord::Schema.define(version: 20170608210433) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(version: 20160919175047) do
     t.string   "last_name"
     t.string   "email"
     t.text     "notes"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "status"
     t.boolean  "has_mail_service"
     t.string   "mailbox_number"
@@ -86,6 +86,10 @@ ActiveRecord::Schema.define(version: 20160919175047) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "role"
+    t.string   "document_file_name"
+    t.string   "document_content_type"
+    t.integer  "document_file_size"
+    t.datetime "document_updated_at"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -105,6 +109,15 @@ ActiveRecord::Schema.define(version: 20160919175047) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string   "name"
+    t.string   "status"
+    t.text     "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "day"
   end
 
 end
