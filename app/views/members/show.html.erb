@@ -43,7 +43,13 @@
                         <tr><th>Plan type</th><th>Status</th><th>Start date</th><th>End date</th><th>Agreement</th><th>Edit</th><th>Delete</th></tr>
                         
                         <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.start_date %></td><td><%= membership.end_date %></td>
-                        <td><%= link_to "Yes - #{@member.last_name},  #{@member.first_name}", @member.document.url %></td>
+                        <td> 
+                            <% if @member.document?%>
+                               <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
+                               <% else %>
+                                 No
+                            <% end %>
+                        </td>
                         <td><%= link_to 'Edit', edit_member_membership_path(@member, membership) %></td>
                         <td><%= link_to "Delete", [@member, membership], :method  => :delete, data: { confirm: 'Are you certain you want to delete this?' } %></td></tr>
                      </table>

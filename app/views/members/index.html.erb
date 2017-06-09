@@ -7,12 +7,12 @@
         <tr><th colspan="14" class="orange">Assigned Members</th></tr>
         <tr>
           <th>Headshot</th>
-          <th>First name</th>
-          <th>Last name</th>
+          <th>Name</th>
           <th>Role</th>
           <th>Company</th>
           <th>Email</th>
           <th>Notes</th>
+          <th>Agreement on file</th>
           <th>Current membership type</th>
           <th>Mailbox number</th>
           <th>Keycard number</th>
@@ -24,12 +24,20 @@
         <% @members.active.each do |member| %>
           <tr>
             <td><%= image_tag member.avatar.url(:thumb) %></td>
-            <td><strong><%= member.first_name %></strong></td>
-            <td><strong><%= member.last_name %></strong></td>
+            <td><strong><%= member.first_name %></strong><br>
+            <strong><%= member.last_name %></strong>
+            </td>
             <td><%= member.role %></td>
             <td><%= member.company %></td>
             <td><%= member.email %></td>
             <td><%= member.notes %></td>
+            <td>
+               <% if member.document?%>
+                   <u><%= link_to "Yes ", member.document.url, :class => "white"%></u>
+                   <% else %>
+                     No
+                <% end %>
+            </td>
          
             <td>
                 <% if member.memberships.blank? %>
@@ -78,12 +86,12 @@
           <tr><th colspan="14" class="orange">Unassigned Members</th></tr>
           <tr>
             <th>Headshot</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>Name</th>
             <th>Role</th>
             <th>Company</th>
             <th>Email</th>
             <th>Notes</th>
+            <th>Agreement on file</th>
             <th>Current membership type</th>
             <th>Mailbox number</th>
             <th>Keycard number</th>
@@ -92,12 +100,20 @@
           <% @members.unassigned.each do |member| %>
           <tr>
             <td><%= image_tag member.avatar.url(:thumb) %></td>
-            <td><strong><%= member.first_name %></strong></td>
-            <td><strong><%= member.last_name %></strong></td>
+            <td><strong><%= member.first_name %></strong><br>
+            <strong><%= member.last_name %></strong>
+            </td>
             <td><%= member.role %></td>
             <td><%= member.company %></td>
             <td><%= member.email %></td>
             <td><%= member.notes %></td>
+            <td>
+               <% if member.document?%>
+                   <u><%= link_to "Yes ", member.document.url, :class => "white"%></u>
+                   <% else %>
+                     No
+                <% end %>
+            </td>
          
             <td>
                 <% if member.memberships.blank? %>
