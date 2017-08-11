@@ -1,23 +1,20 @@
 label{
  width: 150px;
  float: left;
+ font-weight: normal;
 }
 
 input {
     display: inline-block;
-    border: 0;
-    border-bottom:1px solid white;
     padding-top: 10px;
     font-size: 16pt;
-    color: white;
     background-color: transparent;
 }
 
 textarea {
-    border:1px solid white;
+    border:1px solid black;
     padding-top: 10px;
     font-size: 16pt;
-    color: white;
     background-color: transparent;
     
 }
@@ -25,8 +22,8 @@ textarea {
 .field {
     padding-top: 10px;
     font-size: 16pt;
-    color: white;
     background-color: transparent;
+    color: black;
 }
 
 .field-wide {
@@ -35,13 +32,14 @@ textarea {
 }
 
 .form-group {
-    border: 1px white solid;
+    border: 1px black solid;
     background-color: transparent;
+    min-height: 150px;
 }
 
  select
     {
-        border-bottom:1px solid white;
+        border-bottom:1px solid black;
         border-top: 0;
         border-left: 0;
         border-right: 0;
