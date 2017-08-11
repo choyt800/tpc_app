@@ -4,14 +4,14 @@
 @import "bootstrap";
 
 body { 
-  background: image-url('blur.jpg') no-repeat center center fixed; 
+
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   font-family: georgia, serif;
   font-size: 14pt!important;
-  color: white;
+ 
 }
 
 h1, h2, h3 {
@@ -157,7 +157,7 @@ h1.member-name {
     background-color: rgba(255, 255, 255, 0);
     margin-top: 50px;
     vertical-align: middle;
-    color: white;
+   
      
      td {
         font-size: 10pt;
