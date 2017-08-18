@@ -1,0 +1,25 @@
+<h1>Admins</h1>
+
+<table class="table table-condensed">
+  <thead class="tpc-head">
+    <tr>
+      <th>Email</th>
+      <th>Last Sign In</th>
+      <th>Super</th>
+      <th>User Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admins.each do |admin| %>
+      <tr>
+        <td><%= admin.email %></td>
+        <td><%= admin.last_sign_in_at.localtime if admin.last_sign_in_at %></td>
+        <td><%= admin.super.inspect %></td>
+        <td><%= link_to 'Edit', edit_admin_path(admin.id) %> | <%= link_to 'Delete', admin_path(admin.id), :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Invite New Admin', new_admin_invitation_path %>

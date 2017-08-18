@@ -10,13 +10,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+    <%= render 'layouts/flash_messages' if !flash.empty? %>
     <%= render 'layouts/navigation' %>
 
   <div class="container-fluid">
 
     <%= yield %>
-    
+
   </div>
-  
+
 </body>
 </html>

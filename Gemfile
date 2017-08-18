@@ -17,13 +17,15 @@ gem 'paperclip-ghostscript', '~> 0.1.0'
 gem 'aws-sdk', '>= 2.0.34'
 gem "high_voltage"
 gem 'typekit-rails'
-
+gem 'devise'
+gem 'devise_invitable'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
   gem 'byebug',      '3.4.0'
   gem 'web-console', '2.0.0.beta3'
   gem 'spring',      '1.1.3'
+  gem 'dotenv-rails'
 end
 
 group :production do
