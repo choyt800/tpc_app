@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :admins, skip: :registerable
   resources :mailboxes
   resources :keycard_checkouts, only: [:index]
   resources :mail_services, only: [:index]
   resources :memberships, only: [:index]
-  resources :members do 
+  resources :members do
     resources :memberships, except: [:index]
     resources :keycard_checkouts, except: [:index]
     resources :mail_services, except: [:index]
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
   resources :charges
   resources :checkins
   resources :plans
+  resources :admins, except: [:new, :create, :show]
   get '/inactive' => 'members#inactive'
   get '/counts' => 'members#counts'
   # The priority is based upon order of creation: first created -> highest priority.
@@ -19,7 +21,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'high_voltage/pages#show', id: 'management'
-  
+
   # config/initializers/high_voltage.rb
   HighVoltage.configure do |config|
     config.route_drawer = HighVoltage::RouteDrawers::Root
@@ -73,6 +75,6 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  
+
 
 end

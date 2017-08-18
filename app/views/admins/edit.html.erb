@@ -1,0 +1,19 @@
+<h1><%= @admin.email %></h1>
+
+<%= form_for(@admin) do |f| %>
+  <div class= "row">
+    <div class = "col-sm-12 form-group">
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+      </div>
+      <div class="field">
+        <%= f.label :super, 'Super Admin' %>
+        <%= f.check_box :super %>
+      </div>
+    </div>
+  </div>
+
+  <%= f.submit 'Save' %>
+  <%= link_to 'Cancel', url_for(:back) %>
+<% end %>

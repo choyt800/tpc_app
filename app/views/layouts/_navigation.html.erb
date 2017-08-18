@@ -15,13 +15,21 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="http://www.thepioneercollective.com/">tPC Homepage</a></li>
+        <li><%= link_to('Admin Home', root_path) %></li>
+        <% if admin_signed_in? && current_admin.super? %>
+          <li><%= link_to('Admin Management', admins_path) %></li>
+        <% end %>
+        <% if admin_signed_in? %>
+          <li><%= link_to('Sign out', destroy_admin_session_path, method: :delete) %>  </li>
+        <% else %>
+          <li><%= link_to('Sign in', new_admin_session_path)  %>  </li>
+        <% end %>
         <!--<li><a href="/management">tPC Front Desk</a></li>-->
- 
-       
+
+
       </ul>
-     
-      
+
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
