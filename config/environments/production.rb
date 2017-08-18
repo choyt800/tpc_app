@@ -87,7 +87,7 @@ Rails.application.configure do
     }
   }
 
-  config.action_mailer.default_url_options = { host: 'secret-thicket-9749.heroku.com' }
+  config.action_mailer.default_url_options = { host: 'secret-thicket-9749.herokuapp.com' }
 
 
 end
