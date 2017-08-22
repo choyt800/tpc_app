@@ -1,4 +1,5 @@
 class CheckinsController < ApplicationController
+    skip_before_action :authenticate_admin!, only: [:new, :create, :index, :set_checkin, :checkin_params]
     def new
         @members = Member.all
         @checkin = Checkin.new
