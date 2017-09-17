@@ -11,13 +11,18 @@
   </thead>
 
   <tbody>
-    <% @plans.each do |plan| %>
+    <% @plans.each do |category, plans| %>
       <tr>
-        <td><%= plan.name %></td>
-        <td><%= link_to 'Show', plan %></td>
-        <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
-        <td><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td colspan="4"><h2><%= category || 'Uncategorized' %></h2></td>
       </tr>
+      <% plans.sort_by {|child| [child.category_order ? 0 : 1,child.category_order || 0]}.each do |plan| %>
+        <tr>
+          <td><%= plan.name %></td>
+          <td><%= link_to 'Show', plan %></td>
+          <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
+          <td><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
