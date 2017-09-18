@@ -4,7 +4,7 @@ class PlansController < ApplicationController
   # GET /plans
   # GET /plans.json
   def index
-    @plans = Plan.all
+    @plans = Plan.all.order('category_order IS NULL, category_order DESC').group_by(&:category)
   end
 
   # GET /plans/1
@@ -24,7 +24,8 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.json
   def create
-    @plan = Plan.new(plan_params)
+    @plan = Plan.new(plan_create_params)
+    @plan.assign_params_from_controller(plan_create_params)
 
     respond_to do |format|
       if @plan.save
@@ -41,7 +42,7 @@ class PlansController < ApplicationController
   # PATCH/PUT /plans/1.json
   def update
     respond_to do |format|
-      if @plan.update(plan_params)
+      if @plan.update(plan_edit_params)
         format.html { redirect_to @plan, notice: 'Plan was successfully updated.' }
         format.json { render :show, status: :ok, location: @plan }
       else
@@ -68,7 +69,12 @@ class PlansController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def plan_params
-      params.require(:plan).permit(:name)
+    def plan_edit_params
+      params.require(:plan).permit(:name, :category, :category_order)
+    end
+
+    def plan_create_params
+      params.require(:plan).permit(:stripe_id, :name, :stripe_amount, :stripe_interval, :stripe_interval_count,
+                                   :stripe_trial_period_days, :category, :category_order)
     end
 end

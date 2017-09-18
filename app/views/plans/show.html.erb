@@ -1,8 +1,20 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Stripe ID:</strong>
+  <%= @plan.stripe_id || '(n/a)' %>
+</p>
+<p>
   <strong>Name:</strong>
   <%= @plan.name %>
+</p>
+<p>
+  <strong>Category:</strong>
+  <%= @plan.category %>
+</p>
+<p>
+  <strong>Category Order:</strong>
+  <%= @plan.category_order %>
 </p>
 
 <%= link_to 'Edit', edit_plan_path(@plan) %> |

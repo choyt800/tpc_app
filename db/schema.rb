@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817043918) do
+ActiveRecord::Schema.define(version: 20170905224420) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20170817043918) do
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
+    t.string   "stripe_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -137,8 +138,11 @@ ActiveRecord::Schema.define(version: 20170817043918) do
 
   create_table "plans", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "stripe_id"
+    t.string   "category"
+    t.string   "category_order"
   end
 
   create_table "tasks", force: :cascade do |t|
