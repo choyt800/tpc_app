@@ -66,6 +66,7 @@ class PlansController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_plan
       @plan = Plan.find(params[:id])
+      @stripe_plan = Stripe::Plan.retrieve(@plan.stripe_id) if @plan.stripe_id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
