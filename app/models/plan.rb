@@ -1,9 +1,15 @@
 class Plan < ActiveRecord::Base
+  belongs_to :plan_category
   has_many :memberships
+  has_many :keycard_checkouts
+  has_many :mail_services
   before_create :create_stripe_plan
   before_update :update_stripe_plan
 
   attr_accessor :stripe_amount, :stripe_interval, :stripe_interval_count, :stripe_trial_period_days
+  default_scope { order(:category_order) }
+  scope :mail_service, -> { where(plan_category_id: PlanCategory.find_by_name('Mail Service').id) }
+  scope :misc, -> { where(plan_category_id: PlanCategory.find_by_name('Misc').id) }
 
   def assign_params_from_controller(params)
     @params = params
@@ -31,9 +37,9 @@ class Plan < ActiveRecord::Base
 
   def categories
     [
-      'Designated Desks',
-      'Communal Memberships',
-      'Team Memberships',
+      'Designated Desk',
+      'Communal Membership',
+      'Team Membership',
       'Mail Service',
       'Misc'
     ]

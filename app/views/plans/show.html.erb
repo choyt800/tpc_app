@@ -10,12 +10,23 @@
 </p>
 <p>
   <strong>Category:</strong>
-  <%= @plan.category %>
+  <%= @plan.plan_category.name %>
 </p>
 <p>
   <strong>Category Order:</strong>
   <%= @plan.category_order %>
 </p>
+
+<% if @stripe_plan.present? %>
+  <p>
+    <strong>Amount:</strong>
+    $<%= '%.2f' % (@stripe_plan.amount/100.0) %>
+  </p>
+  <p>
+    <strong>Interval:</strong>
+    Every <%= pluralize(@stripe_plan.interval_count, @stripe_plan.interval) %>
+  </p>
+<% end %>
 
 <%= link_to 'Edit', edit_plan_path(@plan) %> |
 <%= link_to 'Back', plans_path %>

@@ -39,6 +39,27 @@ namespace :stripe_migration do
     end
   end
 
+  task create_plan_categories: :environment do
+    print 'Creating new Plan Categories'
+    categories.each do |cat|
+      print '.'
+      PlanCategory.create!(name: cat)
+    end
+  end
+
+  task update_plan_categories: :environment do
+    print "\nUpdating the Plan relationships"
+    Plan.all.each do |plan|
+      if plan.category
+        print '.'
+        plan.plan_category = PlanCategory.find_by(name: plan.category) if plan.category
+        plan.save!
+      else
+        print '!'
+      end
+    end
+  end
+
   private
 
   def modify_plan(name, category, index)
@@ -48,6 +69,16 @@ namespace :stripe_migration do
     else
       print '!'
     end
+  end
+
+  def categories
+    [
+      'Designated Desk',
+      'Communal Membership',
+      'Team Membership',
+      'Mail Service',
+      'Misc'
+    ]
   end
 
   def designated_desks

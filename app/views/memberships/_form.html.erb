@@ -1,59 +1,59 @@
 <%= form_for([@member, @membership]) do |f| %>
   <% if @membership.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@membership.errors.count, "error") %> prohibited this membership from being saved:</h2>
+  <div id="error_explanation">
+    <h2><%= pluralize(@membership.errors.count, "error") %> prohibited this membership from being saved:</h2>
 
-      <ul>
+    <ul>
       <% @membership.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <li><%= message %></li>
       <% end %>
-      </ul>
-    </div>
+    </ul>
+  </div>
   <% end %>
-  
 
-    
   <h3><%= @member.full_name %></h3>
-  
-  
+
   <div class="field">
-       <%= f.label :paid_by %>
-       <%= f.collection_select(:paid_by, Member.order("lower(last_name) ASC").all, :full_name, :full_name, :include_blank => true ) %>
-         <p>Leave blank unless paid on a group account</p>
+    <%= f.label :paid_by %>
+    <%= f.collection_select(:paid_by, Member.order("lower(last_name) ASC").all, :full_name, :full_name, :include_blank => true ) %>
+    <p>Leave blank unless paid on a group account</p>
   </div>
-  
-   <div class="field">
-       <%= f.label :plan_id %>
-       <%= f.collection_select(:plan_id, Plan.order("lower(name) ASC").all, :id, :name, :include_blank => true) %>
+
+  <div class="field">
+    <%= f.label :plan_category_id %>
+    <%= f.collection_select(:plan_category_id, PlanCategory.memberships.order(:id), :id, :name, include_blank: true) %>
   </div>
-  
+
+  <div class="field">
+    <%= f.label :plan_id %>
+    <%= f.grouped_collection_select(:plan_id, PlanCategory.memberships.order(:name), :plans, :name, :id, :name, include_blank: true) %>
+  </div>
+
   <div class="field">
     <%= f.label :payment_type %>
-    <%= f.select(:payment_type, options_for_select([['Month-to-month (Stripe)', "Month-to-month"], ['Prepaid 3 Month', "Prepaid 3 Month"], 
-    ['Prepaid 6 Month', "Prepaid 6 Month"], ['Prepaid 12 Month', "Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
+    <%= f.select(:payment_type, options_for_select([['Stripe', 'Stripe'], ['Check - Prepaid 3 Month', "Check - Prepaid 3 Month"],
+        ['Check - Prepaid 6 Month', "Check - Prepaid 6 Month"], ['Check - Prepaid 12 Month', "Check - Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
   </div>
- 
-   <div class="field">
-      <%= f.label :start_date %>
-      <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
-    </div>
-    
-    <div class="field">
-      <%= f.label :end_date %>
-      <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
-    </div>
-    
-    <div class="field">
-       <%= f.label :notes %>
-       <%= f.text_area :notes %>
-    </div>
-    
-    <div class="field">
-       <%= f.label :average_monthly_payment %>
-       <%= f.text_field :average_monthly_payment %>
-    </div>
-  
- 
+
+  <div class="field">
+    <%= f.label :start_date %>
+    <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_date %>
+    <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :notes %>
+    <%= f.text_area :notes %>
+  </div>
+
+  <div class="field">
+    <%= f.label :average_monthly_payment %>
+    <%= f.text_field :average_monthly_payment %>
+  </div>
 
   <div class="actions">
     <%= f.submit name: button_name %>

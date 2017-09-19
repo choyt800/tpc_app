@@ -8,10 +8,14 @@ Rails.application.routes.draw do
     resources :memberships, except: [:index]
     resources :keycard_checkouts, except: [:index]
     resources :mail_services, except: [:index]
+    post 'create_stripe' => 'members#create_stripe'
+    post 'link_stripe' => 'members#link_stripe'
+    post 'update_stripe' => 'members#update_stripe'
   end
   resources :keycards
   resources :charges
   resources :checkins
+  put 'plans/change_order' => 'plans#change_order'
   resources :plans
   resources :admins, except: [:new, :create, :show]
   get '/inactive' => 'members#inactive'

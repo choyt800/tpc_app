@@ -51,7 +51,7 @@ namespace :stripe_plans do
         existing_plans.push(plan[:id])
         print '!'
       rescue Stripe::StripeError
-        # create_stripe_plan(plan)
+        create_stripe_plan(plan)
         creating_plans.push(plan[:id])
         print '.'
       end

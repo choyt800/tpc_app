@@ -16,4 +16,4 @@
 //= require turbolinks
 //= require typekit
 //= require_tree .
-//= require jquery-ui/autocomplete
+//= require jquery-ui

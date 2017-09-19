@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_action :set_member, only: [:show, :edit, :update, :destroy]
+  before_action :set_member, only: [:show, :edit, :update, :destroy, :create_stripe, :link_stripe, :update_stripe]
   require 'date'
 
   # GET /members
@@ -7,11 +7,11 @@ class MembersController < ApplicationController
   def index
     @members = Member.all
   end
-  
+
   def inactive
     @members = Member.all
   end
-  
+
   def counts
     @members = Member.all
   end
@@ -20,32 +20,30 @@ class MembersController < ApplicationController
   # GET /members/1.json
   def show
     @member = Member.find(params[:id])
-    
+    @stripe_customer = Stripe::Customer.retrieve(@member.stripe_id) if @member.stripe_id
+    @stripe_card = @stripe_customer.sources.retrieve(@stripe_customer.default_source) if @stripe_customer
   end
 
   # GET /members/new
   def new
     @member = Member.new
-    
   end
 
   # GET /members/1/edit
   def edit
-    
   end
 
   # POST /members
   # POST /members.json
   def create
     @member = Member.new(member_params)
-    
 
     respond_to do |format|
       if @member.save
-        
+
         # # Deliver the signup email
         # MemberNotifier.send_welcome_email(@member).deliver_now
-  
+
         format.html { redirect_to @member, notice: 'Member was successfully created.' }
         format.json { render :show, status: :created, location: @member }
       else
@@ -79,6 +77,64 @@ class MembersController < ApplicationController
     end
   end
 
+  def create_stripe
+    customer = Stripe::Customer.create(
+      :email => params[:stripeEmail],
+      :source  => params[:stripeToken],
+      :metadata => {
+        "First Name" => params[:firstname],
+        "Last Name" => params[:lastname]
+      }
+    )
+
+    @member.stripe_id = customer.id
+    respond_to do |format|
+      if @member.save
+        format.html { redirect_to @member, notice: 'Stripe Customer was successfully created.' }
+        format.json { render :show, status: :created, location: @member }
+      else
+        format.html { render :new }
+        format.json { render json: @member.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def link_stripe
+    begin
+      @stripe_customer = Stripe::Customer.retrieve(params[:stripe_id])
+    rescue Stripe::InvalidRequestError
+      respond_to do |format|
+        format.html { redirect_to @member, notice: 'ERROR: Stripe Customer not found.' and return }
+        format.json { render json: 'Stripe Customer not found', status: :unprocessable_entity and return }
+      end
+    end
+
+    @member.stripe_id = params[:stripe_id]
+    respond_to do |format|
+      if @member.save
+        format.html { redirect_to @member, notice: 'Member was successfully updated.' }
+        format.json { render :show, status: :created, location: @member }
+      else
+        format.html { render :new }
+        format.json { render json: @member.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update_stripe
+    customer = Stripe::Customer.retrieve(@member.stripe_id)
+    customer.source = params[:stripeToken]
+
+    respond_to do |format|
+      if customer.save
+        format.html { redirect_to @member, notice: 'Stripe Customer was successfully updated.' }
+        format.json { render :show, status: :created, location: @member }
+      else
+        format.html { render :new }
+        format.json { render json: @member.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -88,8 +144,7 @@ class MembersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
-      params.require(:member).permit(:first_name, :last_name, :email, :role, :status, 
+      params.require(:member).permit(:first_name, :last_name, :email, :role, :status,
        :has_mail_service, :mailbox_number, :phone, :company, :notes, :avatar, :document)
     end
 end
-
