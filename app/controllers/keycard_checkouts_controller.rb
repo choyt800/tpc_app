@@ -1,6 +1,6 @@
 class KeycardCheckoutsController < ApplicationController
   before_action :set_member, except: [:index]
-  before_action :set_keycard_checkouts, only: [:show, :edit, :update, :destroy]
+  before_action :set_keycard_checkouts, only: [:show, :edit, :update, :destroy, :cancel]
 
   # GET /keycard_checkouts
   # GET /keycard_checkouts.json
@@ -18,6 +18,7 @@ class KeycardCheckoutsController < ApplicationController
   def new
     @keycard_checkout = @member.keycard_checkouts.build
     @keycard_checkout.build_keycard
+    @start_date = Date.current
   end
 
   # GET /keycard_checkouts/1/edit
@@ -36,20 +37,37 @@ class KeycardCheckoutsController < ApplicationController
         @keycard_checkout.keycard = existing_keycard
       end
 
+      @plan = Plan.find(params[:keycard_checkout][:plan_id])
+      if params[:keycard_checkout][:payment_type] == 'Stripe'
+        stripe_sub = Stripe::Subscription.create(
+          customer: @member.stripe_id,
+          :items => [
+            {
+              :plan => @plan.stripe_id,
+            },
+          ]
+        )
+        @keycard_checkout.next_invoice_date = Time.at(stripe_sub.current_period_end).to_datetime
+      else
+        @stripe_plan = Stripe::Plan.retrieve(@plan.stripe_id)
+        start_date = params[:keycard_checkout][:start_date] || Date.current
+        plan_interval = @stripe_plan.interval
+        plan_interval_count = @stripe_plan.interval_count
+        next_date = case plan_interval
+                    when 'day'
+                      start_date + plan_interval_count.days
+                    when 'week'
+                      start_date + plan_interval_count.weeks
+                    when 'month'
+                      start_date + plan_interval_count.months
+                    when 'year'
+                      start_date + plan_interval_count.years
+                    end
+        @keycard_checkout.next_invoice_date = next_date
+      end
+
       respond_to do |format|
         if @keycard_checkout.save
-          @plan = Plan.find(params[:keycard_checkout][:plan_id])
-          if params[:keycard_checkout][:payment_type] == 'Stripe'
-            stripe_sub = Stripe::Subscription.create(
-              customer: @member.stripe_id,
-              :items => [
-                {
-                  :plan => @plan.stripe_id,
-                },
-              ]
-            )
-          end
-
           format.html { redirect_to @member, notice: 'keycard_checkout record was successfully created.' }
           format.json { render :show, status: :created, location: @keycard_checkout }
         else
@@ -89,6 +107,28 @@ class KeycardCheckoutsController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to @member, notice: 'keycard_checkout was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  # DELETE /keycard_checkouts/1/cancel
+  def cancel
+    ActiveRecord::Base.transaction do
+      if @keycard_checkout.payment_type == 'Stripe'
+        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
+        stripe_customer.subscriptions.each do |sub|
+          sub.delete(at_period_end: true) if sub.plan.id == @keycard_checkout.plan.stripe_id
+          @end_date = sub.current_period_end
+        end
+
+        @keycard_checkout.end_date = Time.at(@end_date).to_date
+        @keycard_checkout.next_invoice_date = nil
+        @keycard_checkout.save!
+      end
+
+      respond_to do |format|
+        format.html { redirect_to @member, notice: 'Keycard checkout was successfully canceled.' }
         format.json { head :no_content }
       end
     end

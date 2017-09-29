@@ -7,7 +7,7 @@ class Plan < ActiveRecord::Base
   before_update :update_stripe_plan
 
   attr_accessor :stripe_amount, :stripe_interval, :stripe_interval_count, :stripe_trial_period_days
-  default_scope { order(:category_order) }
+  default_scope { where(deleted: false).order(:category_order) }
   scope :mail_service, -> { where(plan_category_id: PlanCategory.find_by_name('Mail Service').id) }
   scope :misc, -> { where(plan_category_id: PlanCategory.find_by_name('Misc').id) }
 

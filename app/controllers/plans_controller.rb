@@ -4,8 +4,8 @@ class PlansController < ApplicationController
   # GET /plans
   # GET /plans.json
   def index
-    all_plans = Plan.all.where('plan_category_id is not null').order(:plan_category_id)
-    uncategorized = Plan.all.where('plan_category_id is null')
+    all_plans = Plan.all.where(deleted: false).where('plan_category_id is not null').order(:plan_category_id)
+    uncategorized = Plan.all.where(deleted: false).where('plan_category_id is null')
     @categories = (all_plans + uncategorized).group_by(&:plan_category)
   end
 
@@ -84,7 +84,7 @@ class PlansController < ApplicationController
       plan = Stripe::Plan.retrieve(@plan.stripe_id)
       plan.delete
     end
-    @plan.destroy
+    @plan.update_attributes(deleted: true)
     respond_to do |format|
       format.html { redirect_to plans_url, notice: 'Plan was successfully destroyed.' }
       format.json { head :no_content }

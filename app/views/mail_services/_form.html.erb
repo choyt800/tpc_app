@@ -45,6 +45,6 @@
        <%= f.text_field :average_monthly_payment %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
   </div>
 <% end %>

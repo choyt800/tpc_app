@@ -1,6 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_member, except: [:index]
-  before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :set_membership, only: [:show, :edit, :update, :destroy, :cancel]
 
 
   # GET /memberships
@@ -18,7 +18,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = @member.memberships.build
-
+    @start_date = Date.current
   end
 
   # GET /memberships/1/edit
@@ -31,16 +31,37 @@ class MembershipsController < ApplicationController
     ActiveRecord::Base.transaction do
       @membership = @member.memberships.build(membership_params)
       @plan = Plan.find(params[:membership][:plan_id])
+      coupon = params[:membership][:coupon].present? ? params[:membership][:coupon] : nil
 
       if params[:membership][:payment_type] == 'Stripe'
         stripe_sub = Stripe::Subscription.create(
           customer: @member.stripe_id,
+          trial_period_days: params[:membership][:trial_period_days],
+          coupon: coupon,
           :items => [
             {
               :plan => @plan.stripe_id,
             },
           ]
         )
+
+        @membership.next_invoice_date = Time.at(stripe_sub.current_period_end).to_datetime
+      else
+        @stripe_plan = Stripe::Plan.retrieve(@plan.stripe_id)
+        start_date = params[:membership][:start_date] || Date.current
+        plan_interval = @stripe_plan.interval
+        plan_interval_count = @stripe_plan.interval_count
+        next_date = case plan_interval
+                    when 'day'
+                      start_date + plan_interval_count.days
+                    when 'week'
+                      start_date + plan_interval_count.weeks
+                    when 'month'
+                      start_date + plan_interval_count.months
+                    when 'year'
+                      start_date + plan_interval_count.years
+                    end
+        @membership.next_invoice_date = next_date
       end
 
       respond_to do |format|
@@ -89,6 +110,28 @@ class MembershipsController < ApplicationController
     end
   end
 
+  # DELETE /memberships/1/cancel
+  def cancel
+    ActiveRecord::Base.transaction do
+      if @membership.payment_type == 'Stripe'
+        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
+        stripe_customer.subscriptions.each do |sub|
+          sub.delete(at_period_end: true) if sub.plan.id == @membership.plan.stripe_id
+          @end_date = sub.current_period_end
+        end
+
+        @membership.end_date = Time.at(@end_date).to_date
+        @membership.next_invoice_date = nil
+        @membership.save!
+      end
+
+      respond_to do |format|
+        format.html { redirect_to @member, notice: 'Membership was successfully canceled.' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_membership
@@ -103,6 +146,6 @@ class MembershipsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
       params.require(:membership).permit(:type, :start_date, :end_date, :membership_type, :payment_type, :notes,
-      :plan_id, :plan_category_id, :paid_by, :average_monthly_payment, member_attributes: [:id, :first_name, :last_name])
+      :plan_id, :plan_category_id, :paid_by, :average_monthly_payment, :trial_period_days, member_attributes: [:id, :first_name, :last_name])
     end
 end

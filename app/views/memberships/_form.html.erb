@@ -50,12 +50,22 @@
     <%= f.text_area :notes %>
   </div>
 
-  <div class="field">
+  <div class="field hidden">
+    <%= f.label :trial_period_days %>
+    <%= f.number_field :trial_period_days, value: 0 %>
+  </div>
+
+  <div class="field hidden">
+    <%= f.label :coupon %>
+    <%= f.text_field :coupon %>
+  </div>
+
+  <div class="field hidden">
     <%= f.label :average_monthly_payment %>
     <%= f.text_field :average_monthly_payment %>
   </div>
 
   <div class="actions">
-    <%= f.submit name: button_name %>
+    <%= f.submit name: button_name, data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
   </div>
 <% end %>
