@@ -68,6 +68,8 @@ namespace :stripe_plans do
     puts "\n----------"
     puts 'Creating the plans in the local DB (if they don\'t exist)'
 
+    Plan.skip_callback(:create, :before, :create_stripe_plan)
+
     count = 0
     @plans.each do |plan|
       if Plan.find_by(stripe_id: plan[:id])
@@ -78,6 +80,8 @@ namespace :stripe_plans do
         print '+'
       end
     end
+
+    Plan.set_callback(:create, :before, :create_stripe_plan)
 
     puts "\nCreated #{count} out of #{@plans.count} plans. There are now #{Plan.count} plans in the database."
   end

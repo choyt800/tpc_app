@@ -64,7 +64,8 @@ namespace :stripe_migration do
 
   def modify_plan(name, category, index)
     if plan = Plan.find_by(name: name)
-      plan.update_attributes(category: category, category_order: index)
+      cat = PlanCategory.find_by(name: category)
+      plan.update_attributes(plan_category_id: cat.id, category_order: index)
       print '.'
     else
       print '!'
