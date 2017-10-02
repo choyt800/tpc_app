@@ -11,23 +11,23 @@
     </div>
   <% end %>
 
-  
+
   <div class="field field-wide">
     <%= f.hidden_field :date, :value => DateTime.now %>
   </div>
-  
- 
-  
+
+
+
    <div class="field">
-       <%= f.collection_select(:member_id, Member.active.joins(memberships: :plan).where("plans.name": ['Community 5','Community 10', 'Platinum Punchcard 5','Team 06', 'Team 12', 'Team 16', 'Team 24', 'Team 48']), :id, :full_name, {:include_blank => 'Please Choose Your Name'} ) %>
+       <%= f.collection_select(:member_id, Member.active.joins(memberships: :plan).where("name ILIKE ANY ( array[?] )", ['%Community%', '%Punchcard%', '%Team%']), :id, :full_name, {:include_blank => 'Please Choose Your Name'} ) %>
   </div>
- 
-  
-  
+
+
+
   <div class="actions float-right">
     <%= f.submit "CHECK IN", :class=>"button btn btn-default pad-5", data: { confirm: 'Thank you for checking in to tPC.  Have a great day!' } %>
   </div>
-  
- 
-  
+
+
+
 <% end %>
