@@ -4,46 +4,46 @@
       <h2><%= pluralize(@keycard_checkout.errors.count, "error") %> prohibited this membership from being saved:</h2>
 
       <ul>
-      <% @keycard_checkout.errors.full_messages.each do |message| %>
+        <% @keycard_checkout.errors.full_messages.each do |message| %>
         <li><%= message %></li>
-      <% end %>
+        <% end %>
       </ul>
     </div>
   <% end %>
-  
 
-    
-       <h3><%= @member.full_name %></h3>
-  
-  
-       <%= f.fields_for :keycard do |keycard_form| %>
-           <div class="field">
-                <%= keycard_form.label :number %>
-                <%= keycard_form.text_field :number %>
-            </div>
-            <div class="field">
-                <%= keycard_form.label :hours %>
-                <%= keycard_form.text_field :hours %>
-            </div>
-       <% end %>
-  
-  
-  
- 
-   <div class="field">
-      <%= f.label :start_date %>
-      <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
-    </div>
-    
+  <h3><%= @member.full_name %></h3>
+
+  <%= f.fields_for :keycard do |keycard_form| %>
     <div class="field">
-      <%= f.label :end_date %>
-      <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
+      <%= keycard_form.label :number %>
+      <%= keycard_form.text_field :number %>
     </div>
-    
-   
- 
+    <div class="field">
+      <%= f.label :plan_id %>
+      <%= f.select(:plan_id, options_from_collection_for_select(Plan.misc, :id, :name), prompt: true) %>
+    </div>
+    <div class="field">
+      <%= f.label :payment_type %>
+      <%= f.select(:payment_type, options_for_select([['Stripe', 'Stripe'], ['Check - Prepaid 3 Month', "Check - Prepaid 3 Month"],
+          ['Check - Prepaid 6 Month', "Check - Prepaid 6 Month"], ['Check - Prepaid 12 Month', "Check - Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
+    </div>
+    <div class="field">
+      <%= keycard_form.label :hours %>
+      <%= keycard_form.text_field :hours %>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :start_date %>
+    <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_date %>
+    <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
+  </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
   </div>
 <% end %>

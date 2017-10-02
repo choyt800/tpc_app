@@ -24,7 +24,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :stripe_amount %><br>
+    <%= f.label :stripe_amount, 'Stripe Amount (in Dollars)' %><br>
     <%= f.text_field :stripe_amount %>
   </div>
 
@@ -40,12 +40,12 @@
 
   <div class="field">
     <%= f.label :stripe_trial_period_days %><br>
-    <%= f.number_field :stripe_trial_period_days %>
+    <%= f.number_field :stripe_trial_period_days, value: 0 %>
   </div>
 
   <div class="field">
-    <%= f.label :category %><br>
-    <%= f.select :category, @plan.categories %>
+    <%= f.label :plan_category_id, 'Plan Category' %><br>
+    <%= f.select :plan_category_id, PlanCategory.all.collect {|p| [ p.name, p.id ] } %>
   </div>
 
   <div class="field">

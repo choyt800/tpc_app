@@ -2,30 +2,21 @@
 
 <h1>Listing Plans</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @plans.each do |category, plans| %>
-      <tr>
-        <td colspan="4"><h2><%= category || 'Uncategorized' %></h2></td>
-      </tr>
-      <% plans.sort_by {|child| [child.category_order ? 0 : 1,child.category_order || 0]}.each do |plan| %>
-        <tr>
-          <td><%= plan.name %></td>
-          <td><%= link_to 'Show', plan %></td>
-          <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
-          <td><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
+<% @categories.each do |category, plans| %>
+  <h2><%= category ? category.name : 'Uncategorized' %></h2>
+  <ul class='sortable' id="sortable-category-<%= category ? category.id : 'u' %>" data-category="<%= category ? category.name : 'uncategorized' %>">
+    <% plans.each do |plan| %>
+      <li class="ui-state-default" id="<%= plan.id %>">
+        <p>
+          <strong><%= plan.name %></strong>
+          <span><%= link_to 'Show', plan %></span>
+          <span><%= link_to 'Edit', edit_plan_path(plan) %></span>
+          <span><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></span>
+        </p>
+      </li>
     <% end %>
-  </tbody>
-</table>
+  </ul>
+<% end %>
 
 <br>
 

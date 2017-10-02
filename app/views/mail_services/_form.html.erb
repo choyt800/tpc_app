@@ -10,19 +10,28 @@
       </ul>
     </div>
   <% end %>
-  
+
   <h3><%= @member.full_name %></h3>
 
-  
+
   <div class="field">
     <%= f.label :mailbox_id %>
     <%= f.collection_select(:mailbox_id, Mailbox.all.order("number"), :id, :number, :include_blank => true ) %>
   </div>
   <div class="field">
+    <%= f.label :plan_id %>
+    <%= f.select(:plan_id, options_from_collection_for_select(Plan.mail_service, :id, :name), prompt: true) %>
+  </div>
+  <div class="field">
+    <%= f.label :payment_type %>
+    <%= f.select(:payment_type, options_for_select([['Stripe', 'Stripe'], ['Check - Prepaid 3 Month', "Check - Prepaid 3 Month"],
+        ['Check - Prepaid 6 Month', "Check - Prepaid 6 Month"], ['Check - Prepaid 12 Month', "Check - Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
+  </div>
+  <div class="field">
     <%= f.label :start_date %>
     <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
-  
+
   <div class="field">
     <%= f.label :end_date %>
     <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
@@ -36,6 +45,6 @@
        <%= f.text_field :average_monthly_payment %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
   </div>
 <% end %>

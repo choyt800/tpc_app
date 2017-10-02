@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905224420) do
+ActiveRecord::Schema.define(version: 20170929210049) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -66,10 +66,15 @@ ActiveRecord::Schema.define(version: 20170905224420) do
     t.datetime "end_date"
     t.integer  "keycard_id"
     t.integer  "member_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "notes"
+    t.string   "payment_type"
+    t.datetime "next_invoice_date"
+    t.integer  "plan_id"
   end
+
+  add_index "keycard_checkouts", ["plan_id"], name: "index_keycard_checkouts_on_plan_id"
 
   create_table "keycards", force: :cascade do |t|
     t.string   "number"
@@ -89,7 +94,12 @@ ActiveRecord::Schema.define(version: 20170905224420) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.decimal  "average_monthly_payment"
+    t.string   "payment_type"
+    t.datetime "next_invoice_date"
+    t.integer  "plan_id"
   end
+
+  add_index "mail_services", ["plan_id"], name: "index_mail_services_on_plan_id"
 
   create_table "mailboxes", force: :cascade do |t|
     t.integer  "number"
@@ -134,15 +144,23 @@ ActiveRecord::Schema.define(version: 20170905224420) do
     t.string   "payment_type"
     t.string   "paid_by"
     t.decimal  "average_monthly_payment"
+    t.datetime "next_invoice_date"
+  end
+
+  create_table "plan_categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "plans", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "stripe_id"
-    t.string   "category"
-    t.string   "category_order"
+    t.integer  "category_order"
+    t.string   "plan_category_id"
+    t.boolean  "deleted",          default: false
   end
 
   create_table "tasks", force: :cascade do |t|
