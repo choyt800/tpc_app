@@ -86,7 +86,9 @@
               <% end %>
             </td>
             <td><%= link_to 'Edit', edit_member_membership_path(@member, membership) %></td>
-            <td><%= link_to "Cancel", member_cancel_membership_path(@member, membership), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %></td></tr>
+            <% if membership.status == 'live' %>
+              <td><%= link_to "Cancel", member_cancel_membership_path(@member, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td></tr>
+            <% end %>
           <% end %>
         </table>
       <% end %>

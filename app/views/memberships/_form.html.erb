@@ -30,9 +30,11 @@
   </div>
 
   <div class="field">
+    <% default_payment_type = f.object.payment_type ? (f.object.payment_type[0] == 'P' ? "Check - #{f.object.payment_type}" : f.object.payment_type) : '' %>
     <%= f.label :payment_type %>
     <%= f.select(:payment_type, options_for_select([['Stripe', 'Stripe'], ['Check - Prepaid 3 Month', "Check - Prepaid 3 Month"],
-        ['Check - Prepaid 6 Month', "Check - Prepaid 6 Month"], ['Check - Prepaid 12 Month', "Check - Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
+        ['Check - Prepaid 6 Month', "Check - Prepaid 6 Month"], ['Check - Prepaid 12 Month', "Check - Prepaid 12 Month"], ['Month-to-month (legacy)', "Month-to-month"], ['N/A', "N/A"]],
+        :selected => default_payment_type), :prompt => true )%>
   </div>
 
   <div class="field">

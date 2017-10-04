@@ -46,7 +46,7 @@ class MembershipsController < ApplicationController
         )
 
         @membership.next_invoice_date = Time.at(stripe_sub.current_period_end).to_datetime
-      else
+      elsif @plan.stripe_id.present?
         @stripe_plan = Stripe::Plan.retrieve(@plan.stripe_id)
         start_date = params[:membership][:start_date] || Date.current
         plan_interval = @stripe_plan.interval
