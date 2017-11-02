@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170929210049) do
+ActiveRecord::Schema.define(version: 20171009190418) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -66,12 +66,14 @@ ActiveRecord::Schema.define(version: 20170929210049) do
     t.datetime "end_date"
     t.integer  "keycard_id"
     t.integer  "member_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "notes"
     t.string   "payment_type"
     t.datetime "next_invoice_date"
     t.integer  "plan_id"
+    t.string   "stripe_charge_id"
+    t.boolean  "stripe_charge_refunded", default: false
   end
 
   add_index "keycard_checkouts", ["plan_id"], name: "index_keycard_checkouts_on_plan_id"
