@@ -39,13 +39,13 @@
     <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
 
-  <% if @keycard_checkout.stripe_charge_id? && @keycard_checkout.stripe_charge_refunded %>
+  <% if @keycard_checkout.stripe_charge_id && @keycard_checkout.stripe_charge_refunded %>
     <div class="field">
       <%= "$25 Security Deposit refunded. (Stripe charge #{@keycard_checkout.stripe_charge_id})" %>
     </div>
-  <% elsif @keycard_checkout.stripe_charge_id? %>
+  <% elsif @keycard_checkout.stripe_charge_id %>
     <div class="field">
-      <%= f.label :refund, 'Refund $50 Security Deposit?' %>
+      <%= f.label :refund, 'Refund $25 Security Deposit?' %>
       <%= f.check_box :refund %>
     </div>
   <% else %>
