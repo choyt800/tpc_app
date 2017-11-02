@@ -19,10 +19,6 @@
       <%= keycard_form.text_field :number %>
     </div>
     <div class="field">
-      <%= f.label :plan_id %>
-      <%= f.select(:plan_id, options_from_collection_for_select(Plan.misc, :id, :name), prompt: true) %>
-    </div>
-    <div class="field">
       <%= f.label :payment_type %>
       <%= f.select(:payment_type, options_for_select([['Stripe', 'Stripe'], ['Check - Prepaid 3 Month', "Check - Prepaid 3 Month"],
           ['Check - Prepaid 6 Month', "Check - Prepaid 6 Month"], ['Check - Prepaid 12 Month', "Check - Prepaid 12 Month"], ['N/A', "N/A"]], :selected => f.object.payment_type), :prompt => true )%>
@@ -42,6 +38,23 @@
     <%= f.label :end_date %>
     <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
+
+  <% if @keycard_checkout.stripe_charge_id? && @keycard_checkout.stripe_charge_refunded %>
+    <div class="field">
+      <%= "$25 Security Deposit refunded. (Stripe charge #{@keycard_checkout.stripe_charge_id})" %>
+    </div>
+  <% elsif @keycard_checkout.stripe_charge_id? %>
+    <div class="field">
+      <%= f.label :refund, 'Refund $50 Security Deposit?' %>
+      <%= f.check_box :refund %>
+    </div>
+  <% else %>
+    <div class="field hidden">
+      <%= f.label :deposit, 'Charge $50 Security Deposit?' %>
+      <%= f.check_box :deposit %>
+    </div>
+  <% end %>
+  <br /><br /><br /><br /><br />
 
   <div class="actions">
     <%= f.submit data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>

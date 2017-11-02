@@ -37,34 +37,7 @@ class KeycardCheckoutsController < ApplicationController
         @keycard_checkout.keycard = existing_keycard
       end
 
-      @plan = Plan.find(params[:keycard_checkout][:plan_id])
-      if params[:keycard_checkout][:payment_type] == 'Stripe'
-        stripe_sub = Stripe::Subscription.create(
-          customer: @member.stripe_id,
-          :items => [
-            {
-              :plan => @plan.stripe_id,
-            },
-          ]
-        )
-        @keycard_checkout.next_invoice_date = Time.at(stripe_sub.current_period_end).to_datetime
-      else
-        @stripe_plan = Stripe::Plan.retrieve(@plan.stripe_id)
-        start_date = params[:keycard_checkout][:start_date] || Date.current
-        plan_interval = @stripe_plan.interval
-        plan_interval_count = @stripe_plan.interval_count
-        next_date = case plan_interval
-                    when 'day'
-                      start_date + plan_interval_count.days
-                    when 'week'
-                      start_date + plan_interval_count.weeks
-                    when 'month'
-                      start_date + plan_interval_count.months
-                    when 'year'
-                      start_date + plan_interval_count.years
-                    end
-        @keycard_checkout.next_invoice_date = next_date
-      end
+      charge_deposit if params[:keycard_checkout][:payment_type] == 'Stripe' && params[:keycard_checkout][:deposit] == '1'
 
       respond_to do |format|
         if @keycard_checkout.save
@@ -82,6 +55,9 @@ class KeycardCheckoutsController < ApplicationController
   # PATCH/PUT /keycard_checkouts/1.json
   def update
     respond_to do |format|
+      charge_deposit if @keycard_checkout.payment_type == 'Stripe' && params[:keycard_checkout][:deposit] == '1'
+      refund_deposit if @keycard_checkout.payment_type == 'Stripe' && params[:keycard_checkout][:refund] == '1'
+
       if @keycard_checkout.update(keycard_checkout_params)
         format.html { redirect_to @member, notice: 'keycard_checkouts record was successfully updated.' }
         format.json { render :show, status: :ok, location: @keycard_checkouts }
@@ -96,13 +72,6 @@ class KeycardCheckoutsController < ApplicationController
   # DELETE /keycard_checkouts/1.json
   def destroy
     ActiveRecord::Base.transaction do
-      if @keycard_checkout.payment_type == 'Stripe'
-        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
-        stripe_customer.subscriptions.each do |sub|
-          sub.delete if sub.plan.id == @keycard_checkout.plan.stripe_id
-        end
-      end
-
       @keycard_checkout.destroy
 
       respond_to do |format|
@@ -114,19 +83,10 @@ class KeycardCheckoutsController < ApplicationController
 
   # DELETE /keycard_checkouts/1/cancel
   def cancel
+    refund_deposit if @keycard_checkout.payment_type == 'Stripe'
+    @keycard_checkout.update_attributes!(end_date: Date.current)
+
     ActiveRecord::Base.transaction do
-      if @keycard_checkout.payment_type == 'Stripe'
-        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
-        stripe_customer.subscriptions.each do |sub|
-          sub.delete(at_period_end: true) if sub.plan.id == @keycard_checkout.plan.stripe_id
-          @end_date = sub.current_period_end
-        end
-
-        @keycard_checkout.end_date = Time.at(@end_date).to_date
-        @keycard_checkout.next_invoice_date = nil
-        @keycard_checkout.save!
-      end
-
       respond_to do |format|
         format.html { redirect_to @member, notice: 'Keycard checkout was successfully canceled.' }
         format.json { head :no_content }
@@ -149,5 +109,31 @@ class KeycardCheckoutsController < ApplicationController
       params.require(:keycard_checkout).permit(:start_date, :end_date, :keycard_id, :plan_id, :payment_type, member_attributes: [:id, :first_name, :last_name], keycard_attributes: [:number, :hours])
     end
 
+    def charge_deposit
+      # Create and charge deposit
+      stripe_deposit = Stripe::Charge.create(
+        :amount => 5000,
+        :currency => "usd",
+        :customer => @member.stripe_id,
+        :description => "Keycard Checkout Security Deposit"
+      )
+      @keycard_checkout.stripe_charge_id = stripe_deposit.id if stripe_deposit
+    end
+
+    def refund_deposit
+      puts '!!!!!'
+      puts 'In refund...'
+      unless @keycard_checkout.stripe_charge_refunded
+        puts 'No existing refunds...'
+        re = Stripe::Refund.create(
+          charge: @keycard_checkout.stripe_charge_id,
+          amount: 2500
+        )
+        puts "Refund created - #{re.inspect}"
+      end
+
+      @keycard_checkout.update_attributes(stripe_charge_refunded: true)
+      puts '!!!!!'
+    end
 
 end

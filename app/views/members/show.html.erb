@@ -128,13 +128,13 @@
         No keycard has been assigned.
       <% else %>
         <table class="table details-table">
-          <tr><th>Keycard #</th><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
+          <tr><th>Keycard #</th><th>Status</th><th>Payment Type</th><th>Security Deposit?</th><th>Start date</th><th>End date</th><th>Edit</th><th>Cancel</th></tr>
           <% @member.keycard_checkouts.each do |keycard_checkout| %>
             <tr>
-              <td><%= keycard_checkout.keycard.number %></td><td><%= keycard_checkout.plan.name if keycard_checkout.plan %></td>
+              <td><%= keycard_checkout.keycard.number %></td>
               <td><%= keycard_checkout.status %></td><td><%= keycard_checkout.payment_type %></td>
+              <td><%= keycard_checkout.stripe_charge_id ? "Yes - #{keycard_checkout.stripe_charge_refunded ? "refunded" : "not refunded"}" : "No" %></td>
               <td><%= keycard_checkout.start_date.to_date if keycard_checkout.start_date %></td><td><%= keycard_checkout.end_date.to_date if keycard_checkout.end_date %></td>
-              <td><%= keycard_checkout.next_invoice_date.to_date if keycard_checkout.next_invoice_date %></td>
               <td><%= link_to 'Edit', edit_member_keycard_checkout_path(@member, keycard_checkout) %></td>
               <td><%= link_to "Cancel", member_cancel_keycard_checkout_path(@member, keycard_checkout), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %></td>
             </tr>

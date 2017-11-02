@@ -8,6 +8,8 @@ class KeycardCheckout < ActiveRecord::Base
 
   accepts_nested_attributes_for :keycard
 
+  attr_accessor :deposit, :refund
+
   def status
     if end_date? && Date.current <= end_date
       "pending cancellation"
