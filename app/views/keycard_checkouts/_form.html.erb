@@ -45,8 +45,7 @@
     </div>
   <% elsif @keycard_checkout.stripe_charge_id %>
     <div class="field">
-      <%= f.label :refund, 'Refund $25 Security Deposit?' %>
-      <%= f.check_box :refund %>
+      <%= "$50 Security Deposit charged. (Stripe charge #{@keycard_checkout.stripe_charge_id})" %>
     </div>
   <% else %>
     <div class="field hidden">

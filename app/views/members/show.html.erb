@@ -136,7 +136,7 @@
               <td><%= keycard_checkout.stripe_charge_id ? "Yes - #{keycard_checkout.stripe_charge_refunded ? "refunded" : "not refunded"}" : "No" %></td>
               <td><%= keycard_checkout.start_date.to_date if keycard_checkout.start_date %></td><td><%= keycard_checkout.end_date.to_date if keycard_checkout.end_date %></td>
               <td><%= link_to 'Edit', edit_member_keycard_checkout_path(@member, keycard_checkout) %></td>
-              <td><%= link_to "Cancel", member_cancel_keycard_checkout_path(@member, keycard_checkout), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %></td>
+              <td><%= link_to "Cancel", member_cancel_keycard_checkout_path(@member, keycard_checkout), :method  => :delete, data: { confirm: "This will cancel the keycard #{'and refund $25 ' if keycard_checkout.stripe_charge_id}- are you sure you want to continue?" } %></td>
             </tr>
           <% end %>
         </table>
