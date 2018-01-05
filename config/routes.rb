@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   resources :admins, except: [:new, :create, :show]
   get '/inactive' => 'members#inactive'
   get '/counts' => 'members#counts'
+  post '/stripe' => 'stripe#webhook'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

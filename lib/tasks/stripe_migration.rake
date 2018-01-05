@@ -39,6 +39,68 @@ namespace :stripe_migration do
     end
   end
 
+  task update_member_next_invoice_date: :environment do
+    Stripe.api_key = ENV['SECRET_KEY']
+
+    puts "Updating Memberships..."
+    Membership.all.each do |mship|
+      puts "Looking at #{mship.id}"
+      if mship.payment_type == 'Stripe'
+        if mship.end_date.nil?
+          stripe_customer_id = mship.member.present? ? mship.member.stripe_id : mship.team.stripe_id
+          begin
+            stripe_sub = Stripe::Subscription.list(customer: stripe_customer_id, plan: mship.plan.stripe_id)
+          rescue Stripe::InvalidRequestError => e
+            puts "UH OH - something happened..."
+            puts e.message
+            next # skip to the next Membership
+          end
+
+          next_invoice_date = Time.at(stripe_sub['data'][0]['current_period_end'])
+
+          if mship.next_invoice_date != next_invoice_date
+            mship.update_attributes!(next_invoice_date: next_invoice_date)
+            puts "Updated #{mship.id} with #{next_invoice_date}"
+          else
+            puts "Did not need to update #{mship.id} - existing #{mship.next_invoice_date} matches new #{next_invoice_date}"
+          end
+        else
+          puts "Did not need to update #{mship.id} - end date is #{mship.end_date}"
+        end
+      else
+        puts "Did not need to update #{mship.id} - payment type is #{mship.payment_type}"
+      end
+    end
+
+    puts "Updating Mail Services..."
+    MailService.all.each do |ms|
+      if ms.payment_type == 'Stripe'
+        if ms.end_date.nil?
+          begin
+            stripe_sub = Stripe::Subscription.list(customer: ms.member.stripe_id, plan: ms.plan.stripe_id)
+          rescue Stripe::InvalidRequestError => e
+            puts "UH OH - something happened..."
+            puts e.message
+            next # skip to the next Mail Service
+          end
+
+          next_invoice_date = Time.at(stripe_sub['data'][0]['current_period_end'])
+
+          if ms.next_invoice_date != next_invoice_date
+            ms.update_attributes!(next_invoice_date: next_invoice_date)
+            puts "Updated #{ms.id} with #{next_invoice_date}"
+          else
+            puts "Did not need to update #{ms.id} - existing #{ms.next_invoice_date} matches new #{next_invoice_date}"
+          end
+        else
+          puts "Did not need to update #{ms.id} - end date is #{ms.end_date}"
+        end
+      else
+        puts "Did not need to update #{ms.id} - payment type is #{ms.payment_type}"
+      end
+    end
+  end
+
   task create_plan_categories: :environment do
     print 'Creating new Plan Categories'
     categories.each do |cat|
