@@ -19,10 +19,13 @@ class MembershipsController < ApplicationController
   def new
     @membership = @member.memberships.build
     @start_date = Date.current
+
+    @coupons = Stripe::Coupon.list(limit: 50)
   end
 
   # GET /memberships/1/edit
   def edit
+    @coupons = Stripe::Coupon.list(limit: 50)
   end
 
   # POST /memberships

@@ -59,7 +59,7 @@
 
   <div class="field hidden">
     <%= f.label :coupon %>
-    <%= f.text_field :coupon %>
+    <%= f.select :coupon, @coupons.collect {|c| c.id}, include_blank: true %>
   </div>
 
   <div class="field hidden">
