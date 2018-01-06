@@ -56,6 +56,8 @@ class Membership < ActiveRecord::Base
       "pending cancellation"
     elsif end_date?
       "cancelled"
+    elsif start_date? && Date.current <= start_date
+      "trialling"
     else
       "live"
     end

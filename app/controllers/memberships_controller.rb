@@ -50,9 +50,10 @@ class MembershipsController < ApplicationController
         )
 
         @membership.next_invoice_date = Time.at(stripe_sub.current_period_end).to_datetime
+        @membership.start_date = set_start_date
       elsif @plan.stripe_id.present?
         @stripe_plan = Stripe::Plan.retrieve(@plan.stripe_id)
-        start_date = params[:membership][:start_date] || Date.current
+        start_date = set_start_date
         plan_interval = @stripe_plan.interval
         plan_interval_count = @stripe_plan.interval_count
         next_date = case plan_interval
@@ -148,6 +149,14 @@ class MembershipsController < ApplicationController
 
     def set_trial_period_end_date
       (params[:membership][:trial_period_days].to_datetime + 12.hours).to_i
+    end
+
+    def set_start_date
+      if @trial_period_end == 'now'
+        return params[:membership][:start_date] || Date.current
+      else
+        return Time.at(@trial_period_end)
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

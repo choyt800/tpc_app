@@ -27,15 +27,21 @@ payment_type_conditional = ->
   if payment_type == 'Stripe'
     # Show trial period days
     # Hide average_monthly_payment
+    # Hide start and end dates
     $('#membership_trial_period_days').parent().removeClass('hidden');
     $('#membership_coupon').parent().removeClass('hidden');
     $('#membership_average_monthly_payment').parent().addClass('hidden');
+    $('#membership_start_date').parent().addClass('hidden');
+    $('#membership_end_date').parent().addClass('hidden');
   else
     # Hide trial period days
     # Show average_monthly_payment
+    # Show start and end dates
     $('#membership_trial_period_days').parent().addClass('hidden');
     $('#membership_coupon').parent().addClass('hidden');
     $('#membership_average_monthly_payment').parent().removeClass('hidden');
+    $('#membership_start_date').parent().removeClass('hidden');
+    $('#membership_end_date').parent().removeClass('hidden');
 
 handle_plan_category_change = ->
   plans = $('#membership_plan_id').html()
