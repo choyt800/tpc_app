@@ -37,12 +37,12 @@
         :selected => default_payment_type), :prompt => true )%>
   </div>
 
-  <div class="field">
+  <div class="field hidden">
     <%= f.label :start_date %>
     <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
 
-  <div class="field">
+  <div class="field hidden">
     <%= f.label :end_date %>
     <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
@@ -53,8 +53,8 @@
   </div>
 
   <div class="field hidden">
-    <%= f.label :trial_period_days %>
-    <%= f.number_field :trial_period_days, value: 0 %>
+    <%= f.label :trial_period_days, 'Trial Period End Date' %>
+    <%= f.text_field :trial_period_days %>
   </div>
 
   <div class="field hidden">

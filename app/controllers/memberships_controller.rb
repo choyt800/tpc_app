@@ -35,11 +35,12 @@ class MembershipsController < ApplicationController
       @membership = @member.memberships.build(membership_params)
       @plan = Plan.find(params[:membership][:plan_id])
       coupon = params[:membership][:coupon].present? ? params[:membership][:coupon] : nil
+      @trial_period_end = params[:membership][:trial_period_days].present? ? set_trial_period_end_date : 'now'
 
       if params[:membership][:payment_type] == 'Stripe'
         stripe_sub = Stripe::Subscription.create(
           customer: @member.stripe_id,
-          trial_period_days: params[:membership][:trial_period_days],
+          trial_end: @trial_period_end,
           coupon: coupon,
           :items => [
             {
@@ -145,6 +146,9 @@ class MembershipsController < ApplicationController
       @member = Member.find(params[:member_id])
     end
 
+    def set_trial_period_end_date
+      (params[:membership][:trial_period_days].to_datetime + 12.hours).to_i
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
