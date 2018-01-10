@@ -7,10 +7,11 @@
 
       <h1 class="member-name"> <%= @member.first_name  %> <%= @member.last_name %></h1>
 
-     <table class="table details-table">
-       <tr><th>Role</th><td><%= @member.role %></td></tr>
-       <tr><th>Email</th><td><%= @member.email %></td></tr>
-       <tr><th>Notes</th><td><%= @member.notes %></td></tr>
+      <table class="table details-table">
+        <tr><th>Role</th><td><%= @member.role %></td></tr>
+        <tr><th>Email</th><td><%= @member.email %></td></tr>
+        <tr><th>Notes</th><td><%= @member.notes %></td></tr>
+        <tr><th>Team</th><td><%= link_to @member.team.try(:name), team_path(@member.team) if @member.team %></td></tr>
      </table>
      <%= link_to 'Edit member details', edit_member_path, :class =>"button btn btn-default pad-5"%>
     </div>
@@ -50,6 +51,7 @@
           <tr><th>Credit Card Last Four</th><td><%= @stripe_card.last4 %></td></tr>
           <tr><th>Credit Card Expiration</th><td><%= @stripe_card.exp_month %> / <%= @stripe_card.exp_year %></td></tr>
         </table>
+
         <%= form_tag member_update_stripe_path(@member) do %>
           <%= hidden_field_tag :id, @member.id %>
           <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -63,6 +65,7 @@
                   data-locale="auto">
           </script>
         <% end %>
+      </table>
       <% end %>
       <br/>
       <br/>
@@ -97,54 +100,56 @@
       <%= link_to 'Add membership', new_member_membership_path(@member), :class =>"button btn btn-default pad-5" %>
     </div>
 
-    <div class="form-group">
-      <h2>Mail Service</h2>
+    <% unless @member.team %>
+      <div class="form-group">
+        <h2>Mail Service</h2>
 
-      <% if @member.mail_services.blank? %>
-        No mailbox has been assigned.
-      <% else %>
-        <table class="table details-table">
-          <tr><th>Mailbox #</th><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
-          <% @member.mail_services.each do |mail| %>
-            <tr>
-              <td><%= mail.mailbox.number %></td> <td><%= mail.plan.name if mail.plan %></td>
-              <td><%= mail.status %></td> <td><%= mail.payment_type %></td>
-              <td><%= mail.start_date.to_date if mail.start_date %></td><td><%= mail.end_date.to_date if mail.end_date %></td>
-              <td><%= mail.next_invoice_date.to_date if mail.next_invoice_date %></td>
-              <td><%= link_to 'Edit', edit_member_mail_service_path(@member, mail) %></td>
-              <td><%= link_to "Cancel", member_cancel_mail_service_path(@member, mail), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %></td>
-            </tr>
-          <% end %>
-        </table>
-      <% end %>
-      <br/>
-      <br/>
-      <%= link_to 'Add mailbox', new_member_mail_service_path(@member), :class =>"button btn btn-default pad-5" %>
-    </div>
+        <% if @member.mail_services.blank? %>
+          No mailbox has been assigned.
+        <% else %>
+          <table class="table details-table">
+            <tr><th>Mailbox #</th><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
+            <% @member.mail_services.each do |mail| %>
+              <tr>
+                <td><%= mail.mailbox.number %></td> <td><%= mail.plan.name if mail.plan %></td>
+                <td><%= mail.status %></td> <td><%= mail.payment_type %></td>
+                <td><%= mail.start_date.to_date if mail.start_date %></td><td><%= mail.end_date.to_date if mail.end_date %></td>
+                <td><%= mail.next_invoice_date.to_date if mail.next_invoice_date %></td>
+                <td><%= link_to 'Edit', edit_member_mail_service_path(@member, mail) %></td>
+                <td><%= link_to "Cancel", member_cancel_mail_service_path(@member, mail), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+        <br/>
+        <br/>
+        <%= link_to 'Add mailbox', new_member_mail_service_path(@member), :class =>"button btn btn-default pad-5" %>
+      </div>
 
-    <div class="form-group">
-      <h2>Keycards</h2>
-      <% if @member.keycard_checkouts.blank? %>
-        No keycard has been assigned.
-      <% else %>
-        <table class="table details-table">
-          <tr><th>Keycard #</th><th>Status</th><th>Payment Type</th><th>Security Deposit?</th><th>Start date</th><th>End date</th><th>Edit</th><th>Cancel</th></tr>
-          <% @member.keycard_checkouts.each do |keycard_checkout| %>
-            <tr>
-              <td><%= keycard_checkout.keycard.number %></td>
-              <td><%= keycard_checkout.status %></td><td><%= keycard_checkout.payment_type %></td>
-              <td><%= keycard_checkout.stripe_charge_id ? "Yes - #{keycard_checkout.stripe_charge_refunded ? "refunded" : "not refunded"}" : "No" %></td>
-              <td><%= keycard_checkout.start_date.to_date if keycard_checkout.start_date %></td><td><%= keycard_checkout.end_date.to_date if keycard_checkout.end_date %></td>
-              <td><%= link_to 'Edit', edit_member_keycard_checkout_path(@member, keycard_checkout) %></td>
-              <td><%= link_to "Cancel", member_cancel_keycard_checkout_path(@member, keycard_checkout), :method  => :delete, data: { confirm: "This will cancel the keycard #{'and refund $25 ' if keycard_checkout.stripe_charge_id}- are you sure you want to continue?" } %></td>
-            </tr>
-          <% end %>
-        </table>
-      <% end %>
-      <br/>
-      <br/>
-      <%= link_to 'Add keycard', new_member_keycard_checkout_path(@member), :class =>"button btn btn-default pad-5" %>
-    </div>
+      <div class="form-group">
+        <h2>Keycards</h2>
+        <% if @member.keycard_checkouts.blank? %>
+          No keycard has been assigned.
+        <% else %>
+          <table class="table details-table">
+            <tr><th>Keycard #</th><th>Status</th><th>Payment Type</th><th>Security Deposit?</th><th>Start date</th><th>End date</th><th>Edit</th><th>Cancel</th></tr>
+            <% @member.keycard_checkouts.each do |keycard_checkout| %>
+              <tr>
+                <td><%= keycard_checkout.keycard.number %></td>
+                <td><%= keycard_checkout.status %></td><td><%= keycard_checkout.payment_type %></td>
+                <td><%= keycard_checkout.stripe_charge_id ? "Yes - #{keycard_checkout.stripe_charge_refunded ? "refunded" : "not refunded"}" : "No" %></td>
+                <td><%= keycard_checkout.start_date.to_date if keycard_checkout.start_date %></td><td><%= keycard_checkout.end_date.to_date if keycard_checkout.end_date %></td>
+                <td><%= link_to 'Edit', edit_member_keycard_checkout_path(@member, keycard_checkout) %></td>
+                <td><%= link_to "Cancel", member_cancel_keycard_checkout_path(@member, keycard_checkout), :method  => :delete, data: { confirm: "This will cancel the keycard #{'and refund $25 ' if keycard_checkout.stripe_charge_id}- are you sure you want to continue?" } %></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+        <br/>
+        <br/>
+        <%= link_to 'Add keycard', new_member_keycard_checkout_path(@member), :class =>"button btn btn-default pad-5" %>
+      </div>
+    <% end %>
 
     <%= link_to 'View all members', members_path %>
 

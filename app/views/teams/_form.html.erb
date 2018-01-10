@@ -1,0 +1,57 @@
+<%= form_for(@team) do |f| %>
+  <% if @team.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@team.errors.count, "error") %> prohibited this team from being saved:</h2>
+
+      <ul>
+      <% @team.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class= "row">
+    <div class = "col-sm-12 form-group">
+
+      <div class="field">
+        <%= image_tag @team.avatar.url(:medium) %>
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar %>
+      </div>
+
+      <div class="field">
+        <% if @team.document?%>
+           <u><%= link_to "Yes ", @team.document.url, :class => "white"%></u>
+           <% else %>
+             "No agreement on file"
+        <% end %>
+        <%= f.label :document %>
+        <%= f.file_field :document %>
+      </div>
+
+      <div class="field">
+        <%= f.label :name, 'Team Name' %>
+        <%= f.text_field :name %>
+      </div>
+
+      <div class="field">
+        <%= f.label :owner, 'Billing Contact' %>
+        <%= f.text_field :owner %>
+      </div>
+
+      <div class="field">
+        <%= f.label :owner_email, "Billing Email" %>
+        <%= f.text_field :owner_email %>
+      </div>
+
+      <div class="field">
+        <%= f.label :notes %>
+        <%= f.text_area :notes %>
+      </div>
+
+      <%= f.submit "#{f.object.new_record? ? "Create" : "Update"} team", :class => 'button btn btn-default pad-5' %>
+
+    </div>
+  </div>
+<% end %>

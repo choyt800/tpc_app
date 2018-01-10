@@ -15,6 +15,18 @@ Rails.application.routes.draw do
     post 'link_stripe' => 'members#link_stripe'
     post 'update_stripe' => 'members#update_stripe'
   end
+  resources :teams do
+    resources :memberships, except: [:index]
+    resources :members, except: [:index]
+    delete 'memberships/:id/cancel' => 'memberships#cancel', as: 'cancel_membership'
+    resources :keycard_checkouts, except: [:index]
+    delete 'keycard_checkouts/:id/cancel' => 'keycard_checkouts#cancel', as: 'cancel_keycard_checkout'
+    resources :mail_services, except: [:index]
+    delete 'mail_services/:id/cancel' => 'mail_services#cancel', as: 'cancel_mail_service'
+    post 'create_stripe' => 'teams#create_stripe'
+    post 'link_stripe' => 'teams#link_stripe'
+    post 'update_stripe' => 'teams#update_stripe'
+  end
   resources :keycards
   resources :charges
   resources :checkins

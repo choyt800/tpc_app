@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009190418) do
+ActiveRecord::Schema.define(version: 20171129135231) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20171009190418) do
     t.integer  "plan_id"
     t.string   "stripe_charge_id"
     t.boolean  "stripe_charge_refunded", default: false
+    t.integer  "team_id"
   end
 
   add_index "keycard_checkouts", ["plan_id"], name: "index_keycard_checkouts_on_plan_id"
@@ -99,6 +100,7 @@ ActiveRecord::Schema.define(version: 20171009190418) do
     t.string   "payment_type"
     t.datetime "next_invoice_date"
     t.integer  "plan_id"
+    t.integer  "team_id"
   end
 
   add_index "mail_services", ["plan_id"], name: "index_mail_services_on_plan_id"
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(version: 20171009190418) do
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
     t.string   "stripe_id"
+    t.integer  "team_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -147,6 +150,7 @@ ActiveRecord::Schema.define(version: 20171009190418) do
     t.string   "paid_by"
     t.decimal  "average_monthly_payment"
     t.datetime "next_invoice_date"
+    t.integer  "team_id"
   end
 
   create_table "plan_categories", force: :cascade do |t|
@@ -172,6 +176,24 @@ ActiveRecord::Schema.define(version: 20171009190418) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "day"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.string   "owner"
+    t.string   "owner_email"
+    t.string   "stripe_id"
+    t.text     "notes"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string   "document_file_name"
+    t.string   "document_content_type"
+    t.integer  "document_file_size"
+    t.datetime "document_updated_at"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
 end

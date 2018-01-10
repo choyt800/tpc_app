@@ -1,104 +1,113 @@
+<%= form_for(@member) do |f| %>
+  <%= f.hidden_field :team_id, value: params[:team_id] %>
+  <% if @member.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@member.errors.count, "error") %> prohibited this member from being saved:</h2>
 
-    
-    <%= form_for(@member) do |f| %>
-      <% if @member.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@member.errors.count, "error") %> prohibited this member from being saved:</h2>
-    
-          <ul>
-          <% @member.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-          </ul>
-        </div>
+      <ul>
+      <% @member.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
-      
-    <div class= "row">
-      <div class = "col-sm-12 form-group">
-      
-      
-        <div class="field">
-          <%= image_tag @member.avatar.url(:medium) %>
-          <%= f.label :avatar %>
-          <%= f.file_field :avatar %>
-        </div>
-        
-         <div class="field">
-      
-       
-          <% if @member.document?%>
-             <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
-             <% else %>
-               "No agreement on file"
-          <% end %>
-          <%= f.label :document %>
-          <%= f.file_field :document %>
-          
-         </div>
-       
-      
-      </div>
+      </ul>
     </div>
-     <div class= "row">
-      <div class = "col-sm-12 form-group">
-    
-        <div class="field">
-          <%= f.label :first_name %>
-          <%= f.text_field :first_name %>
-        </div>
-        <div class="field">
-          <%= f.label :last_name %>
-          <%= f.text_field :last_name %>
-        </div>
-        <div class="field">
-          <%= f.label :email %>
-          <%= f.text_field :email %>
-        </div>
-      
-      </div>
-    </div>
-    
-    <div class= "row">
-      <div class = "col-sm-12 form-group">
-        <h3 class="uppercase">Member details</h3>
-        
-        
-         <div class="field">
-          <%= f.label :role %>
-          <%= f.select(:role, options_for_select([['Member', "Member"], ['Team', "Team"], ['Owner', "Owner"], ['Community Lead', "Community Lead"]], :selected => f.object.role), :prompt => true )%>
-        </div>
-       
-        
-      </div>
-    </div>
-    
-    <div class= "row">
-      <div class = "col-sm-12 form-group">
-        <h3 class="uppercase">Additional info</h3>
-      
-        <div class="field">
-          <%= f.label :phone %>
-          <%= f.text_field :phone %>
-        </div>
-        
-        <div class="field">
-          <%= f.label :company %>
-          <%= f.text_field :company %>
-        </div>
-        
-        <div class="field">
-          <%= f.label :notes %>
-          <%= f.text_area :notes %>
-        </div>
-        <br/>
-        
-        
-        <%= f.submit 'Create member', :class => 'button btn btn-default pad-5' %>
-        
-          
-      </div>
-    </div>
-    
-        
-    <% end %>
+  <% end %>
 
+<% unless @member.team || @team %>
+  <div class= "row">
+    <div class = "col-sm-12 form-group">
+
+      <div class="field">
+        <%= image_tag @member.avatar.url(:medium) %>
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar %>
+      </div>
+
+      <div class="field">
+        <% if @member.document?%>
+          <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
+        <% else %>
+          "No agreement on file"
+        <% end %>
+        <%= f.label :document %>
+        <%= f.file_field :document %>
+      </div>
+
+
+    </div>
+  </div>
+<% end %>
+
+<div class= "row">
+  <div class = "col-sm-12 form-group">
+
+    <div class="field">
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name %>
+    </div>
+    <div class="field">
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+    </div>
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </div>
+
+  </div>
+</div>
+
+<div class= "row">
+  <div class = "col-sm-12 form-group">
+    <h3 class="uppercase">Member details</h3>
+    <% if @team %>
+      <div class="field">
+        Assigned to Team <%= @team.name %>
+      </div>
+    <% elsif @member.team %>
+      <div class="field">
+        <%= label_tag 'Team' %>
+        <%= link_to @member.team.try(:name), team_path(@member.team) %>
+      </div>
+    <% else %>
+      <div class="field">
+        <%= f.label :role %>
+        <%= f.select(:role, options_for_select([['Member', "Member"], ['Owner', "Owner"], ['Community Lead', "Community Lead"]], :selected => f.object.role), :prompt => true )%>
+      </div>
+
+      <div class="field">
+        <%= f.label :team_id, 'Assign to Team' %>
+        <%= f.select(:team_id, Team.all.collect {|t| [t.name, t.id]}, include_blank: true) %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class= "row">
+  <div class = "col-sm-12 form-group">
+    <h3 class="uppercase">Additional info</h3>
+
+    <div class="field">
+      <%= f.label :phone %>
+      <%= f.text_field :phone %>
+    </div>
+
+    <div class="field">
+      <%= f.label :company %>
+      <%= f.text_field :company %>
+    </div>
+
+    <div class="field">
+      <%= f.label :notes %>
+      <%= f.text_area :notes %>
+    </div>
+    <br/>
+
+
+    <%= f.submit "#{f.object.new_record? ? "Create" : "Update"} member", :class => 'button btn btn-default pad-5' %>
+
+
+  </div>
+</div>
+
+
+<% end %>

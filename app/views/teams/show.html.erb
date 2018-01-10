@@ -1,0 +1,164 @@
+<div class="row">
+  <div class="col-sm-12 center-box field">
+    <p id="notice"><%= notice %></p>
+
+    <!-- Team Details -->
+    <div class="form-group">
+      <%= image_tag @team.avatar.url(:medium) %>
+      <h1 class="member-name"> <%= @team.name %></h1>
+
+      <table class="table details-table">
+        <tr><th>Billing Contact</th><td><%= @team.owner %></td></tr>
+        <tr><th>Billing Contact's Email</th><td><%= @team.owner_email %></td></tr>
+        <tr><th>Notes</th><td><%= @team.notes %></td></tr>
+      </table>
+     <%= link_to 'Edit team details', edit_team_path, :class =>"button btn btn-default pad-5"%>
+    </div>
+
+    <!-- Stripe Info -->
+    <div class="form-group">
+      <h2>Stripe Information</h2>
+      <% if @team.stripe_id.blank? %>
+        No Stripe ID found.
+        <br/>
+        <%= form_tag team_create_stripe_path(@team) do %>
+          <%= hidden_field_tag :id, @team.id %>
+          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                  data-name="Create new customer"
+                  data-description="Add customer to system"
+                  data-email="<%= @team.owner_email %>"
+                  data-allow-remember-me="false"
+                  data-panel-label="Create new customer"
+                  data-label="Create new customer"
+                  data-locale="auto">
+          </script>
+        <% end %>
+        <br/><br/>
+        <% if current_admin.super? %>
+          <%= form_tag team_link_stripe_path(@team) do %>
+            <%= hidden_field_tag :id, @team.id %>
+            <p>If the Team or Team Owner already has a Stripe Customer ID,<br/>copy and paste it here:</p>
+            <%= text_field_tag :stripe_id, nil, placeholder: 'cus_XXXXX' %>
+            <%= submit_tag 'Link', class: 'button btn btn-default', style: 'width: auto;' %>
+          <% end %>
+        <% end %>
+
+      <% else %>
+        <table class="table details-table">
+          <tr><th>Stripe ID</th><td><%= @team.stripe_id %></td></tr>
+          <tr><th>Credit Card Brand</th><td><%= @stripe_card.brand %></td></tr>
+          <tr><th>Credit Card Last Four</th><td><%= @stripe_card.last4 %></td></tr>
+          <tr><th>Credit Card Expiration</th><td><%= @stripe_card.exp_month %> / <%= @stripe_card.exp_year %></td></tr>
+        </table>
+        <%= form_tag team_update_stripe_path(@team) do %>
+          <%= hidden_field_tag :id, @team.id %>
+          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                  data-name="Update Credit Card"
+                  data-description="Update a Customer's Credit Card"
+                  data-email="<%= @team.owner_email %>"
+                  data-allow-remember-me="false"
+                  data-panel-label="Update Credit Card"
+                  data-label="Update Credit Card"
+                  data-locale="auto">
+          </script>
+        <% end %>
+      <% end %>
+      <br/>
+      <br/>
+    </div>
+
+    <!-- Team Members -->
+    <div class="form-group">
+      <h2>Team Members</h2>
+      <% if @team.members.blank? %>
+        No team members.
+      <% else %>
+        <% @team.members.each do |member| %>
+          <p><%= link_to "#{member.first_name} #{member.last_name}", member_path(member) %></p>
+        <% end %>
+      <% end %>
+      <br />
+      <br />
+      <%= link_to 'Add member', new_team_member_path(@team), :class => "button btn btn-default pad-5" %>
+    </div>
+
+    <!-- Team Memberships -->
+    <div class="form-group">
+      <h2>Membership history</h2>
+      <% if @team.memberships.blank? %>
+        No membership has been assigned.
+      <% else %>
+        <table class="table details-table">
+          <tr><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
+
+          <% @team.memberships.each do |membership| %>
+            <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
+            <td><%= link_to 'Edit', edit_member_membership_path(@team, membership) %></td>
+            <% if membership.status == 'live' %>
+              <td><%= link_to "Cancel", member_cancel_membership_path(@team, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td></tr>
+            <% end %>
+          <% end %>
+        </table>
+      <% end %>
+      <br/>
+      <br/>
+      <%= link_to 'Add membership', new_team_membership_path(@team), :class =>"button btn btn-default pad-5" %>
+    </div>
+
+    <!-- Mail Services -->
+    <div class="form-group">
+      <h2>Mail Service</h2>
+
+      <% if @team.mail_services.blank? %>
+        No mailbox has been assigned.
+      <% else %>
+        <table class="table details-table">
+          <tr><th>Mailbox #</th><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
+          <% @team.mail_services.each do |mail| %>
+            <tr>
+              <td><%= mail.mailbox.number %></td> <td><%= mail.plan.name if mail.plan %></td>
+              <td><%= mail.status %></td> <td><%= mail.payment_type %></td>
+              <td><%= mail.start_date.to_date if mail.start_date %></td><td><%= mail.end_date.to_date if mail.end_date %></td>
+              <td><%= mail.next_invoice_date.to_date if mail.next_invoice_date %></td>
+              <td><%= link_to 'Edit', edit_team_mail_service_path(@team, mail) %></td>
+              <td><%= link_to "Cancel", team_cancel_mail_service_path(@team, mail), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+      <br/>
+      <br/>
+      <%= link_to 'Add mailbox', new_team_mail_service_path(@team), :class =>"button btn btn-default pad-5" %>
+    </div>
+
+    <!-- Keycards -->
+    <div class="form-group">
+      <h2>Keycards</h2>
+      <% if @team.keycard_checkouts.blank? %>
+        No keycard has been assigned.
+      <% else %>
+        <table class="table details-table">
+          <tr><th>Keycard #</th><th>Status</th><th>Payment Type</th><th>Security Deposit?</th><th>Start date</th><th>End date</th><th>Edit</th><th>Cancel</th></tr>
+          <% @team.keycard_checkouts.each do |keycard_checkout| %>
+            <tr>
+              <td><%= keycard_checkout.keycard.number %></td>
+              <td><%= keycard_checkout.status %></td><td><%= keycard_checkout.payment_type %></td>
+              <td><%= keycard_checkout.stripe_charge_id ? "Yes - #{keycard_checkout.stripe_charge_refunded ? "refunded" : "not refunded"}" : "No" %></td>
+              <td><%= keycard_checkout.start_date.to_date if keycard_checkout.start_date %></td><td><%= keycard_checkout.end_date.to_date if keycard_checkout.end_date %></td>
+              <td><%= link_to 'Edit', edit_team_keycard_checkout_path(@team, keycard_checkout) %></td>
+              <td><%= link_to "Cancel", team_cancel_keycard_checkout_path(@team, keycard_checkout), :method  => :delete, data: { confirm: "This will cancel the keycard #{'and refund $25 ' if keycard_checkout.stripe_charge_id}- are you sure you want to continue?" } %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+      <br/>
+      <br/>
+      <%= link_to 'Add keycard', new_team_keycard_checkout_path(@team), :class =>"button btn btn-default pad-5" %>
+    </div>
+
+    <%= link_to 'View all teams', teams_path %>
+
+  </div>
+</div>

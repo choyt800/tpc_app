@@ -1,0 +1,8 @@
+<div class= "container">
+  <h2 class="default-title">Editing Team <span class="white"><%= @team.name %></span></h2>
+    <%= render 'form' %>
+
+    <%= link_to 'Show', @team %> |
+    <%= link_to 'Back', teams_path %> |
+    <%= link_to 'Destroy', @team, method: :delete, data: { confirm: 'Are you sure?  All associated memberships will be lost' } %>
+</div>

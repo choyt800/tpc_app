@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <h3><%= @member.full_name %></h3>
+  <h3><%= @member.try(:full_name) || "Team #{@member.try(:name)}" %></h3>
 
   <%= f.fields_for :keycard do |keycard_form| %>
     <div class="field">

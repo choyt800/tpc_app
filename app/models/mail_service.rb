@@ -1,5 +1,6 @@
 class MailService < ActiveRecord::Base
   belongs_to :member
+  belongs_to :team
   belongs_to :mailbox
   belongs_to :plan
 

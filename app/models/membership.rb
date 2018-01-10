@@ -1,9 +1,11 @@
 class Membership < ActiveRecord::Base
 
   belongs_to :member
+  belongs_to :team
   belongs_to :plan
 
-  validates :member_id, presence: true
+  validates :member_id, presence: true, unless: :team_id
+  validates :team_id, presence: true, unless: :member_id
   validates :plan_id, presence: true
   attr_accessor :plan_category_id, :trial_period_days, :coupon
 

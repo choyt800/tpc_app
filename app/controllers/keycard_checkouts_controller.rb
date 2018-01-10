@@ -1,5 +1,5 @@
 class KeycardCheckoutsController < ApplicationController
-  before_action :set_member, except: [:index]
+  before_action :set_member_or_team, except: [:index]
   before_action :set_keycard_checkouts, only: [:show, :edit, :update, :destroy, :cancel]
 
   # GET /keycard_checkouts
@@ -100,9 +100,9 @@ class KeycardCheckoutsController < ApplicationController
       @keycard_checkout = KeycardCheckout.find(params[:id])
     end
 
-     def set_member
-       @member = Member.find(params[:member_id])
-     end
+    def set_member_or_team
+      @member = params[:member_id] ? Member.find(params[:member_id]) : Team.find(params[:team_id])
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def keycard_checkout_params

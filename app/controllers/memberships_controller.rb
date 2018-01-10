@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :set_member, except: [:index]
+  before_action :set_member_or_team, except: [:index]
   before_action :set_membership, only: [:show, :edit, :update, :destroy, :cancel]
 
 
@@ -143,8 +143,8 @@ class MembershipsController < ApplicationController
       @membership = Membership.find(params[:id])
     end
 
-    def set_member
-      @member = Member.find(params[:member_id])
+    def set_member_or_team
+      @member = params[:member_id] ? Member.find(params[:member_id]) : Team.find(params[:team_id])
     end
 
     def set_trial_period_end_date

@@ -11,13 +11,15 @@
   </div>
   <% end %>
 
-  <h3><%= @member.full_name %></h3>
+  <h3><%= @member.try(:full_name) || "Team #{@member.try(:name)}" %></h3>
 
-  <div class="field">
-    <%= f.label :paid_by %>
-    <%= f.collection_select(:paid_by, Member.order("lower(last_name) ASC").all, :full_name, :full_name, :include_blank => true ) %>
-    <p>Leave blank unless paid on a group account</p>
-  </div>
+  <% if @member.instance_of?(Member) %>
+    <div class="field">
+      <%= f.label :paid_by %>
+      <%= f.collection_select(:paid_by, Member.order("lower(last_name) ASC").all, :full_name, :full_name, :include_blank => true ) %>
+      <p>Leave blank unless paid on a group account</p>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :plan_category_id %>
