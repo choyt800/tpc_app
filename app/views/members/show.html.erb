@@ -71,36 +71,36 @@
       <br/>
     </div>
 
-    <div class="form-group">
-      <h2>Membership history</h2>
-      <% if @member.memberships.blank? %>
-        No membership has been assigned.
-      <% else %>
-        <table class="table details-table">
-          <tr><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
-
-          <% @member.memberships.each do |membership| %>
-            <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
-            <td>
-              <% if @member.document?%>
-                <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
-              <% else %>
-                No
-              <% end %>
-            </td>
-            <td><%= link_to 'Edit', edit_member_membership_path(@member, membership) %></td>
-            <% if membership.status == 'live' %>
-              <td><%= link_to "Cancel", member_cancel_membership_path(@member, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td></tr>
-            <% end %>
-          <% end %>
-        </table>
-      <% end %>
-      <br/>
-      <br/>
-      <%= link_to 'Add membership', new_member_membership_path(@member), :class =>"button btn btn-default pad-5" %>
-    </div>
-
     <% unless @member.team %>
+      <div class="form-group">
+        <h2>Membership history</h2>
+        <% if @member.memberships.blank? %>
+          No membership has been assigned.
+        <% else %>
+          <table class="table details-table">
+            <tr><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
+
+            <% @member.memberships.each do |membership| %>
+              <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
+              <td>
+                <% if @member.document?%>
+                  <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
+                <% else %>
+                  No
+                <% end %>
+              </td>
+              <td><%= link_to 'Edit', edit_member_membership_path(@member, membership) %></td>
+              <% if membership.status == 'live' %>
+                <td><%= link_to "Cancel", member_cancel_membership_path(@member, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td></tr>
+              <% end %>
+            <% end %>
+          </table>
+        <% end %>
+        <br/>
+        <br/>
+        <%= link_to 'Add membership', new_member_membership_path(@member), :class =>"button btn btn-default pad-5" %>
+      </div>
+
       <div class="form-group">
         <h2>Mail Service</h2>
 

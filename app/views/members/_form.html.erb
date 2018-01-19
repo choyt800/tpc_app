@@ -12,7 +12,6 @@
     </div>
   <% end %>
 
-<% unless @member.team || @team %>
   <div class= "row">
     <div class = "col-sm-12 form-group">
 
@@ -22,20 +21,20 @@
         <%= f.file_field :avatar %>
       </div>
 
-      <div class="field">
-        <% if @member.document?%>
-          <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
-        <% else %>
-          "No agreement on file"
-        <% end %>
-        <%= f.label :document %>
-        <%= f.file_field :document %>
-      </div>
-
+      <% unless @member.team || @team %>
+        <div class="field">
+          <% if @member.document?%>
+            <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
+          <% else %>
+            "No agreement on file"
+          <% end %>
+          <%= f.label :document %>
+          <%= f.file_field :document %>
+        </div>
+      <% end %>
 
     </div>
   </div>
-<% end %>
 
 <div class= "row">
   <div class = "col-sm-12 form-group">

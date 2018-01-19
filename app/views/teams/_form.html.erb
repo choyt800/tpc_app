@@ -36,13 +36,18 @@
       </div>
 
       <div class="field">
-        <%= f.label :owner, 'Billing Contact' %>
+        <%= f.label :owner, 'Team Owner' %>
         <%= f.text_field :owner %>
       </div>
 
       <div class="field">
-        <%= f.label :owner_email, "Billing Email" %>
-        <%= f.text_field :owner_email %>
+        <%= f.label :member_email, "Member Email" %>
+        <%= f.text_field :member_email %>
+      </div>
+
+      <div class="field">
+        <%= f.label :billing_email, "Billing Email (optional)" %>
+        <%= f.text_field :billing_email %>
       </div>
 
       <div class="field">

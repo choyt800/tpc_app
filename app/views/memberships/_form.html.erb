@@ -55,8 +55,8 @@
   </div>
 
   <div class="field hidden">
-    <%= f.label :trial_period_days, 'Trial Period End Date' %>
-    <%= f.text_field :trial_period_days %>
+    <%= f.label :trial_period_days, 'First Bill Date' %>
+    <%= f.text_field :trial_period_days, value: Date.current %>
   </div>
 
   <div class="field hidden">

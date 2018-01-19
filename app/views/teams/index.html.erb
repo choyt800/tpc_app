@@ -6,8 +6,8 @@
       <thead class="tpc-head">
         <tr>
           <th>Name</th>
-          <th>Billing Contact</th>
-          <th>Billing Contact's Email</th>
+          <th>Team Owner</th>
+          <th>Contact Email</th>
           <th>Agreement On File</th>
           <th colspan='2'></th>
         </tr>
@@ -18,7 +18,7 @@
           <tr>
             <td><%= team.name %></td>
             <td><%= team.owner %></td>
-            <td><%= team.owner_email %></td>
+            <td><%= team.contact_email %></td>
             <td>
               <% if team.document?%>
                 <u><%= link_to "Yes ", team.document.url, :class => "white"%></u>
