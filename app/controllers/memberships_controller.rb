@@ -148,7 +148,11 @@ class MembershipsController < ApplicationController
     end
 
     def set_trial_period_end_date
-      (params[:membership][:trial_period_days].to_datetime + 12.hours).to_i
+      if params[:membership][:trial_period_days] == Date.current.to_s(:d)
+        'now'
+      else
+        (params[:membership][:trial_period_days].to_datetime + 12.hours).to_i
+      end
     end
 
     def set_start_date
