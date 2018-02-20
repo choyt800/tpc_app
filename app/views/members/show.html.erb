@@ -1,11 +1,13 @@
-<div class="row">
-  <div class="col-sm-12 center-box field">
-    <p id="notice"><%= notice %></p>
-
     <div class="form-group">
+      <p id="notice"><%= notice %></p>
+      <div class="breadcrumbs">
+        <%= link_to 'App home', page_path('management') %> / <%= link_to 'Members Directory', members_path %> / <strong> Member Profile </strong>
+      </div>
+      <h1 class="member-name"> <%= @member.first_name  %> <%= @member.last_name %></h1>
+      
       <%= image_tag @member.avatar.url(:medium) %>
 
-      <h1 class="member-name"> <%= @member.first_name  %> <%= @member.last_name %></h1>
+      
 
       <table class="table details-table">
         <tr><th>Role</th><td><%= @member.role %></td></tr>
@@ -153,5 +155,5 @@
 
     <%= link_to 'View all members', members_path %>
 
-  </div>
-</div>
+  
+

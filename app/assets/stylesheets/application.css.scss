@@ -13,8 +13,8 @@
  *= require_tree .
  *= require_self
  *= require jquery-ui
+ *= require material_icons
  */
 
-
-@import "bootstrap-sprockets";
 @import "bootstrap";
+@import 'navbar-fixed-side';

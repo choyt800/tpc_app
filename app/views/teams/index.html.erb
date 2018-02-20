@@ -1,10 +1,13 @@
-<p id="notice"><%= notice %></p>
 
-<h2 class="default-title uppercase">Listing Teams</h2>
+
+<div class="form-group">
+<p id="notice"><%= notice %></p>
+<h2 class="default-title"><i class="material-icons">group </i> Active Teams</h2>
 
     <table class="table table-condensed">
       <thead class="tpc-head">
         <tr>
+          <th>Logo</th>
           <th>Name</th>
           <th>Team Owner</th>
           <th>Contact Email</th>
@@ -16,12 +19,13 @@
       <tbody>
         <% @teams.each do |team| %>
           <tr>
+            <td><%= image_tag team.avatar.url(:thumb) %></td>
             <td><%= team.name %></td>
             <td><%= team.owner %></td>
             <td><%= team.contact_email %></td>
             <td>
               <% if team.document?%>
-                <u><%= link_to "Yes ", team.document.url, :class => "white"%></u>
+                <u><%= link_to "Yes ", team.document.url %></u>
               <% else %>
                 No
               <% end %>
@@ -35,3 +39,4 @@
 <br>
 
 <%= link_to 'Create New Team', new_team_path, :class =>"button btn btn-default pad-5" %>
+</div>

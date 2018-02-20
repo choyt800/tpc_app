@@ -1,12 +1,17 @@
-<div class= "container">
 
-  <h2 class="default-title">Editing Member <span class="white"><%= @member.full_name %></span></h2>
+<div class= "form-group">
+  <div class="breadcrumbs">
+    <%= link_to 'App home', page_path('management') %> / <%= link_to 'Members Directory', members_path %> / <%= link_to 'Member Profile', member_path %> / <strong> Edit Member Details </strong> 
+  </div>
+  
         
-   
+     <h1 class="member-name"> <%= @member.first_name  %> <%= @member.last_name %></h1>
+     <p>Edit Details</p>
      <%= render 'form' %>
       
     
     <%= link_to 'Show', @member %> |
     <%= link_to 'Back', members_path %> |
     <%= link_to 'Destroy', @member, method: :delete, data: { confirm: 'Are you sure?  All associated keys, memberships, and checkins will be lost' } %>
+
 </div>

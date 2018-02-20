@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails',        '4.2.3'
-gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap-sass', '~> 3.3.7'
 gem 'sass-rails',   '5.0.6'
 gem 'uglifier',     '2.5.3'
 gem 'coffee-rails', '4.1.0'
@@ -20,6 +20,7 @@ gem "high_voltage"
 gem 'typekit-rails'
 gem 'devise'
 gem 'devise_invitable'
+gem 'material_icons'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
