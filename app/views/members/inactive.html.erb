@@ -13,9 +13,9 @@
             <th>Company</th>
             <th>Team</th>
             <th>Email</th>
-            <th>Notes</th>
             <th>Agreement</th>
             <th>Current membership</th>
+            <th>Mail service</th>
             <th>Edit</th>
         </tr>
       </thead>
@@ -24,20 +24,22 @@
         <% @members.inactive.each do |member| %>
           <tr>
             <td><%= image_tag member.avatar.url(:thumb) %></td>
-            <td><strong><%= member.first_name %></strong></td>
-            <td><strong><%= member.last_name %></strong></td>
+           <td><strong><%= member.first_name %></strong> <br/><strong><%= member.last_name %></strong>
+            </td>
             <td><%= member.role %></td>
             <td><%= member.company %></td>
+            <td><%= member.team ? link_to(member.team.name, member.team) : '' %></td>
             <td><%= member.email %></td>
+            <td>
+               <% if member.document?%>
+                   <u><%= link_to "Yes ", member.document.url %></u>
+                   <% else %>
+                     No
+                <% end %>
+            </td>
        
       
-            <td><%= if member.has_mail_service
-                        member.mailbox_number
-                    else
-                        "No mail"
-                    end
-                        %></td>
-            <td><%= member.notes %></td>
+           
             <td>
                 <% if member.memberships.blank? %>
                     No membership has been assigned.
@@ -51,6 +53,13 @@
                    
                 </ul>
                 <% end %>
+            </td>
+             <td><%= if member.has_mail_service
+                        member.mailbox_number
+                    else
+                        "No mail"
+                    end
+                        %>
             </td>
             <td><%= link_to 'Edit Member', member, :class =>"button btn btn-default pad-5"  %></td>
             
