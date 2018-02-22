@@ -6,9 +6,7 @@ gem 'sass-rails',   '5.0.6'
 gem 'uglifier',     '2.5.3'
 gem 'coffee-rails', '4.1.0'
 gem 'jquery-rails', '4.0.3'
-gem 'jquery-ui-rails', '5.0.5'
 gem 'turbolinks',   '2.3.0'
-gem 'jquery-turbolinks'
 gem 'jbuilder',     '2.2.3'
 gem 'sdoc',         '0.4.0', group: :doc
 gem "stripe"
@@ -21,6 +19,7 @@ gem 'typekit-rails'
 gem 'devise'
 gem 'devise_invitable'
 gem 'material_icons'
+gem 'jquery-datatables'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
@@ -36,3 +35,4 @@ group :production do
 end
 
 ruby "2.2.1"
+

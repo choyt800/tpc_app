@@ -1,0 +1,56 @@
+@import 'datatables/jquery.dataTables';
+
+// optional remove '//=' to enable
+
+//@import 'datatables/extensions/AutoFill/autoFill.dataTables';
+//@import 'datatables/extensions/Buttons/buttons.dataTables';
+//@import 'datatables/extensions/ColReorder/colReorder.dataTables';
+//@import 'datatables/extensions/FixedColumns/fixedColumns.dataTables';
+//@import 'datatables/extensions/FixedHeader/fixedHeader.dataTables';
+//@import 'datatables/extensions/KeyTable/keyTable.dataTables';
+//@import 'datatables/extensions/Responsive/responsive.dataTables';
+//@import 'datatables/extensions/RowGroup/rowGroup.dataTables';
+//@import 'datatables/extensions/RowReorder/rowReorder.dataTables';
+//@import 'datatables/extensions/Scroller/scroller.dataTables';
+//@import 'datatables/extensions/Select/select.dataTables';
+
+
+// fix image asset url
+table.dataTable thead .sorting {
+  background-image: image-url("datatables/sort_both.png");
+}
+table.dataTable thead .sorting_asc {
+  background-image: image-url("datatables/sort_asc.png");
+}
+table.dataTable thead .sorting_desc {
+  background-image: image-url("datatables/sort_desc.png");
+}
+table.dataTable thead .sorting_asc_disabled {
+  background-image: image-url("datatables/sort_asc_disabled.png");
+}
+table.dataTable thead .sorting_desc_disabled {
+  background-image: image-url("datatables/sort_desc_disabled.png");
+}
+
+th.sorting {
+  text-align: center;
+}
+
+
+#datatable_filter {
+  float: left;
+  text-align: left;
+  font-size: 12pt;
+  font-family: 'Garamond';
+  
+  input {
+    box-shadow: none;
+    padding: 6px 14px 6px 30px;
+    margin-top: 16px;
+    outline: 0;
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 350px;
+  }
+ 
+}

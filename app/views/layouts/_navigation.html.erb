@@ -10,18 +10,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><%= image_tag("logo-white.png", :alt => "brandy") %></a>
+          <a class="navbar-brand" href="#"><%= image_tag("Logo-lockup-tagline-white.png", :alt => "brandy") %></a>
           
         </div>
     
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            
             <li><a href="/management">Dashboard</a></li>
             <li><a href="#"><strong> Members </strong></a>
                  <ul>
-                     <li><a href="/members">View Active</a></li>
+                     <li><%= link_to "View Active", members_path %></li>
                      <li><a href="/inactive">View Inactive</a></li>
                      <li><a href="/members/new">Create New</a></li>
                 </ul>
