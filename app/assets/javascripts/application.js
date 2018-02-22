@@ -15,7 +15,6 @@
 //= require datatables
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require typekit
 //= require_tree .
 
 

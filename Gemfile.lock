@@ -92,6 +92,8 @@ GEM
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
+    google-webfonts-rails (0.0.4)
+      activesupport (> 3.2.0, < 5.0)
     high_voltage (3.0.0)
     i18n (0.8.6)
     jbuilder (2.2.3)
@@ -204,7 +206,6 @@ GEM
     tilt (2.0.8)
     turbolinks (2.3.0)
       coffee-rails
-    typekit-rails (0.0.4)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     uglifier (2.5.3)
@@ -229,6 +230,7 @@ DEPENDENCIES
   devise
   devise_invitable
   dotenv-rails
+  google-webfonts-rails (~> 0.0.4)
   high_voltage
   jbuilder (= 2.2.3)
   jquery-datatables
@@ -246,6 +248,5 @@ DEPENDENCIES
   stripe
   stripe_event
   turbolinks (= 2.3.0)
-  typekit-rails
   uglifier (= 2.5.3)
   web-console (= 2.0.0.beta3)

@@ -15,11 +15,11 @@ gem "paperclip", "~> 5.0.0.beta1"
 gem 'paperclip-ghostscript', '~> 0.1.0'
 gem 'aws-sdk', '>= 2.0.34'
 gem "high_voltage"
-gem 'typekit-rails'
 gem 'devise'
 gem 'devise_invitable'
 gem 'material_icons'
 gem 'jquery-datatables'
+gem 'google-webfonts-rails', '~> 0.0.4'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
