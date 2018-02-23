@@ -77,7 +77,7 @@
         No team members.
       <% else %>
         <% @team.members.each do |member| %>
-          <p><%= link_to "#{member.first_name} #{member.last_name}", member_path(member) %></p>
+          <p class="<%= 'strikethrough' unless member.team_active %>"><%= link_to "#{member.first_name} #{member.last_name}", member_path(member) %></p>
         <% end %>
       <% end %>
       <br />

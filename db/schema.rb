@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180117164016) do
+ActiveRecord::Schema.define(version: 20180223223336) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20180117164016) do
     t.string   "stripe_customer_id",    limit: 50
     t.string   "stripe_id"
     t.integer  "team_id"
+    t.boolean  "team_active",           default: true
   end
 
   create_table "memberships", force: :cascade do |t|

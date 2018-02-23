@@ -64,9 +64,21 @@
         Assigned to Team <%= @team.name %>
       </div>
     <% elsif @member.team %>
+      <%= f.hidden_field :team_id, value: @member.team.id %>
       <div class="field">
         <%= label_tag 'Team' %>
         <%= link_to @member.team.try(:name), team_path(@member.team) %>
+      </div>
+      <div class="field">
+        <%= label_tag 'Active on Team' %>
+        <p>
+          <%= f.radio_button :team_active, true %>
+          Active
+        </p>
+        <p>
+          <%= f.radio_button :team_active, false %>
+          Inactive
+        </p>
       </div>
     <% else %>
       <div class="field">
