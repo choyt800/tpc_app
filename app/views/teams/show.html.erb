@@ -96,9 +96,9 @@
 
           <% @team.memberships.each do |membership| %>
             <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
-            <td><%= link_to 'Edit', edit_member_membership_path(@team, membership) %></td>
+            <td><%= link_to 'Edit', edit_team_membership_path(@team, membership) %></td>
             <% if membership.status == 'live' %>
-              <td><%= link_to "Cancel", member_cancel_membership_path(@team, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td></tr>
+              <td><%= link_to "Cancel", team_cancel_membership_path(@team, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td></tr>
             <% end %>
           <% end %>
         </table>
