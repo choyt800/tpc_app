@@ -38,13 +38,13 @@
         ['Check - Prepaid 6 Month', "Check - Prepaid 6 Month"], ['Check - Prepaid 12 Month', "Check - Prepaid 12 Month"], ['Month-to-month (legacy)', "Month-to-month"], ['N/A', "N/A"]],
         :selected => default_payment_type), :prompt => true )%>
   </div>
-
-  <div class="field hidden">
+  <p>LEGACY MEMBERSHIPS ONLY - DON'T USE</p>
+  <div class="field">
     <%= f.label :start_date %>
     <%= f.date_select :start_date, { :default => @start_date, :include_blank=> @start_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>
-
-  <div class="field hidden">
+  <p>LEGACY MEMBERSHIPS ONLY - DON'T USE</p>
+  <div class="field">
     <%= f.label :end_date %>
     <%= f.date_select :end_date, { :default => @end_date, :include_blank=> @end_date.nil? }, :ampm => true, :discard_hours => true  %>
   </div>

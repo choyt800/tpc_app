@@ -116,8 +116,8 @@ ActiveRecord::Schema.define(version: 20180223223336) do
     t.string   "last_name"
     t.string   "email"
     t.text     "notes"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "status"
     t.boolean  "has_mail_service"
     t.string   "mailbox_number"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20180223223336) do
     t.string   "stripe_customer_id",    limit: 50
     t.string   "stripe_id"
     t.integer  "team_id"
-    t.boolean  "team_active",           default: true
+    t.boolean  "team_active",                      default: true
   end
 
   create_table "memberships", force: :cascade do |t|
