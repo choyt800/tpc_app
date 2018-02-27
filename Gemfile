@@ -20,6 +20,8 @@ gem 'devise_invitable'
 gem 'material_icons'
 gem 'jquery-datatables'
 gem 'google-webfonts-rails', '~> 0.0.4'
+gem 'jquery-turbolinks'
+gem 'jquery-ui-rails'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
