@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180223223336) do
+ActiveRecord::Schema.define(version: 20180309191128) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -59,6 +59,14 @@ ActiveRecord::Schema.define(version: 20180223223336) do
     t.integer  "member_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "custom_subscriptions", force: :cascade do |t|
+    t.integer  "member_id"
+    t.integer  "team_id"
+    t.string   "stripe_id"
+    t.datetime "next_invoice_date"
+    t.text     "notes"
   end
 
   create_table "keycard_checkouts", force: :cascade do |t|

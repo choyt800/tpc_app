@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   resources :keycard_checkouts, only: [:index]
   resources :mail_services, only: [:index]
   resources :memberships, only: [:index]
+  resources :custom_subscriptions
   resources :members do
     resources :memberships, except: [:index]
+    resources :custom_subscriptions
     delete 'memberships/:id/cancel' => 'memberships#cancel', as: 'cancel_membership'
     resources :keycard_checkouts, except: [:index]
     delete 'keycard_checkouts/:id/cancel' => 'keycard_checkouts#cancel', as: 'cancel_keycard_checkout'
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
   end
   resources :teams do
     resources :memberships, except: [:index]
+    resources :custom_subscriptions
     resources :members, except: [:index]
     delete 'memberships/:id/cancel' => 'memberships#cancel', as: 'cancel_membership'
     resources :keycard_checkouts, except: [:index]
