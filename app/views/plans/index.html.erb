@@ -9,6 +9,12 @@
       <li class="ui-state-default" id="<%= plan.id %>">
         <p>
           <strong><%= plan.name %></strong>
+          <% if plan.amount %>
+            <span>&nbsp;|&nbsp;</span>
+            <span><%= plan.pretty_display %></span>
+          <% end %>
+        </p>
+        <p>
           <span><%= link_to 'Show', plan %></span>
           <span><%= link_to 'Edit', edit_plan_path(plan) %></span>
           <span><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></span>
