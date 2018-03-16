@@ -105,7 +105,13 @@
                 <% end %>
               </td>
               <% if current_admin.super? %>
-                <td><%= link_to membership.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{membership.stripe_sub_id}", target: :_blank %></td>
+                <td>
+                  <% if membership.stripe_sub_id %>
+                    <%= link_to membership.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{membership.stripe_sub_id}", target: :_blank %>
+                  <% else %>
+                    No Stripe Subscription ID.
+                  <% end %>
+                </td>
               <% end %>
               </tr>
             <% end %>
@@ -138,7 +144,12 @@
                   <% end %>
                 </td>
                 <% if current_admin.super? %>
-                  <td><%= link_to mail.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{mail.stripe_sub_id}", target: :_blank %></td>
+                  <td>
+                    <% if mail.stripe_sub_id %>
+                      <%= link_to mail.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{mail.stripe_sub_id}", target: :_blank %></td>
+                    <% else %>
+                      No Stripe Subscription ID.
+                    <% end %>
                 <% end %>
               </tr>
             <% end %>
