@@ -38,6 +38,7 @@ class MailServicesController < ApplicationController
             },
           ]
         )
+        @mail_service.stripe_sub_id = stripe_sub.id
         @mail_service.next_invoice_date = Time.at(stripe_sub.current_period_end).to_datetime
       else
         @stripe_plan = Stripe::Plan.retrieve(@plan.stripe_id)
@@ -88,10 +89,8 @@ class MailServicesController < ApplicationController
   def destroy
     ActiveRecord::Base.transaction do
       if @mail_service.payment_type == 'Stripe'
-        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
-        stripe_customer.subscriptions.each do |sub|
-          sub.delete if sub.plan.id == @mail_service.plan.stripe_id
-        end
+        stripe_sub = Stripe::Subscription.retrieve(@mail_service.stripe_sub_id)
+        stripe_sub.delete
       end
 
       @mail_service.destroy
@@ -107,11 +106,9 @@ class MailServicesController < ApplicationController
   def cancel
     ActiveRecord::Base.transaction do
       if @mail_service.payment_type == 'Stripe'
-        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
-        stripe_customer.subscriptions.each do |sub|
-          sub.delete(at_period_end: true) if sub.plan.id == @mail_service.plan.stripe_id
-          @end_date = sub.current_period_end
-        end
+        stripe_sub = Stripe::Subscription.retrieve(@mail_service.stripe_sub_id)
+        stripe_sub.delete(at_period_end: true)
+        @end_date = stripe_sub.current_period_end
 
         @mail_service.end_date = Time.at(@end_date).to_date
       else

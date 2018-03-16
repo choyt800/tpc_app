@@ -49,6 +49,7 @@ class MembershipsController < ApplicationController
           ]
         )
 
+        @membership.stripe_sub_id = stripe_sub.id
         @membership.next_invoice_date = Time.at(stripe_sub.current_period_end).to_datetime
         @membership.start_date = set_start_date
       elsif @plan.stripe_id.present?
@@ -100,10 +101,8 @@ class MembershipsController < ApplicationController
   def destroy
     ActiveRecord::Base.transaction do
       if @membership.payment_type == 'Stripe'
-        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
-        stripe_customer.subscriptions.each do |sub|
-          sub.delete if sub.plan.id == @membership.plan.stripe_id
-        end
+        stripe_sub = Stripe::Subscription.retrieve(@membership.stripe_sub_id)
+        stripe_sub.delete
       end
 
       @membership.destroy
@@ -119,16 +118,17 @@ class MembershipsController < ApplicationController
   def cancel
     ActiveRecord::Base.transaction do
       if @membership.payment_type == 'Stripe'
-        stripe_customer = Stripe::Customer.retrieve(@member.stripe_id)
-        stripe_customer.subscriptions.each do |sub|
-          sub.delete(at_period_end: true) if sub.plan.id == @membership.plan.stripe_id
-          @end_date = sub.current_period_end
-        end
+        stripe_sub = Stripe::Subscription.retrieve(@membership.stripe_sub_id)
+        stripe_sub.delete(at_period_end: true)
+        @end_date = stripe_sub.current_period_end
 
         @membership.end_date = Time.at(@end_date).to_date
-        @membership.next_invoice_date = nil
-        @membership.save!
+      else
+        @membership.end_date = Date.current
       end
+
+      @membership.next_invoice_date = nil
+      @membership.save!
 
       respond_to do |format|
         format.html { redirect_to @member, notice: 'Membership was successfully canceled.' }
