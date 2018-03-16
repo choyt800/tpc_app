@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180309214522) do
+ActiveRecord::Schema.define(version: 20180316170156) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -101,6 +101,8 @@ ActiveRecord::Schema.define(version: 20180309214522) do
     t.datetime "next_invoice_date"
     t.integer  "plan_id"
     t.integer  "team_id"
+    t.string   "stripe_sub_id"
+    t.integer  "invoice_amount"
   end
 
   add_index "mail_services", ["plan_id"], name: "index_mail_services_on_plan_id"
@@ -153,6 +155,8 @@ ActiveRecord::Schema.define(version: 20180309214522) do
     t.decimal  "average_monthly_payment"
     t.datetime "next_invoice_date"
     t.integer  "team_id"
+    t.string   "stripe_sub_id"
+    t.integer  "invoice_amount"
   end
 
   create_table "plan_categories", force: :cascade do |t|
