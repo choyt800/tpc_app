@@ -13,4 +13,9 @@ class MailService < ActiveRecord::Base
       "live"
     end
   end
+
+  def pretty_invoice_amount
+    return 'n/a' unless invoice_amount
+    '$' + '%.2f' % (invoice_amount / 100.0)
+  end
 end
