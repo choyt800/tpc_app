@@ -7,25 +7,21 @@ class StripeController < ApplicationController
 
     if event_type == "invoice.payment_succeeded"
       event_data = params[:data][:object]
-      event_customer = event_data[:customer]
-      event_plan_id = event_data[:lines][:data][0][:plan][:id]
+      event_subscription = event_data[:subscription]
       event_period_end = event_data[:period_end]
+      event_amount_due = event_data[:amount_due]
 
-      member = Member.find_by(stripe_id: event_customer)
-      plan = Plan.find_by(stripe_id: event_plan_id)
+      membership = Membership.find_by(stripe_sub_id: event_subscription)
+      mail_service = MailService.find_by(stripe_sub_id: event_subscription)
 
-      if member
-        if membership = member.memberships.where(plan_id: plan.id).first
-          membership.update_attributes!(next_invoice_date: Time.at(event_period_end))
-          puts "Updated membership #{membership.id} with Next Invoice Date of #{Time.at(event_period_end)}"
-        elsif mail_service = member.mail_services.where(plan_id: plan.id).first
-          mail_service.update_attributes!(next_invoice_date: Time.at(event_period_end))
-          puts "Updated mail service #{mail_service.id} with Next Invoice Date of #{Time.at(event_period_end)}"
-        else
-          puts "No membership or mail service found for Stripe Customer #{event_customer} and plan #{event_plan_id}"
-        end
+      if membership
+        membership.update_attributes!(next_invoice_date: Time.at(event_period_end), invoice_amount: event_amount_due)
+        puts "Updated membership #{membership.id} with Next Invoice Date of #{Time.at(event_period_end)} and Invoice Amount of #{event_amount_due}"
+      elsif mail_service
+        mail_service.update_attributes!(next_invoice_date: Time.at(event_period_end), invoice_amount: event_amount_due)
+        puts "Updated mail service #{mail_service.id} with Next Invoice Date of #{Time.at(event_period_end)} and Invoice Amount of #{event_amount_due}"
       else
-        puts "No member found with Stripe ID #{event_customer}"
+        puts "No membership or mail service found with Stripe Sub ID #{event_subscription}"
       end
     end
 

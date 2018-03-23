@@ -4,10 +4,10 @@
         <%= link_to 'App home', page_path('management') %> / <%= link_to 'Members Directory', members_path %> / <strong> Member Profile </strong>
       </div>
       <h1 class="member-name"> <%= @member.first_name  %> <%= @member.last_name %></h1>
-      
+
       <%= image_tag @member.avatar.url(:medium) %>
 
-      
+
 
       <table class="table details-table">
         <tr><th>Role</th><td><%= @member.role %></td></tr>
@@ -55,7 +55,7 @@
 
       <% else %>
         <table class="table details-table">
-          <tr><th>Stripe ID</th><td><%= @member.stripe_id %></td></tr>
+          <tr><th>Stripe ID</th><td><%= current_admin.super? ? link_to(@member.stripe_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}customers/#{@member.stripe_id}", target: :_blank) : @member.stripe_id %></td></tr>
           <tr><th>Credit Card Brand</th><td><%= @stripe_card.brand %></td></tr>
           <tr><th>Credit Card Last Four</th><td><%= @stripe_card.last4 %></td></tr>
           <tr><th>Credit Card Expiration</th><td><%= @stripe_card.exp_month %> / <%= @stripe_card.exp_year %></td></tr>
@@ -80,17 +80,17 @@
       <br/>
     </div>
 
-    <% unless @member.team %>
+    <% if !@member.team || current_admin.super? %>
       <div class="form-group">
-        <h2>Membership history</h2>
+        <h2>Membership history <%= "(Super Admins only)" if current_admin.super? && @member.team %></h2>
         <% if @member.memberships.blank? %>
           No membership has been assigned.
         <% else %>
           <table class="table details-table">
-            <tr><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
+            <tr><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Invoice Amount</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th><% if current_admin.super? %><th>Stripe Link</th><% end %></tr>
 
             <% @member.memberships.each do |membership| %>
-              <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
+              <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.pretty_invoice_amount %></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
               <td>
                 <% if @member.document?%>
                   <u><%= link_to "Yes ", @member.document.url, :class => "white"%></u>
@@ -99,9 +99,21 @@
                 <% end %>
               </td>
               <td><%= link_to 'Edit', edit_member_membership_path(@member, membership) %></td>
-              <% if membership.status == 'live' %>
-                <td><%= link_to "Cancel", member_cancel_membership_path(@member, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td></tr>
+              <td>
+                <% if membership.status == 'live' || membership.status == 'trialling' %>
+                  <%= link_to "Cancel", member_cancel_membership_path(@member, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %>
+                <% end %>
+              </td>
+              <% if current_admin.super? %>
+                <td>
+                  <% if membership.stripe_sub_id %>
+                    <%= link_to membership.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{membership.stripe_sub_id}", target: :_blank %>
+                  <% else %>
+                    No Stripe Subscription ID.
+                  <% end %>
+                </td>
               <% end %>
+              </tr>
             <% end %>
           </table>
         <% end %>
@@ -117,15 +129,28 @@
           No mailbox has been assigned.
         <% else %>
           <table class="table details-table">
-            <tr><th>Mailbox #</th><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th></tr>
+            <tr><th>Mailbox #</th><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Invoice Amount</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Edit</th><th>Cancel</th><% if current_admin.super? %><th>Stripe Link</th><% end %></tr>
             <% @member.mail_services.each do |mail| %>
               <tr>
                 <td><%= mail.mailbox.number %></td> <td><%= mail.plan.name if mail.plan %></td>
                 <td><%= mail.status %></td> <td><%= mail.payment_type %></td>
+                <td><%= mail.pretty_invoice_amount %></td>
                 <td><%= mail.start_date.to_date if mail.start_date %></td><td><%= mail.end_date.to_date if mail.end_date %></td>
                 <td><%= mail.next_invoice_date.to_date if mail.next_invoice_date %></td>
                 <td><%= link_to 'Edit', edit_member_mail_service_path(@member, mail) %></td>
-                <td><%= link_to "Cancel", member_cancel_mail_service_path(@member, mail), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %></td>
+                <td>
+                  <% if mail.status == 'live' || mail.status == 'trialling' %>
+                    <%= link_to "Cancel", member_cancel_mail_service_path(@member, mail), :method  => :delete, data: { confirm: 'Are you certain you want to cancel this?' } %>
+                  <% end %>
+                </td>
+                <% if current_admin.super? %>
+                  <td>
+                    <% if mail.stripe_sub_id %>
+                      <%= link_to mail.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{mail.stripe_sub_id}", target: :_blank %></td>
+                    <% else %>
+                      No Stripe Subscription ID.
+                    <% end %>
+                <% end %>
               </tr>
             <% end %>
           </table>
@@ -161,6 +186,3 @@
     <% end %>
 
     <%= link_to 'View all members', members_path %>
-
-  
-

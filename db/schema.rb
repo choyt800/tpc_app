@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180309191128) do
+ActiveRecord::Schema.define(version: 20180316170156) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -109,6 +109,8 @@ ActiveRecord::Schema.define(version: 20180309191128) do
     t.datetime "next_invoice_date"
     t.integer  "plan_id"
     t.integer  "team_id"
+    t.string   "stripe_sub_id"
+    t.integer  "invoice_amount"
   end
 
   add_index "mail_services", ["plan_id"], name: "index_mail_services_on_plan_id"
@@ -161,6 +163,8 @@ ActiveRecord::Schema.define(version: 20180309191128) do
     t.decimal  "average_monthly_payment"
     t.datetime "next_invoice_date"
     t.integer  "team_id"
+    t.string   "stripe_sub_id"
+    t.integer  "invoice_amount"
   end
 
   create_table "plan_categories", force: :cascade do |t|
@@ -171,12 +175,16 @@ ActiveRecord::Schema.define(version: 20180309191128) do
 
   create_table "plans", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "stripe_id"
     t.integer  "category_order"
     t.string   "plan_category_id"
-    t.boolean  "deleted",          default: false
+    t.boolean  "deleted",           default: false
+    t.string   "interval",          default: "month"
+    t.integer  "interval_count"
+    t.integer  "amount"
+    t.integer  "trial_period_days"
   end
 
   create_table "products", force: :cascade do |t|

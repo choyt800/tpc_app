@@ -28,7 +28,11 @@
 
   <div class="field">
     <%= f.label :plan_id %>
-    <%= f.grouped_collection_select(:plan_id, PlanCategory.memberships.order(:name), :plans, :name, :id, :name, include_blank: true) %>
+    <% if current_admin.super? && params[:action] == 'edit' %>
+      <%= f.grouped_collection_select(:plan_id, PlanCategory.all.order(:name), :plans, :name, :id, :name, include_blank: true) %>
+    <% else %>
+      <%= f.grouped_collection_select(:plan_id, PlanCategory.memberships.order(:name), :plans, :name, :id, :name, include_blank: true) %>
+    <% end %>
   </div>
 
   <div class="field">

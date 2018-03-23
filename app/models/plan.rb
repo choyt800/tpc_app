@@ -6,24 +6,25 @@ class Plan < ActiveRecord::Base
   before_create :create_stripe_plan
   before_update :update_stripe_plan
 
-  attr_accessor :stripe_amount, :stripe_interval, :stripe_interval_count, :stripe_trial_period_days
+  attr_accessor :dollar_amount
   default_scope { where(deleted: false).order(:category_order) }
   scope :mail_service, -> { where(plan_category_id: PlanCategory.find_by_name('Mail Service').id) }
   scope :misc, -> { where(plan_category_id: PlanCategory.find_by_name('Misc').id) }
 
   def assign_params_from_controller(params)
     @params = params
+    self.amount = dollars_to_cents
   end
 
   def create_stripe_plan
     Stripe::Plan.create(
       id: @params[:stripe_id],
       name: @params[:name],
-      amount: (@params[:stripe_amount].to_f * 100).to_i,
+      amount: amount,
       currency: 'usd',
-      interval_count: @params[:stripe_interval_count],
-      interval: @params[:stripe_interval],
-      trial_period_days: @params[:stripe_trial_period_days]
+      interval_count: @params[:interval_count],
+      interval: @params[:interval],
+      trial_period_days: @params[:trial_period_days]
     )
   end
 
@@ -43,5 +44,29 @@ class Plan < ActiveRecord::Base
       'Mail Service',
       'Misc'
     ]
+  end
+
+  def dollars_to_cents
+    (dollar_amount.to_f * 100).to_i
+  end
+
+  def pretty_amount
+    '%.2f' % (amount / 100.0) if amount
+  end
+
+  def pretty_interval
+    return '' unless interval && interval_count
+
+    if interval_count == 1
+      return "/ #{interval}"
+    else
+      return "every #{ActionController::Base.helpers.pluralize(interval_count, interval)}"
+    end
+  end
+
+  def pretty_display
+    return '' unless interval && interval_count
+
+    "$#{pretty_amount} #{pretty_interval}"
   end
 end

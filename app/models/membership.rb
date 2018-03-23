@@ -103,4 +103,9 @@ class Membership < ActiveRecord::Base
   def days_left
     @days_left = @days.to_i - @checkins.to_i
   end
+
+  def pretty_invoice_amount
+    return 'n/a' unless invoice_amount
+    '$' + '%.2f' % (invoice_amount / 100.0)
+  end
 end

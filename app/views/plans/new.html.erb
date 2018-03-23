@@ -24,23 +24,23 @@
   </div>
 
   <div class="field">
-    <%= f.label :stripe_amount, 'Stripe Amount (in Dollars)' %><br>
-    <%= f.text_field :stripe_amount %>
+    <%= f.label :dollar_amount, 'Stripe Amount (in Dollars)' %><br>
+    <%= f.text_field :dollar_amount %>
   </div>
 
   <div class="field">
-    <%= f.label :stripe_interval_count %><br>
-    <%= f.number_field :stripe_interval_count %>
+    <%= f.label :interval_count %><br>
+    <%= f.number_field :interval_count %>
   </div>
 
   <div class="field">
-    <%= f.label :stripe_interval %><br>
-    <%= f.select :stripe_interval, ['month', 'week', 'day'] %>
+    <%= f.label :interval %><br>
+    <%= f.select :interval, ['month', 'week', 'day'] %>
   </div>
 
   <div class="field">
-    <%= f.label :stripe_trial_period_days %><br>
-    <%= f.number_field :stripe_trial_period_days, value: 0 %>
+    <%= f.label :trial_period_days %><br>
+    <%= f.number_field :trial_period_days, value: 0 %>
   </div>
 
   <div class="field">
