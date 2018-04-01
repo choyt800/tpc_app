@@ -1,3 +1,28 @@
 // Place all the styles related to the CustomSubscriptions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.custom-sub-lines {
+  width: auto !important;
+
+  select.quantity {
+    min-width: 35px;
+  }
+
+  .total-amount {
+    padding-right: 50px;
+
+    td {
+      padding: 2px 7px;
+    }
+
+    select.coupon {
+      min-width: 50px;
+    }
+  }
+
+  .right-align {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}

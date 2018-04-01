@@ -1,0 +1,92 @@
+<div class='temporary-data'>
+</div>
+
+<%= form_for([@member, @custom_subscription]) do |f| %>
+  <%= hidden_field_tag :member_stripe_id, @member.stripe_id %>
+  <% if @custom_subscription.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@custom_subscription.errors.count, "error") %> prohibited this membership from being saved:</h2>
+
+    <ul>
+      <% @custom_subscription.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <h3><%= @member.try(:full_name) || "Team #{@member.try(:name)}" %></h3>
+
+  <table class='table custom-sub-lines'>
+    <thead>
+      <tr>
+        <th class='quantity'>Quantity</th>
+        <th>Plan Category</th>
+        <th>Plan</th>
+        <th>Rate / Interval</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% 6.times do |i| %>
+        <tr class='line-item' data-line-item=<%= i %>>
+          <%= fields_for "custom_subscription[line_items][#{i}]" do |line_item| %>
+            <td class='quantity'>
+              <%= line_item.select "quantity", options_for_select(1..5), {include_blank: true}, {class: 'quantity'} %>
+            </td>
+            <td class='plan-category'>
+              <%= line_item.collection_select(:plan_category_id, PlanCategory.memberships_and_mail_service.order(:id), :id, :name, {include_blank: true}, {class: 'plan-category'}) %>
+            </td>
+            <td class='plan'>
+              <%= line_item.grouped_collection_select(:plan_id, PlanCategory.memberships_and_mail_service.order(:name), :plans, :name, :id, :name, {include_blank: true}, {class: 'plan'}) %>
+            </td>
+          <% end %>
+          <td class='rate'>$0.00 / month</td>
+          <td class='amount'>$0.00</td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan=5>
+          <div class='right-align'>
+            <table class='total-amount'>
+              <tr>
+                <td>Sub-total:</td>
+                <td><span class='subtotal'>$0.00</span></td>
+              </tr>
+
+              <tr>
+                <td>Coupon:</td>
+                <td><%= f.select :coupon, @coupons.collect {|c| c.id}, {include_blank: true}, {class: 'coupon'} %></td>
+              </tr>
+
+              <tr>
+                <td colspan=2>
+                  <%= button_tag 'Preview', id: 'preview-invoice', disabled: true %>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Discount:</td>
+                <td><span class='discount'>$0.00</span></td>
+              </tr>
+
+              <tr>
+                <td>Total:</td>
+                <td><span class='total'>$0.00</span></td>
+              </tr>
+
+              <tr>
+                <td colspan=2>
+                  <%= f.submit name: button_name, id: 'create-subscription', disabled: true, remote: true, data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<div id='all-plan-info' data-info="<%= @all_plans %>"></div>

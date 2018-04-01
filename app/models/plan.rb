@@ -8,8 +8,13 @@ class Plan < ActiveRecord::Base
 
   attr_accessor :dollar_amount
   default_scope { where(deleted: false).order(:category_order) }
+  scope :memberships, -> { where('plan_category_id IN (?)', [PlanCategory.find_by_name('Resident Access').id, PlanCategory.find_by_name('Community Access').id, PlanCategory.find_by_name('Private Office').id])}
   scope :mail_service, -> { where(plan_category_id: PlanCategory.find_by_name('Mail Service').id) }
   scope :misc, -> { where(plan_category_id: PlanCategory.find_by_name('Misc').id) }
+
+  def as_json(options={})
+    super(only: [:id, :stripe_id, :interval, :interval_count, :amount, :pretty_display], methods: :pretty_display)
+  end
 
   def assign_params_from_controller(params)
     @params = params

@@ -1,6 +1,7 @@
 class Team < ActiveRecord::Base
   has_many :members
   has_many :memberships, dependent: :destroy
+  has_many :custom_subscriptions, dependent: :destroy
   has_many :keycard_checkouts, dependent: :destroy
   has_many :mail_services, dependent: :destroy
 

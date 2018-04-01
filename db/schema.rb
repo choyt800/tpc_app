@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316170156) do
+ActiveRecord::Schema.define(version: 20180317191128) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -64,8 +64,9 @@ ActiveRecord::Schema.define(version: 20180316170156) do
   create_table "custom_subscriptions", force: :cascade do |t|
     t.integer  "member_id"
     t.integer  "team_id"
-    t.string   "stripe_id"
+    t.string   "stripe_sub_id"
     t.datetime "next_invoice_date"
+    t.integer  "invoice_amount"
     t.text     "notes"
   end
 
@@ -126,8 +127,8 @@ ActiveRecord::Schema.define(version: 20180316170156) do
     t.string   "last_name"
     t.string   "email"
     t.text     "notes"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "status"
     t.boolean  "has_mail_service"
     t.string   "mailbox_number"
@@ -144,10 +145,9 @@ ActiveRecord::Schema.define(version: 20180316170156) do
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
-    t.string   "stripe_customer_id",    limit: 50
     t.string   "stripe_id"
     t.integer  "team_id"
-    t.boolean  "team_active",                      default: true
+    t.boolean  "team_active",           default: true
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -187,33 +187,6 @@ ActiveRecord::Schema.define(version: 20180316170156) do
     t.integer  "trial_period_days"
   end
 
-  create_table "products", force: :cascade do |t|
-    t.string   "name"
-    t.string   "permalink"
-    t.text     "description"
-    t.integer  "price"
-    t.integer  "user_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.string   "file_file_name"
-    t.string   "file_content_type"
-    t.integer  "file_file_size"
-    t.datetime "file_updated_at"
-  end
-
-  add_index "products", ["user_id"], name: "index_products_on_user_id"
-
-  create_table "sales", force: :cascade do |t|
-    t.string   "email"
-    t.string   "guid"
-    t.integer  "product_id"
-    t.string   "stripe_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "sales", ["product_id"], name: "index_sales_on_product_id"
-
   create_table "tasks", force: :cascade do |t|
     t.string   "name"
     t.string   "status"
@@ -241,23 +214,5 @@ ActiveRecord::Schema.define(version: 20180316170156) do
     t.datetime "updated_at",            null: false
     t.string   "member_email"
   end
-
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

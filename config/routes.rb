@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :mail_services, only: [:index]
   resources :memberships, only: [:index]
   resources :custom_subscriptions
+  post '/custom_subscriptions/preview' => 'custom_subscriptions#preview'
   resources :members do
     resources :memberships, except: [:index]
     resources :custom_subscriptions

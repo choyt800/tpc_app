@@ -120,6 +120,37 @@
       <%= link_to 'Add membership', new_team_membership_path(@team), :class =>"button btn btn-default pad-5" %>
     </div>
 
+    <!-- Custom Subscriptions -->
+    <div class="form-group">
+      <h2>Custom Subscriptions</h2>
+      <% if @team.custom_subscriptions.blank? %>
+        No custom subscription have been assigned.
+      <% else %>
+        Custom subscriptions: <%= @team.custom_subscriptions.count %>
+        <table class="table details-table">
+          <tr><th>Subscription ID</th><th>Next Invoice Date</th><th>Next Invoice Amount</th><th>Edit</th><th>Cancel</th></tr>
+          <% @team.custom_subscriptions.each do |csub| %>
+            <tr>
+              <td>
+                <% if current_admin.super? %>
+                  <%= link_to csub.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{csub.stripe_sub_id}", target: :_blank %>
+                <% else %>
+                  <%= csub.stripe_sub_id %>
+                <% end %>
+              </td>
+              <td><%= csub.next_invoice_date.localtime %></td>
+              <td><%= csub.pretty_invoice_amount %></td>
+              <td>Edit (n/a)</td>
+              <td>Cancel (n/a)</td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+      <br/>
+      <br/>
+      <%= link_to 'Add Custom Subscription', new_team_custom_subscription_path(@team), :class =>"button btn btn-default pad-5" %>
+    </div>
+
     <!-- Mail Services -->
     <div class="form-group">
       <h2>Mail Service</h2>

@@ -12,6 +12,7 @@ class Member < ActiveRecord::Base
 
   has_many :checkins, dependent: :destroy
   has_many :memberships, dependent: :destroy
+  has_many :custom_subscriptions, dependent: :destroy
   has_many :keycard_checkouts, dependent: :destroy
   has_many :mail_services, dependent: :destroy
   belongs_to :team
