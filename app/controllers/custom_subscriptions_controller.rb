@@ -32,8 +32,9 @@ class CustomSubscriptionsController < ApplicationController
 
       stripe_line_items = line_items(params['custom_subscription']['line_items'])
       coupon = params['custom_subscription']['coupon'].presence || nil
+      trial_period_days = set_trial_period_days
       preview = CustomSubscription.preview_subscription(params[:member_stripe_id], stripe_line_items, coupon)
-      subscription = CustomSubscription.create_subscription(params[:member_stripe_id], stripe_line_items, coupon)
+      subscription = CustomSubscription.create_subscription(params[:member_stripe_id], stripe_line_items, coupon, trial_period_days)
 
       @custom_subscription.stripe_sub_id = subscription.id
       @custom_subscription.next_invoice_date = Time.at(subscription.current_period_end)
@@ -77,5 +78,14 @@ class CustomSubscriptionsController < ApplicationController
         end
       end
       return stripe_sub_items
+    end
+
+    def set_trial_period_days
+      trial_end = params['custom_subscription']['trial_period_days']
+      if trial_end == Date.current.to_s(:d)
+        return nil
+      else
+        (Date.parse(trial_end) - Date.current).to_i
+      end
     end
 end

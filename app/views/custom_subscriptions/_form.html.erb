@@ -61,6 +61,11 @@
               </tr>
 
               <tr>
+                <td>First Bill Date:</td>
+                <td><%= f.text_field :trial_period_days, value: Date.current %></td>
+              </tr>
+
+              <tr>
                 <td colspan=2>
                   <%= button_tag 'Preview', id: 'preview-invoice', disabled: true %>
                 </td>
