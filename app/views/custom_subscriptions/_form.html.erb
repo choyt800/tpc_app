@@ -29,23 +29,26 @@
     </thead>
 
     <tbody>
-      <% 6.times do |i| %>
-        <tr class='line-item' data-line-item=<%= i %>>
-          <%= fields_for "custom_subscription[line_items][#{i}]" do |line_item| %>
-            <td class='quantity'>
-              <%= line_item.select "quantity", options_for_select(1..5), {include_blank: true}, {class: 'quantity'} %>
-            </td>
-            <td class='plan-category'>
-              <%= line_item.collection_select(:plan_category_id, PlanCategory.memberships_and_mail_service.order(:id), :id, :name, {include_blank: true}, {class: 'plan-category'}) %>
-            </td>
-            <td class='plan'>
-              <%= line_item.grouped_collection_select(:plan_id, PlanCategory.memberships_and_mail_service.order(:name), :plans, :name, :id, :name, {include_blank: true}, {class: 'plan'}) %>
-            </td>
-          <% end %>
-          <td class='rate'>$0.00 / month</td>
-          <td class='amount'>$0.00</td>
-        </tr>
-      <% end %>
+      <tr class='line-item' data-line-item=0>
+        <%= fields_for "custom_subscription[line_items][0]" do |line_item| %>
+          <td class='quantity'>
+            <%= line_item.select "quantity", options_for_select(1..5), {include_blank: true}, {class: 'quantity'} %>
+          </td>
+          <td class='plan-category'>
+            <%= line_item.collection_select(:plan_category_id, PlanCategory.memberships_and_mail_service.order(:id), :id, :name, {include_blank: true}, {class: 'plan-category'}) %>
+          </td>
+          <td class='plan'>
+            <%= line_item.grouped_collection_select(:plan_id, PlanCategory.memberships_and_mail_service.order(:name), :plans, :name, :id, :name, {include_blank: true}, {class: 'plan'}) %>
+          </td>
+        <% end %>
+        <td class='rate'>$0.00 / month</td>
+        <td class='amount'>$0.00</td>
+      </tr>
+
+      <tr>
+        <td colspan=42><button id="form-add-row">+ Add Row</button></td>
+      </tr>
+
       <tr>
         <td colspan=5>
           <div class='right-align'>
