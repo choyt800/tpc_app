@@ -22,6 +22,7 @@ class MembersController < ApplicationController
     @member = Member.find(params[:id])
     @stripe_customer = Stripe::Customer.retrieve(@member.stripe_id) if @member.stripe_id
     @stripe_card = @stripe_customer.sources.retrieve(@stripe_customer.default_source) if @stripe_customer
+    @combined_history = (@member.custom_subscriptions + @member.memberships).sort_by(&:created_at).reverse
   end
 
   # GET /members/new

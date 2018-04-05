@@ -1,0 +1,10 @@
+<td>Custom Sub</td> <!-- Plan Name -->
+<td><%= membership.status %></td><!-- Status -->
+<td>Stripe</td><!-- Payment Type -->
+<td></td><!-- Invoice Amount -->
+<td><%= membership.start_date.to_date if membership.start_date %></td><!-- Start Date -->
+<td><%= membership.end_date.to_date if membership.end_date %></td><!-- End Date -->
+<td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %></td><!-- Next Invoice Date -->
+<td>(n/a)</td><!-- Doc -->
+<td><%= link_to 'Edit', edit_member_custom_subscription_path(member, membership) %></td><!-- Edit -->
+<td><%= link_to "Cancel", member_cancel_custom_subscription_path(member, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %></td><!-- Cancel -->
