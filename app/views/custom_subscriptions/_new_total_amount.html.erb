@@ -1,0 +1,40 @@
+<table class='total-amount'>
+  <tr>
+    <td>Sub-total:</td>
+    <td><span class='subtotal'>$0.00</span></td>
+  </tr>
+
+  <tr>
+    <td>Coupon:</td>
+    <td><%= f.select :coupon, @coupons.collect {|c| c.id}, {include_blank: true}, {class: 'coupon'} %></td>
+  </tr>
+
+  <tr>
+    <td>First Bill Date:</td>
+    <td><%= f.text_field :trial_period_days, value: Date.current %></td>
+  </tr>
+
+  <tr>
+    <td colspan=2>
+      <%= button_tag 'Preview', id: 'preview-invoice', disabled: true %>
+    </td>
+  </tr>
+
+  <tr><td>&nbsp;</td></tr>
+
+  <tr>
+    <td>Discount:</td>
+    <td><span class='discount'>$0.00</span></td>
+  </tr>
+
+  <tr>
+    <td>Total:</td>
+    <td><span class='total'>$0.00</span></td>
+  </tr>
+
+  <tr>
+    <td colspan=2>
+      <%= f.submit name: button_name, id: 'create-subscription', disabled: true, remote: true, data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
+    </td>
+  </tr>
+</table>

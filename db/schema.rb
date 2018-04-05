@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317191128) do
+ActiveRecord::Schema.define(version: 20180404151916) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 20180317191128) do
     t.datetime "next_invoice_date"
     t.integer  "invoice_amount"
     t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "keycard_checkouts", force: :cascade do |t|

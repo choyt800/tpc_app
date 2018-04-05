@@ -1,0 +1,67 @@
+<table class='total-amount'>
+  <tr>
+    <td>Sub-total:</td>
+    <td><span class='subtotal'>$0.00</span></td>
+  </tr>
+
+  <!-- <tr>
+    <td>Coupon:</td>
+    <td><%= f.select :coupon, @coupons.collect {|c| c.id}, {include_blank: true}, {class: 'coupon'} %></td>
+  </tr> -->
+
+  <tr>
+    <td>Prorate Changes:</td>
+    <td><%= f.check_box 'prorate', checked_value: true, unchecked_value: false, checked: true %></td>
+  </tr>
+
+  <tr>
+    <td>Charge Difference Now:</td>
+    <td><%= f.check_box 'charge_now', checked_value: true, unchecked_value: false %></td>
+  </tr>
+
+  <tr>
+    <td colspan=2>
+      <%= button_tag 'Preview', id: 'preview-invoice' %>
+    </td>
+  </tr>
+
+  <tr><td>&nbsp;</td></tr>
+
+  <tr>
+    <td>Last Invoice Date:</td>
+    <td><%= Time.at(@latest_invoice.date).to_date %></td>
+  </tr>
+
+  <tr>
+    <td>Last Invoice Amount:</td>
+    <td><%= CustomSubscription.pretty_invoice_amount(@latest_invoice.amount_paid) %></td>
+  </tr>
+
+  <tr>
+    <td>Next Invoice Date:</td>
+    <td><span class='next-invoice-date'></span></td>
+  </tr>
+
+  <tr>
+    <td>Next Invoice Amount:</td>
+    <td><span class='next-invoice-amount'></span></td>
+  </tr>
+
+  <tr><td>&nbsp;</td></tr>
+
+  <tr>
+    <td>Discount:</td>
+    <td><span class='discount'>$0.00</span></td>
+  </tr>
+
+  <tr>
+    <td>Total:</td>
+    <td><span class='total'>$0.00</span></td>
+  </tr>
+
+  <tr>
+    <td colspan=2>
+      <%= f.submit name: button_name, id: 'create-subscription', disabled: true, remote: true, data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
+    </td>
+  </tr>
+</table>

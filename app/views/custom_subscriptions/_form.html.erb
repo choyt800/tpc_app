@@ -20,30 +20,20 @@
   <table class='table custom-sub-lines'>
     <thead>
       <tr>
-        <th class='quantity'>Quantity</th>
         <th>Plan Category</th>
         <th>Plan</th>
+        <th class='quantity'>Quantity</th>
         <th>Rate / Interval</th>
         <th>Amount</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr class='line-item' data-line-item=0>
-        <%= fields_for "custom_subscription[line_items][0]" do |line_item| %>
-          <td class='quantity'>
-            <%= line_item.select "quantity", options_for_select(1..5), {include_blank: true}, {class: 'quantity'} %>
-          </td>
-          <td class='plan-category'>
-            <%= line_item.collection_select(:plan_category_id, PlanCategory.memberships_and_mail_service.order(:id), :id, :name, {include_blank: true}, {class: 'plan-category'}) %>
-          </td>
-          <td class='plan'>
-            <%= line_item.grouped_collection_select(:plan_id, PlanCategory.memberships_and_mail_service.order(:name), :plans, :name, :id, :name, {include_blank: true}, {class: 'plan'}) %>
-          </td>
-        <% end %>
-        <td class='rate'>$0.00 / month</td>
-        <td class='amount'>$0.00</td>
-      </tr>
+      <% if action_name == 'new' %>
+        <%= render 'new_line_items' %>
+      <% else %>
+        <%= render 'edit_line_items' %>
+      <% end %>
 
       <tr>
         <td colspan=42><button id="form-add-row">+ Add Row</button></td>
@@ -52,44 +42,11 @@
       <tr>
         <td colspan=5>
           <div class='right-align'>
-            <table class='total-amount'>
-              <tr>
-                <td>Sub-total:</td>
-                <td><span class='subtotal'>$0.00</span></td>
-              </tr>
-
-              <tr>
-                <td>Coupon:</td>
-                <td><%= f.select :coupon, @coupons.collect {|c| c.id}, {include_blank: true}, {class: 'coupon'} %></td>
-              </tr>
-
-              <tr>
-                <td>First Bill Date:</td>
-                <td><%= f.text_field :trial_period_days, value: Date.current %></td>
-              </tr>
-
-              <tr>
-                <td colspan=2>
-                  <%= button_tag 'Preview', id: 'preview-invoice', disabled: true %>
-                </td>
-              </tr>
-
-              <tr>
-                <td>Discount:</td>
-                <td><span class='discount'>$0.00</span></td>
-              </tr>
-
-              <tr>
-                <td>Total:</td>
-                <td><span class='total'>$0.00</span></td>
-              </tr>
-
-              <tr>
-                <td colspan=2>
-                  <%= f.submit name: button_name, id: 'create-subscription', disabled: true, remote: true, data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
-                </td>
-              </tr>
-            </table>
+            <% if action_name == 'new' %>
+              <%= render 'new_total_amount', f: f, button_name: button_name %>
+            <% else %>
+              <%= render 'edit_total_amount', f: f, button_name: button_name %>
+            <% end %>
           </div>
         </td>
       </tr>
