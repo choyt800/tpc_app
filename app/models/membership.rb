@@ -54,11 +54,11 @@ class Membership < ActiveRecord::Base
   end
 
   def status
-    if end_date? && Date.current <= end_date
+    if end_date? && Time.now <= end_date
       "pending cancellation"
     elsif end_date?
       "cancelled"
-    elsif start_date? && Date.current <= start_date
+    elsif start_date? && Time.now <= start_date
       "trialling"
     else
       "live"

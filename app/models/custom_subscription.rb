@@ -7,6 +7,18 @@ class CustomSubscription < ActiveRecord::Base
   validates :team_id, presence: true, unless: :member_id
   attr_accessor :quantity, :plan_id, :plan_category_id, :trial_period_days, :coupon
 
+  def status
+    if end_date? && Time.now <= end_date
+      "pending cancellation"
+    elsif end_date?
+      "cancelled"
+    elsif start_date? && Time.now < start_date
+      "trialling"
+    else
+      "live"
+    end
+  end
+
   def pretty_invoice_amount
     return 'n/a' unless invoice_amount
     '$' + '%.2f' % (invoice_amount / 100.0)

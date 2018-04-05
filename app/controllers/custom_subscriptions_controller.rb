@@ -52,10 +52,27 @@ class CustomSubscriptionsController < ApplicationController
     end
   end
 
+  def cancel
+    ActiveRecord::Base.transaction do
+      @stripe_subscription.delete(at_period_end: true)
+      @end_date = @stripe_subscription.current_period_end
+
+      @custom_subscription.end_date = Time.at(@end_date).to_date
+      @custom_subscription.next_invoice_date = nil
+      @custom_subscription.save!
+
+      respond_to do |format|
+        format.html { redirect_to @member, notice: 'Subscription was successfully canceled.' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_custom_subscription
       @custom_subscription = CustomSubscription.find(params[:id])
+      @stripe_subscription = Stripe::Subscription.retrieve(@custom_subscription.stripe_sub_id)
     end
 
     def set_member_or_team
