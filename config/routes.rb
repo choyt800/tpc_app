@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :custom_subscriptions
     resources :members, except: [:index]
     delete 'memberships/:id/cancel' => 'memberships#cancel', as: 'cancel_membership'
+    delete 'custom_subscriptions/:id/cancel' => 'custom_subscriptions#cancel', as: 'cancel_custom_subscription'
     resources :keycard_checkouts, except: [:index]
     delete 'keycard_checkouts/:id/cancel' => 'keycard_checkouts#cancel', as: 'cancel_keycard_checkout'
     resources :mail_services, except: [:index]

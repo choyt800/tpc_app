@@ -87,61 +87,40 @@
 
     <!-- Team Memberships -->
     <div class="form-group">
-      <h2>Membership history</h2>
-      <% if @team.memberships.blank? %>
+      <h2>Combined Membership History</h2>
+      <% if @combined_history.blank? %>
         No membership has been assigned.
       <% else %>
         <table class="table details-table">
-          <tr><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Invoice Amount</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Edit</th><th>Cancel</th><% if current_admin.super? %><th>Stripe Link</th><% end %></tr>
+          <tr>
+            <th>Plan type</th>
+            <th>Status</th>
+            <th>Payment Type</th>
+            <th>Invoice Amount</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Next Invoice Date</th>
+            <th>Agreement</th>
+            <th>Edit</th>
+            <th>Cancel</th>
+            <% if current_admin.super? %><th>Stripe Link</th><% end %></tr>
 
-          <% @team.memberships.each do |membership| %>
-            <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.pretty_invoice_amount %></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
-            <td><%= link_to 'Edit', edit_team_membership_path(@team, membership) %></td>
-            <td>
-              <% if membership.status == 'live' || membership.status == 'trialling' %>
-                <%= link_to "Cancel", team_cancel_membership_path(@team, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %>
-              <% end %>
-            </td>
-            <% if current_admin.super? %>
-              <td>
-                <% if membership.stripe_sub_id %>
-                  <%= link_to membership.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{membership.stripe_sub_id}", target: :_blank %>
-                <% else %>
-                  No Stripe Subscription ID.
-                <% end %>
-              </td>
-            <% end %>
-            </tr>
-          <% end %>
-        </table>
-      <% end %>
-      <br/>
-      <br/>
-      <%= link_to 'Add membership', new_team_membership_path(@team), :class =>"button btn btn-default pad-5" %>
-    </div>
-
-    <!-- Custom Subscriptions -->
-    <div class="form-group">
-      <h2>Custom Subscriptions</h2>
-      <% if @team.custom_subscriptions.blank? %>
-        No custom subscription have been assigned.
-      <% else %>
-        Custom subscriptions: <%= @team.custom_subscriptions.count %>
-        <table class="table details-table">
-          <tr><th>Subscription ID</th><th>Next Invoice Date</th><th>Next Invoice Amount</th><th>Edit</th><th>Cancel</th></tr>
-          <% @team.custom_subscriptions.each do |csub| %>
+          <% @combined_history.each do |membership| %>
             <tr>
-              <td>
-                <% if current_admin.super? %>
-                  <%= link_to csub.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{csub.stripe_sub_id}", target: :_blank %>
-                <% else %>
-                  <%= csub.stripe_sub_id %>
-                <% end %>
-              </td>
-              <td><%= csub.next_invoice_date.localtime %></td>
-              <td><%= csub.pretty_invoice_amount %></td>
-              <td>Edit (n/a)</td>
-              <td>Cancel (n/a)</td>
+              <% if membership.is_a?(Membership) %>
+                <%= render 'combined_membership', member: @team, membership: membership %>
+              <% else %>
+                <%= render 'combined_custom_sub', member: @team, membership: membership %>
+              <% end %>
+              <% if current_admin.super? %>
+                <td>
+                  <% if membership.stripe_sub_id %>
+                    <%= link_to membership.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{membership.stripe_sub_id}", target: :_blank %>
+                  <% else %>
+                    No Stripe Subscription ID.
+                  <% end %>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </table>
@@ -150,6 +129,79 @@
       <br/>
       <%= link_to 'Add Custom Subscription', new_team_custom_subscription_path(@team), :class =>"button btn btn-default pad-5" %>
     </div>
+
+    <% if current_admin.super? %>
+      <div class="form-group">
+        <h2>(OLD) Membership history (Super Admins only)</h2>
+        <% if @team.memberships.blank? %>
+          No membership has been assigned.
+        <% else %>
+          <table class="table details-table">
+            <tr><th>Plan type</th><th>Status</th><th>Payment Type</th><th>Invoice Amount</th><th>Start date</th><th>End date</th><th>Next Invoice Date</th><th>Agreement</th><th>Edit</th><th>Cancel</th><% if current_admin.super? %><th>Stripe Link</th><% end %></tr>
+
+            <% @team.memberships.each do |membership| %>
+              <tr><td><%= membership.plan.name %></td> <td><%= membership.status %></td> <td><%= membership.payment_type%></td> <td><%= membership.pretty_invoice_amount %></td> <td><%= membership.start_date.to_date if membership.start_date %></td><td><%= membership.end_date.to_date if membership.end_date %></td><td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %>
+              <td>
+                <% if @team.document?%>
+                  <u><%= link_to "Yes ", @team.document.url, :class => "white"%></u>
+                <% else %>
+                  No
+                <% end %>
+              </td>
+              <td><%= link_to 'Edit', edit_member_membership_path(@team, membership) %></td>
+              <td>
+                <% if membership.status == 'live' || membership.status == 'trialling' %>
+                  <%= link_to "Cancel", member_cancel_membership_path(@team, membership), :method  => :delete, data: { confirm: "Are you certain you want to cancel this? It will cancel on #{membership.next_invoice_date.to_date if membership.next_invoice_date}" } %>
+                <% end %>
+              </td>
+              <% if current_admin.super? %>
+                <td>
+                  <% if membership.stripe_sub_id %>
+                    <%= link_to membership.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{membership.stripe_sub_id}", target: :_blank %>
+                  <% else %>
+                    No Stripe Subscription ID.
+                  <% end %>
+                </td>
+              <% end %>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+        <br/>
+        <br/>
+        <%= link_to 'Add membership', new_member_membership_path(@team), :class =>"button btn btn-default pad-5" %>
+      </div>
+
+      <div class="form-group">
+        <h2>(OLD) Custom Subscriptions</h2>
+        <% if @team.custom_subscriptions.blank? %>
+          No custom subscription have been assigned.
+        <% else %>
+          Custom subscriptions: <%= @team.custom_subscriptions.count %>
+          <table class="table details-table">
+            <tr><th>Subscription ID</th><th>Next Invoice Date</th><th>Next Invoice Amount</th><th>Edit</th><th>Cancel</th></tr>
+            <% @team.custom_subscriptions.each do |csub| %>
+              <tr>
+                <td>
+                  <% if current_admin.super? %>
+                    <%= link_to csub.stripe_sub_id, "https://dashboard.stripe.com/#{'test/' unless Rails.env.production?}subscriptions/#{csub.stripe_sub_id}", target: :_blank %>
+                  <% else %>
+                    <%= csub.stripe_sub_id %>
+                  <% end %>
+                </td>
+                <td><%= csub.next_invoice_date.localtime if csub.next_invoice_date %></td>
+                <td><%= csub.pretty_invoice_amount %></td>
+                <td>Edit (n/a)</td>
+                <td>Cancel (n/a)</td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+        <br/>
+        <br/>
+        <%= link_to 'Add Custom Subscription', new_member_custom_subscription_path(@team), :class =>"button btn btn-default pad-5" %>
+      </div>
+    <% end %>
 
     <!-- Mail Services -->
     <div class="form-group">
