@@ -34,15 +34,30 @@ $(document).ready(function() {
       $('#preview-invoice').attr('disabled', true);
       $('span.discount, span.total').html('...')
 
+      var previewURL = '/custom_subscriptions/preview'
+      if (isEditPage) { previewURL = previewURL + '_update'; }
+
       $.ajax({
-        url: "/custom_subscriptions/preview",
+        url: previewURL,
         type: 'POST',
         data: serializedForm,
         success: function(data) {
           console.log(data)
+
           var sub = $('.subtotal').data('subtotal') * 100;
-          var total = data.amount_due;
-          var discount = sub - total;
+
+          if (isEditPage) {
+            var total = sub;
+            var discount = sub - 0;
+            var date = new Date(data.next_payment_attempt * 1000);
+            var dateString = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate();
+
+            $('span.next-invoice-date').html(dateString);
+            $('span.next-invoice-amount').html('$' + (data.amount_due / 100.0).toFixed(2));
+          } else {
+            var total = data.amount_due;
+            var discount = sub - total;
+          }
 
           $('span.discount').html('$' + (discount / 100.0).toFixed(2));
           $('span.total').html('$' + (total / 100.0).toFixed(2));
@@ -71,6 +86,15 @@ $(document).ready(function() {
 
       handleAddRow();
     });
+
+    $(document).on('change', '#custom_subscription_prorate', function() {
+      if (this.checked) {
+        $('#custom_subscription_charge_now').attr('disabled', false);
+      } else {
+        $('#custom_subscription_charge_now').attr('checked', false);
+        $('#custom_subscription_charge_now').attr('disabled', true);
+      }
+    })
 
     function amountChange(line) {
       var $line = $('.line-item[data-line-item=' + line + ']');

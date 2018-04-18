@@ -1,5 +1,5 @@
 class CustomSubscriptionsController < ApplicationController
-  before_action :set_member_or_team, except: [:index, :preview]
+  before_action :set_member_or_team, except: [:index, :preview, :preview_update]
   before_action :set_custom_subscription, only: [:show, :edit, :update, :destroy, :cancel]
 
   def index
@@ -60,6 +60,21 @@ class CustomSubscriptionsController < ApplicationController
     @line_items = @stripe_subscription.items.data
   end
 
+  def preview_update
+    stripe_line_items = line_items(params['custom_subscription']['line_items'])
+    coupon = params['custom_subscription']['coupon'].presence || nil
+
+    current_subscription = Stripe::Subscription.retrieve(params[:stripe_subscription_id])
+
+    prorate = custom_subscription_params['prorate'] == '1'
+    charge_now = custom_subscription_params['charge_now'] == '1'
+
+    preview = CustomSubscription.preview_subscription_update(params[:member_stripe_id], params[:stripe_subscription_id],
+                stripe_line_items, coupon, prorate, charge_now)
+
+    render json: preview
+  end
+
   def update
     stripe_line_items = line_items(params['custom_subscription']['line_items'])
     @stripe_subscription.items = stripe_line_items
@@ -104,7 +119,7 @@ class CustomSubscriptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def custom_subscription_params
-      params.require(:custom_subscription).permit(:line_items, :coupon)
+      params.require(:custom_subscription).permit(:line_items, :coupon, :prorate, :charge_now)
     end
 
     def line_items(params)

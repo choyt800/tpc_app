@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   resources :keycard_checkouts, only: [:index]
   resources :mail_services, only: [:index]
   resources :memberships, only: [:index]
-  resources :custom_subscriptions
   post '/custom_subscriptions/preview' => 'custom_subscriptions#preview'
+  patch '/custom_subscriptions/preview_update' => 'custom_subscriptions#preview_update'
+  resources :custom_subscriptions
   resources :members do
     resources :memberships, except: [:index]
     resources :custom_subscriptions
