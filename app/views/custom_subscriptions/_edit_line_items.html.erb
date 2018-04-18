@@ -1,11 +1,11 @@
 <% @line_items.each_with_index do |stripe_line, i| %>
-
   <% quantity = stripe_line['quantity'].to_i %>
   <% plan = Plan.find_by(stripe_id: stripe_line['plan']['id']) %>
   <% plan_category = plan.plan_category %>
 
   <tr class='line-item' data-line-item=<%= i %>>
     <%= fields_for "custom_subscription[line_items][#{i}]" do |line_item| %>
+      <%= hidden_field_tag "custom_subscription[line_items][#{i}][subscription_item]", stripe_line.id %>
       <td class='plan-category'>
         <%= line_item.collection_select(:plan_category_id, PlanCategory.memberships_and_mail_service.order(:id), :id, :name, {include_blank: true, selected: plan_category.id}, {class: 'plan-category'}) %>
       </td>
@@ -13,7 +13,7 @@
         <%= line_item.grouped_collection_select(:plan_id, PlanCategory.memberships_and_mail_service.order(:name), :plans, :name, :id, :name, {include_blank: true, selected: plan.id}, {class: 'plan'}) %>
       </td>
       <td class='quantity'>
-        <%= line_item.select "quantity", options_for_select(1..5, stripe_line['quantity']), {include_blank: true}, {class: 'quantity'} %>
+        <%= line_item.select "quantity", options_for_select(0..5, stripe_line['quantity']), {include_blank: true}, {class: 'quantity'} %>
       </td>
     <% end %>
     <td class='rate'>$0.00 / month</td>

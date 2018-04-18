@@ -24,6 +24,11 @@ class CustomSubscription < ActiveRecord::Base
     '$' + '%.2f' % (invoice_amount / 100.0)
   end
 
+  def self.pretty_invoice_amount(invoice_amount)
+    return 'n/a' unless invoice_amount
+    '$' + '%.2f' % (invoice_amount / 100.0)
+  end
+
   # Preview Invoice
   def self.preview_subscription(customer_id, items, coupon = nil)
     Stripe::Invoice.upcoming(

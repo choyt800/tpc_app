@@ -6,7 +6,6 @@ class CustomSubscriptionsController < ApplicationController
   end
 
   def show
-    @stripe_subscription = Stripe::Subscription.retrieve(@custom_subscription.stripe_sub_id)
   end
 
   def new
@@ -36,6 +35,7 @@ class CustomSubscriptionsController < ApplicationController
       preview = CustomSubscription.preview_subscription(params[:member_stripe_id], stripe_line_items, coupon)
       subscription = CustomSubscription.create_subscription(params[:member_stripe_id], stripe_line_items, coupon, trial_period_days)
 
+      @custom_subscription.start_date = Time.at(subscription.created)
       @custom_subscription.stripe_sub_id = subscription.id
       @custom_subscription.next_invoice_date = Time.at(subscription.current_period_end)
       @custom_subscription.invoice_amount = preview.amount_due
@@ -48,6 +48,29 @@ class CustomSubscriptionsController < ApplicationController
           format.html { render :new }
           format.json { render json: @custom_subscription.errors, status: :unprocessable_entity }
         end
+      end
+    end
+  end
+
+  def edit
+    @coupons = Stripe::Coupon.list(limit: 50)
+    @all_plans = Plan.all.to_json
+    @latest_invoice = Stripe::Invoice.list(subscription: @custom_subscription.stripe_sub_id, limit: 1).first
+
+    @line_items = @stripe_subscription.items.data
+  end
+
+  def update
+    stripe_line_items = line_items(params['custom_subscription']['line_items'])
+    @stripe_subscription.items = stripe_line_items
+
+    respond_to do |format|
+      if @stripe_subscription.save
+        format.html { redirect_to member_path(@member), notice: 'Custom subscription was successfully updated.' }
+        format.json { render :show, status: :updated, location: @custom_subscription }
+      else
+        format.html { render :new }
+        format.json { render json: @custom_subscription.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -87,11 +110,16 @@ class CustomSubscriptionsController < ApplicationController
     def line_items(params)
       stripe_sub_items = []
       params.each do |line_item|
-        if line_item.last['quantity'].present? && line_item.last['plan_id'].present?
+        if line_item.last['quantity'].present? && line_item.last['quantity'] == '0'
+          stripe_sub_items << {
+            id: line_item.last['subscription_item'],
+            deleted: true
+          }
+        elsif line_item.last['quantity'].present? && line_item.last['plan_id'].present?
           stripe_sub_items << {
             plan: Plan.find(line_item.last['plan_id']).stripe_id,
             quantity: line_item.last['quantity']
-          }
+          }.merge(line_item.last['subscription_item'] ? {id: line_item.last['subscription_item']} : {})
         end
       end
       return stripe_sub_items

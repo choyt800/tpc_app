@@ -6,6 +6,20 @@ $(document).ready(function() {
     $('#all-plan-info').data('original-plan-selects', $('.line-item[data-line-item=0]').children('.plan').children('select').html());
     $('.temporary-data').hide().append($('.line-item[data-line-item=0]').children('.plan').children('select').clone());
 
+    var isEditPage = false;
+
+    if (window.location.pathname.includes('edit')) {
+      isEditPage = true;
+
+      $('.custom-sub-lines').find('.line-item').each(function() {
+        var line = $(this).data('line-item');
+        var origPlan = $(this).find('select.plan').find('option:selected').val();
+        planCategoryChange(line);
+        $(this).find('select.plan').find('option[value=' + origPlan + ']').attr('selected', true);
+        planChange(line);
+      });
+    }
+
     $('.custom-sub-lines, #custom_subscription_coupon').change(function() {
       $('#preview-invoice').attr('disabled', false);
       $('#create-subscription').attr('disabled', true);
@@ -15,7 +29,7 @@ $(document).ready(function() {
       e.preventDefault();
 
       var serializedForm = {};
-      $("#new_custom_subscription").serializeArray().map(function(x){serializedForm[x.name] = x.value;});
+      $(".the-custom-sub-form").serializeArray().map(function(x){serializedForm[x.name] = x.value;});
 
       $('#preview-invoice').attr('disabled', true);
       $('span.discount, span.total').html('...')
@@ -190,6 +204,8 @@ $(document).ready(function() {
       $.each($newLine.find("select"), function() {
         $(this).attr('name', $(this).attr('name').replace(/\d+/, newLineNumber));
         $(this).attr('id', $(this).attr('id').replace(/\d+/, newLineNumber));
+
+        $(this).find('option').first().attr('selected', true);
       });
 
       $('.custom-sub-lines').find('.line-item:last').after($newLine);

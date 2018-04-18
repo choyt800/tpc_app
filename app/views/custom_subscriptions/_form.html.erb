@@ -1,8 +1,12 @@
 <div class='temporary-data'>
 </div>
 
-<%= form_for([@member, @custom_subscription]) do |f| %>
+<%= form_for([@member, @custom_subscription], html: {class: 'the-custom-sub-form'}) do |f| %>
   <%= hidden_field_tag :member_stripe_id, @member.stripe_id %>
+  <% if @custom_subscription.stripe_sub_id %>
+    <%= hidden_field_tag :stripe_subscription_id, @custom_subscription.stripe_sub_id %>
+  <% end %>
+
   <% if @custom_subscription.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@custom_subscription.errors.count, "error") %> prohibited this membership from being saved:</h2>
