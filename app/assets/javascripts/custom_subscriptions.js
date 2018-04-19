@@ -42,15 +42,13 @@ $(document).ready(function() {
         type: 'POST',
         data: serializedForm,
         success: function(data) {
-          console.log(data)
-
           var sub = $('.subtotal').data('subtotal') * 100;
 
           if (isEditPage) {
-            var total = sub;
+            var total = (data.real_total != null) ? data.real_total : data.total;
             var discount = sub - 0;
             var date = new Date(data.next_payment_attempt * 1000);
-            var dateString = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate();
+            var dateString = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2);
 
             $('span.next-invoice-date').html(dateString);
             $('span.next-invoice-amount').html('$' + (data.amount_due / 100.0).toFixed(2));

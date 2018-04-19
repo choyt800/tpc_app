@@ -45,7 +45,7 @@ class CustomSubscription < ActiveRecord::Base
       subscription_items: items,
       coupon: coupon,
       subscription_prorate: prorate,
-      # subscription_proration_date: 1526639337
+      subscription_proration_date: (prorate ? Time.now.midnight.to_i : nil)
     )
   end
 

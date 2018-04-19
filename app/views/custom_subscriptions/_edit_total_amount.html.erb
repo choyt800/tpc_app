@@ -4,17 +4,17 @@
     <td><span class='subtotal'>$0.00</span></td>
   </tr>
 
-  <!-- <tr>
+  <tr>
     <td>Coupon:</td>
-    <td><%= f.select :coupon, @coupons.collect {|c| c.id}, {include_blank: true}, {class: 'coupon'} %></td>
-  </tr> -->
+    <td><%= f.select :coupon, @coupons.collect {|c| c.id}, {include_blank: true, selected: @selected_coupon}, {class: 'coupon'} %></td>
+  </tr>
 
-  <!-- <tr>
+  <tr>
     <td>Prorate Changes:</td>
     <td><%= f.check_box 'prorate', checked_value: true, unchecked_value: false, checked: true %></td>
   </tr>
 
-  <tr>
+  <!-- <tr>
     <td>Charge Difference Now:</td>
     <td><%= f.check_box 'charge_now', checked_value: true, unchecked_value: false %></td>
   </tr> -->

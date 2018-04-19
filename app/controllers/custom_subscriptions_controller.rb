@@ -58,6 +58,8 @@ class CustomSubscriptionsController < ApplicationController
     @latest_invoice = Stripe::Invoice.list(subscription: @custom_subscription.stripe_sub_id, limit: 1).first
 
     @line_items = @stripe_subscription.items.data
+
+    @selected_coupon = @stripe_subscription.discount ? @stripe_subscription.discount.coupon.id : nil
   end
 
   def preview_update
@@ -72,16 +74,29 @@ class CustomSubscriptionsController < ApplicationController
     preview = CustomSubscription.preview_subscription_update(params[:member_stripe_id], params[:stripe_subscription_id],
                 stripe_line_items, coupon, prorate, charge_now)
 
-    render json: preview
+    if prorate
+      real_total = CustomSubscription.preview_subscription_update(params[:member_stripe_id], params[:stripe_subscription_id],
+        stripe_line_items, coupon, false, charge_now).total
+    end
+
+    render json: preview.to_hash.merge({real_total: real_total})
   end
 
   def update
     stripe_line_items = line_items(params['custom_subscription']['line_items'])
+    prorate = custom_subscription_params['prorate'] == '1'
+    proration_date = Time.now.midnight.to_i
+
     @stripe_subscription.items = stripe_line_items
+    @stripe_subscription.prorate = prorate
+    @stripe_subscription.proration_date = proration_date if prorate
 
     respond_to do |format|
       if @stripe_subscription.save
-        format.html { redirect_to member_path(@member), notice: 'Custom subscription was successfully updated.' }
+        next_invoice = CustomSubscription.upcoming_invoice(@member.stripe_id, @custom_subscription.stripe_sub_id)
+        @custom_subscription.update_attributes!(invoice_amount: next_invoice.total)
+
+        format.html { redirect_to @member, notice: 'Custom subscription was successfully updated.' }
         format.json { render :show, status: :updated, location: @custom_subscription }
       else
         format.html { render :new }

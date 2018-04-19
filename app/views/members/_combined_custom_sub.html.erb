@@ -1,7 +1,7 @@
 <td>Custom Sub</td> <!-- Plan Name -->
 <td><%= membership.status %></td><!-- Status -->
 <td>Stripe</td><!-- Payment Type -->
-<td></td><!-- Invoice Amount -->
+<td><%= membership.pretty_invoice_amount %></td><!-- Invoice Amount -->
 <td><%= membership.start_date.to_date if membership.start_date %></td><!-- Start Date -->
 <td><%= membership.end_date.to_date if membership.end_date %></td><!-- End Date -->
 <td><%= membership.next_invoice_date.to_date if membership.next_invoice_date %></td><!-- Next Invoice Date -->
