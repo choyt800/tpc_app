@@ -1,6 +1,6 @@
 $(document).ready(function() {
   if (window.location.pathname.includes('custom_subscriptions')) {
-    $("#custom_subscription_trial_period_days").datepicker({ minDate: 0, maxDate: "+6W", dateFormat: 'yy-mm-dd' });
+    $("#custom_subscription_trial_period_days").datepicker({ minDate: 0, maxDate: "+18M", dateFormat: 'yy-mm-dd' });
 
     var allPlanInfo = JSON.parse($('#all-plan-info').attr('data-info'));
     $('#all-plan-info').data('original-plan-selects', $('.line-item[data-line-item=0]').children('.plan').children('select').html());

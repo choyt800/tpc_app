@@ -20,7 +20,7 @@ jQuery ->
         $('#membership_payment_type option[value="Stripe"]').attr('disabled', 'disabled')
 
     # TRIAL PERIOD CALENDAR
-    $("#membership_trial_period_days").datepicker({ minDate: 0, maxDate: "+6W", dateFormat: 'yy-mm-dd' })
+    $("#membership_trial_period_days").datepicker({ minDate: 0, maxDate: "+18M", dateFormat: 'yy-mm-dd' })
 
 payment_type_conditional = ->
   payment_type = $('#membership_payment_type :selected').text()
