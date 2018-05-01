@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_action :set_member, only: [:show, :edit, :update, :destroy, :create_stripe, :link_stripe, :update_stripe]
+  before_action :set_member, only: [:show, :edit, :update, :destroy, :create_stripe, :link_stripe, :update_stripe, :update_stripe_source]
   require 'date'
 
   # GET /members
@@ -60,6 +60,8 @@ class MembersController < ApplicationController
   def update
     respond_to do |format|
       if @member.update(member_params)
+        update_stripe(@member)
+
         format.html { redirect_to @member, notice: 'Member was successfully updated.' }
         format.json { render :show, status: :ok, location: @member }
       else
@@ -123,7 +125,19 @@ class MembersController < ApplicationController
     end
   end
 
-  def update_stripe
+  def update_stripe(member)
+    customer = Stripe::Customer.retrieve(member.stripe_id)
+
+    customer.email = member.email
+    customer.metadata = {
+      'First Name' => member.first_name,
+      'Last Name' => member.last_name
+    }
+
+    customer.save
+  end
+
+  def update_stripe_source
     customer = Stripe::Customer.retrieve(@member.stripe_id)
     customer.source = params[:stripeToken]
 

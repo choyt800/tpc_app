@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     delete 'mail_services/:id/cancel' => 'mail_services#cancel', as: 'cancel_mail_service'
     post 'create_stripe' => 'members#create_stripe'
     post 'link_stripe' => 'members#link_stripe'
-    post 'update_stripe' => 'members#update_stripe'
+    post 'update_stripe_source' => 'members#update_stripe_source'
   end
   resources :teams do
     resources :memberships, except: [:index]
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     delete 'mail_services/:id/cancel' => 'mail_services#cancel', as: 'cancel_mail_service'
     post 'create_stripe' => 'teams#create_stripe'
     post 'link_stripe' => 'teams#link_stripe'
-    post 'update_stripe' => 'teams#update_stripe'
+    post 'update_stripe_source' => 'teams#update_stripe_source'
   end
   resources :keycards
   resources :charges

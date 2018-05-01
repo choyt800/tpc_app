@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :edit, :update, :destroy, :create_stripe, :link_stripe, :update_stripe]
+  before_action :set_team, only: [:show, :edit, :update, :destroy, :create_stripe, :link_stripe, :update_stripe, :update_stripe_source]
   def index
     @teams = Team.all
   end
@@ -34,6 +34,8 @@ class TeamsController < ApplicationController
   def update
     respond_to do |format|
       if @team.update(team_params)
+        update_stripe(@team)
+
         format.html { redirect_to @team, notice: 'Team was successfully updated.' }
         format.json { render :show, status: :ok, location: @team }
       else
@@ -95,7 +97,18 @@ class TeamsController < ApplicationController
     end
   end
 
-  def update_stripe
+  def update_stripe(team)
+    customer = Stripe::Customer.retrieve(team.stripe_id)
+
+    customer.email = team.billing_email
+    customer.metadata = {
+      'Owner' => team.owner
+    }
+
+    customer.save
+  end
+
+  def update_stripe_source
     customer = Stripe::Customer.retrieve(@team.stripe_id)
     customer.source = params[:stripeToken]
 

@@ -52,7 +52,7 @@
           <tr><th>Credit Card Last Four</th><td><%= @stripe_card.last4 %></td></tr>
           <tr><th>Credit Card Expiration</th><td><%= @stripe_card.exp_month %> / <%= @stripe_card.exp_year %></td></tr>
         </table>
-        <%= form_tag team_update_stripe_path(@team) do %>
+        <%= form_tag team_update_stripe_source_path(@team) do %>
           <%= hidden_field_tag :id, @team.id %>
           <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                   data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
