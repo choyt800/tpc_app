@@ -22,11 +22,15 @@ class Member < ActiveRecord::Base
   validates :email, presence: true
 
   def self.active
-    joins(:memberships).distinct.where("memberships.end_date": nil)
+    Member
+      .joins('INNER JOIN "memberships" ON "memberships"."member_id" = "members"."id"')
+      .joins('LEFT OUTER JOIN "custom_subscriptions" ON "custom_subscriptions"."member_id" = "members"."id"')
+      .distinct
+      .where("memberships.end_date IS NULL OR custom_subscriptions.end_date IS NULL")
   end
 
   def self.inactive
-    joins(:memberships).distinct.where.not(id: Member.active.select('member_id'))
+    Member.where.not(id: Member.active.select('id'))
   end
 
   def self.unassigned
