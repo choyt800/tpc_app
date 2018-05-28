@@ -7,7 +7,6 @@ class TeamsController < ApplicationController
   def show
     @stripe_customer = Stripe::Customer.retrieve(@team.stripe_id) if @team.stripe_id
     @stripe_card = @stripe_customer.sources.retrieve(@stripe_customer.default_source) if @stripe_customer
-    @combined_history = (@team.custom_subscriptions + @team.memberships).sort_by(&:created_at).reverse
   end
 
   def new
