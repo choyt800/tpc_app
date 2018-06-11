@@ -38,8 +38,20 @@
 
           <td>
             <ul>
-              <li><%= member.custom_subscriptions.count %> Custom Subscriptions</li>
-              <li><%= member.memberships.count %> Memberships</li>
+              <li>
+                <%= member.custom_subscriptions.count %> Custom Subscriptions -
+                <%= member.custom_subscriptions.where(end_date: nil).count %> active,
+                <%= member.custom_subscriptions.where.not(end_date: nil).count %> inactive
+              </li>
+              <% if member.memberships.blank? %>
+                No memberships
+              <% else %>
+                <li>(OLD)
+                  <%= member.memberships.count %> Memberships -
+                  <%= member.memberships.where(end_date: nil).count %> active,
+                  <%= member.memberships.where.not(end_date: nil).count %> inactive
+                </li>
+              <% end %>
             </ul>
           </td>
           <td>

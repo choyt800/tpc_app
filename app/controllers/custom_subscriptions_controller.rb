@@ -18,9 +18,10 @@ class CustomSubscriptionsController < ApplicationController
   end
 
   def preview
+    stripe_customer_id = params[:member_stripe_id].present? ? params[:member_stripe_id] : Member.dummy_stripe_id
     stripe_line_items = line_items(params['custom_subscription']['line_items'])
     coupon = params['custom_subscription']['coupon'].presence || nil
-    preview = CustomSubscription.preview_subscription(params[:member_stripe_id], stripe_line_items, coupon)
+    preview = CustomSubscription.preview_subscription(stripe_customer_id, stripe_line_items, coupon)
 
     render json: preview
   end
@@ -32,12 +33,23 @@ class CustomSubscriptionsController < ApplicationController
       stripe_line_items = line_items(params['custom_subscription']['line_items'])
       coupon = params['custom_subscription']['coupon'].presence || nil
       trial_period_days = set_trial_period_days
-      preview = CustomSubscription.preview_subscription(params[:member_stripe_id], stripe_line_items, coupon)
-      subscription = CustomSubscription.create_subscription(params[:member_stripe_id], stripe_line_items, coupon, trial_period_days)
 
-      @custom_subscription.start_date = Time.at(subscription.created)
-      @custom_subscription.stripe_sub_id = subscription.id
-      @custom_subscription.next_invoice_date = Time.at(subscription.current_period_end)
+      if params[:payment_type].include?('Stripe')
+        preview = CustomSubscription.preview_subscription(params[:member_stripe_id], stripe_line_items, coupon)
+        subscription = CustomSubscription.create_subscription(params[:member_stripe_id], stripe_line_items, coupon, trial_period_days)
+
+        @custom_subscription.start_date = Time.at(subscription.created)
+        @custom_subscription.stripe_sub_id = subscription.id
+        @custom_subscription.next_invoice_date = Time.at(subscription.current_period_end)
+      else
+        preview = CustomSubscription.preview_subscription(Member.dummy_stripe_id, stripe_line_items, coupon)
+
+        @custom_subscription.start_date = Time.at(preview.date)
+        @custom_subscription.payment_type = 'check'
+        @custom_subscription.items = stripe_line_items
+        # @custom_subscription.next_invoice_date = @custom_subscription.start_date + interval
+      end
+
       @custom_subscription.invoice_amount = preview.amount_due
 
       respond_to do |format|
@@ -57,27 +69,37 @@ class CustomSubscriptionsController < ApplicationController
     @all_plans = Plan.all.to_json
     @latest_invoice = Stripe::Invoice.list(subscription: @custom_subscription.stripe_sub_id, limit: 1).first
 
-    @line_items = @stripe_subscription.items.data
-
-    @selected_coupon = @stripe_subscription.discount ? @stripe_subscription.discount.coupon.id : nil
+    if @stripe_subscription
+      @line_items = @stripe_subscription.items.data
+      @selected_coupon = @stripe_subscription.discount ? @stripe_subscription.discount.coupon.id : nil
+    else
+      @line_items = eval(@custom_subscription.items)
+      puts '!!!!!'
+      puts @custom_subscription.items
+    end
   end
 
   def preview_update
     stripe_line_items = line_items(params['custom_subscription']['line_items'])
     coupon = params['custom_subscription']['coupon'].presence || nil
 
-    current_subscription = Stripe::Subscription.retrieve(params[:stripe_subscription_id])
+    if params[:stripe_subscription_id]
+      current_subscription = Stripe::Subscription.retrieve(params[:stripe_subscription_id])
 
-    prorate = custom_subscription_params['prorate'] == '1'
-    charge_now = custom_subscription_params['charge_now'] == '1'
+      prorate = custom_subscription_params['prorate'] == '1'
+      charge_now = custom_subscription_params['charge_now'] == '1'
 
-    preview = CustomSubscription.preview_subscription_update(params[:member_stripe_id], params[:stripe_subscription_id],
-                stripe_line_items, coupon, prorate, charge_now)
+      preview = CustomSubscription.preview_subscription_update(params[:member_stripe_id], params[:stripe_subscription_id],
+                  stripe_line_items, coupon, prorate, charge_now)
 
-    if prorate
-      real_total = CustomSubscription.preview_subscription_update(params[:member_stripe_id], params[:stripe_subscription_id],
-        stripe_line_items, coupon, false, charge_now).total
+      if prorate
+        real_total = CustomSubscription.preview_subscription_update(params[:member_stripe_id], params[:stripe_subscription_id],
+          stripe_line_items, coupon, false, charge_now).total
+      end
+    else
+      preview = CustomSubscription.preview_subscription(Member.dummy_stripe_id, stripe_line_items, coupon)
     end
+
 
     render json: preview.to_hash.merge({real_total: real_total})
   end
@@ -87,30 +109,51 @@ class CustomSubscriptionsController < ApplicationController
     prorate = custom_subscription_params['prorate'] == '1'
     proration_date = Time.now.midnight.to_i
 
-    @stripe_subscription.items = stripe_line_items
-    @stripe_subscription.prorate = prorate
-    @stripe_subscription.proration_date = proration_date if prorate
+    if @custom_subscription.payment_type == 'stripe'
+      @stripe_subscription.items = stripe_line_items
+      @stripe_subscription.prorate = prorate
+      @stripe_subscription.proration_date = proration_date if prorate
 
-    respond_to do |format|
-      if @stripe_subscription.save
-        next_invoice = CustomSubscription.upcoming_invoice(@member.stripe_id, @custom_subscription.stripe_sub_id)
-        @custom_subscription.update_attributes!(invoice_amount: next_invoice.total)
+      respond_to do |format|
+        if @stripe_subscription.save
+          next_invoice = CustomSubscription.upcoming_invoice(@member.stripe_id, @custom_subscription.stripe_sub_id)
+          @custom_subscription.update_attributes!(invoice_amount: next_invoice.total)
 
-        format.html { redirect_to @member, notice: 'Custom subscription was successfully updated.' }
-        format.json { render :show, status: :updated, location: @custom_subscription }
-      else
-        format.html { render :new }
-        format.json { render json: @custom_subscription.errors, status: :unprocessable_entity }
+          format.html { redirect_to @member, notice: 'Custom subscription was successfully updated.' }
+          format.json { render :show, status: :updated, location: @custom_subscription }
+        else
+          format.html { render :new }
+          format.json { render json: @custom_subscription.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      preview = CustomSubscription.preview_subscription(Member.dummy_stripe_id, stripe_line_items)
+      @custom_subscription.items = stripe_line_items
+      @custom_subscription.invoice_amount = preview.amount_due
+
+      respond_to do |format|
+        if @custom_subscription.save
+          format.html { redirect_to @member, notice: 'Custom subscription was successfully updated.' }
+          format.json { render :show, status: :updated, location: @custom_subscription }
+        else
+          format.html { render :new }
+          format.json { render json: @custom_subscription.errors, status: :unprocessable_entity }
+        end
       end
     end
+
   end
 
   def cancel
     ActiveRecord::Base.transaction do
-      @stripe_subscription.delete(at_period_end: true)
-      @end_date = @stripe_subscription.current_period_end
+      if @custom_subscription.payment_type == 'stripe'
+        @stripe_subscription.delete(at_period_end: true)
+        @end_date = @stripe_subscription.current_period_end
 
-      @custom_subscription.end_date = Time.at(@end_date).to_date
+        @custom_subscription.end_date = Time.at(@end_date).to_date
+      else
+        @custom_subscription.end_date = Date.current
+      end
       @custom_subscription.next_invoice_date = nil
       @custom_subscription.save!
 
@@ -125,7 +168,7 @@ class CustomSubscriptionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_custom_subscription
       @custom_subscription = CustomSubscription.find(params[:id])
-      @stripe_subscription = Stripe::Subscription.retrieve(@custom_subscription.stripe_sub_id)
+      @stripe_subscription = Stripe::Subscription.retrieve(@custom_subscription.stripe_sub_id) if @custom_subscription.stripe_sub_id
     end
 
     def set_member_or_team

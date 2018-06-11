@@ -20,6 +20,9 @@
   <% end %>
 
   <h3><%= @member.try(:full_name) || "Team #{@member.try(:name)}" %></h3>
+  <% if @custom_subscription.stripe_sub_id %>
+    <p><%= @custom_subscription.stripe_sub_id %></p>
+  <% end %>
 
   <table class='table custom-sub-lines'>
     <thead>
@@ -35,8 +38,10 @@
     <tbody>
       <% if action_name == 'new' %>
         <%= render 'new_line_items' %>
-      <% else %>
+      <% elsif @custom_subscription.payment_type == 'stripe' %>
         <%= render 'edit_line_items' %>
+      <% else %>
+        <%= render 'edit_line_items_check' %>
       <% end %>
 
       <tr>
@@ -47,9 +52,9 @@
         <td colspan=5>
           <div class='right-align'>
             <% if action_name == 'new' %>
-              <%= render 'new_total_amount', f: f, button_name: button_name %>
+              <%= render 'new_total_amount', f: f %>
             <% else %>
-              <%= render 'edit_total_amount', f: f, button_name: button_name %>
+              <%= render 'edit_total_amount', f: f %>
             <% end %>
           </div>
         </td>

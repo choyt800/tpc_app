@@ -110,7 +110,7 @@
             <tr>
               <td>Custom Sub</td> <!-- Plan Name -->
               <td><%= csub.status %></td><!-- Status -->
-              <td>Stripe</td><!-- Payment Type -->
+              <td><%= csub.payment_type %></td><!-- Payment Type -->
               <td><%= csub.pretty_invoice_amount %></td><!-- Invoice Amount -->
               <td><%= csub.start_date.to_date if csub.start_date %></td><!-- Start Date -->
               <td><%= csub.end_date.to_date if csub.end_date %></td><!-- End Date -->

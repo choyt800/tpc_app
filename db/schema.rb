@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180418032517) do
+ActiveRecord::Schema.define(version: 20180611190259) do
 
   create_table "active_members", force: :cascade do |t|
     t.integer  "member_id"
@@ -72,6 +72,8 @@ ActiveRecord::Schema.define(version: 20180418032517) do
     t.datetime "updated_at"
     t.datetime "start_date"
     t.datetime "end_date"
+    t.string   "items"
+    t.string   "payment_type",      default: "stripe"
   end
 
   create_table "keycard_checkouts", force: :cascade do |t|

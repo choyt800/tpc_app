@@ -54,4 +54,15 @@ class Member < ActiveRecord::Base
       start_date = start_date
     end
   end
+
+  def self.dummy_stripe_id
+    # If a customer doesn't have a Stripe Customer ID, we'll use this one instead.
+    # It's the ID of `david@plateau.digital`, which doesn't have a card attached.
+
+    if Rails.env.production?
+      'cus_D1zJVzPK2ek7JG'
+    else
+      'cus_D1zMSJ2nym2tZo'
+    end
+  end
 end

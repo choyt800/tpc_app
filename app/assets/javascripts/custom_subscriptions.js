@@ -22,7 +22,7 @@ $(document).ready(function() {
 
     $('.custom-sub-lines, #custom_subscription_coupon').change(function() {
       $('#preview-invoice').attr('disabled', false);
-      $('#create-subscription').attr('disabled', true);
+      disableSubmitButtons();
     });
 
     $('#preview-invoice').click(function(e) {
@@ -59,7 +59,7 @@ $(document).ready(function() {
 
           $('span.discount').html('$' + (discount / 100.0).toFixed(2));
           $('span.total').html('$' + (total / 100.0).toFixed(2));
-          $('#create-subscription').attr('disabled', false);
+          enableSubmitButtons();
         }
       });
     })
@@ -232,6 +232,19 @@ $(document).ready(function() {
 
       $('.custom-sub-lines').find('.line-item:last').after($newLine);
       planCategoryChange(newLineNumber);
+    }
+
+    function disableSubmitButtons() {
+      $('#create-subscription-stripe').attr('disabled', true);
+      $('#create-subscription-check').attr('disabled', true);
+    }
+    function enableSubmitButtons() {
+      if ($('#member_stripe_id').val() != '') {
+        $('#create-subscription-stripe').attr('disabled', false);
+      } else {
+        $('#create-subscription-stripe').attr('disabled', true);
+      }
+      $('#create-subscription-check').attr('disabled', false);
     }
   }
 })

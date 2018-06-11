@@ -34,7 +34,10 @@
 
   <tr>
     <td colspan=2>
-      <%= f.submit name: button_name, id: 'create-subscription', disabled: true, remote: true, data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
+      <% if @member.stripe_id %>
+        <%= f.submit name: 'payment_type', value: 'Create - Pay via Stripe', class: 'create-subscription', id: 'create-subscription-stripe', disabled: true, remote: true, data: { confirm: "WARNING: If this is a Stripe plan, this will charge the Member's Credit Card IMMEDIATELY." } %>
+      <% end %>
+      <%= f.submit name: 'payment_type', value: 'Create - Pay via Check', class: 'create-subscription', id: 'create-subscription-check', disabled: true, remote: true %>
     </td>
   </tr>
 </table>
