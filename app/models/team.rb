@@ -11,6 +11,18 @@ class Team < ActiveRecord::Base
   has_attached_file :document
   validates_attachment :document, :content_type => { :content_type => %w(application/pdf) }
 
+  def self.active
+    joins(:custom_subscriptions).distinct.where('custom_subscriptions.end_date IS NULL')
+  end
+
+  def self.inactive
+    joins(:custom_subscriptions).distinct.where('custom_subscriptions.end_date IS NOT NULL')
+  end
+
+  def self.unassigned
+    includes(:custom_subscriptions).where('custom_subscriptions.id': nil)
+  end
+
   def contact_email
     billing_email || member_email
   end

@@ -22,19 +22,42 @@ class Member < ActiveRecord::Base
   validates :email, presence: true
 
   def self.active
-    Member
-      .joins('INNER JOIN "memberships" ON "memberships"."member_id" = "members"."id"')
-      .joins('LEFT OUTER JOIN "custom_subscriptions" ON "custom_subscriptions"."member_id" = "members"."id"')
-      .distinct
-      .where("memberships.end_date IS NULL OR custom_subscriptions.end_date IS NULL")
+    joins(:custom_subscriptions).distinct.where("custom_subscriptions.end_date": nil)
+  end
+
+  def self.active_stripe
+    Member.active
+      .where('custom_subscriptions.stripe_sub_id IS NOT NULL')
+  end
+
+  def self.active_non_stripe
+    Member.active
+      .where('custom_subscriptions.stripe_sub_id IS NULL')
   end
 
   def self.inactive
-    Member.where.not(id: Member.active.select('id'))
+    # joins(:custom_subscriptions).distinct.where.not("custom_subscriptions.end_date": nil)
+    joins(:custom_subscriptions).distinct.where.not(id: Member.active.select('member_id'))
   end
 
   def self.unassigned
-    includes(:memberships).where("memberships.id": nil)
+    includes(:custom_subscriptions).where("custom_subscriptions.id": nil).where('members.team_id IS NULL')
+  end
+
+  def self.team_members
+    Member.where('team_id IS NOT NULL')
+  end
+
+  def self.active_team_members
+    Member.team_members.where(team_active: true)
+  end
+
+  def self.inactive_team_members
+    Member.team_members.where(team_active: false)
+  end
+
+  def unassigned_team_members
+    Team.unassigned
   end
 
   def full_name

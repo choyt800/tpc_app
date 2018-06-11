@@ -12,7 +12,7 @@
         <th>Team</th>
         <th>Email</th>
         <th>Agreement</th>
-        <th>Current membership</th>
+        <th>Current Subscriptions</th>
         <th>Mail service</th>
         <th>Edit</th>
       </tr>
@@ -37,22 +37,13 @@
           </td>
 
           <td>
-            <ul>
-              <li>
-                <%= member.custom_subscriptions.count %> Custom Subscriptions -
-                <%= member.custom_subscriptions.where(end_date: nil).count %> active,
-                <%= member.custom_subscriptions.where.not(end_date: nil).count %> inactive
-              </li>
-              <% if member.memberships.blank? %>
-                No memberships
-              <% else %>
-                <li>(OLD)
-                  <%= member.memberships.count %> Memberships -
-                  <%= member.memberships.where(end_date: nil).count %> active,
-                  <%= member.memberships.where.not(end_date: nil).count %> inactive
-                </li>
-              <% end %>
-            </ul>
+            <%= member.custom_subscriptions.count %> Custom Subscriptions<br />
+            <% if member.custom_subscriptions.count > 0 %>
+              - <%= member.custom_subscriptions.where(end_date: nil).count %> active,
+              <%= member.custom_subscriptions.where.not(end_date: nil).count %> inactive<br />
+              - <%= member.custom_subscriptions.where(payment_type: 'stripe').count%> via Stripe,
+              <%= member.custom_subscriptions.where(payment_type: 'check').count%> via Check
+            <% end %>
           </td>
           <td>
             <%= if member.has_mail_service

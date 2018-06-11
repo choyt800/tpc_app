@@ -9,7 +9,8 @@
         <th>Name</th>
         <th>Team Owner</th>
         <th>Contact Email</th>
-        <th>Agreement On File</th>
+        <th>Members</th>
+        <th>Current Subscriptions</th>
         <th colspan='2'></th>
       </tr>
     </thead>
@@ -21,11 +22,14 @@
         <td><%= team.name %></td>
         <td><%= team.owner %></td>
         <td><%= team.contact_email %></td>
+        <td><%= team.members.count %></td>
         <td>
-          <% if team.document?%>
-          <u><%= link_to "Yes ", team.document.url %></u>
-          <% else %>
-          No
+          <%= team.custom_subscriptions.count %> Custom Subscriptions<br />
+          <% if team.custom_subscriptions.count > 0 %>
+            - <%= team.custom_subscriptions.where(end_date: nil).count %> active,
+            <%= team.custom_subscriptions.where.not(end_date: nil).count %> inactive<br />
+            - <%= team.custom_subscriptions.where(payment_type: 'stripe').count%> via Stripe,
+            <%= team.custom_subscriptions.where(payment_type: 'check').count%> via Check
           <% end %>
         </td>
         <td colspan='2'><%= link_to 'Show Team', team_path(team), :class =>"button btn btn-default pad-5" %></td>

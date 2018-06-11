@@ -1,7 +1,16 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :edit, :update, :destroy, :create_stripe, :link_stripe, :update_stripe, :update_stripe_source]
   def index
-    @teams = Team.all
+    @teams =  case params[:filter]
+              when 'active'
+                Team.active
+              when 'inactive'
+                Team.inactive
+              when 'unassigned'
+                Team.unassigned
+              else
+                Team.all
+              end
   end
 
   def show

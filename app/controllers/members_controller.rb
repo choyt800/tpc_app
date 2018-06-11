@@ -5,7 +5,24 @@ class MembersController < ApplicationController
   # GET /members
   # GET /members.json
   def index
-    @members = Member.all
+    @members =  case params[:filter]
+                when 'active'
+                  Member.active
+                when 'active_stripe'
+                  Member.active_stripe
+                when 'active_non_stripe'
+                  Member.active_non_stripe
+                when 'active_team_members'
+                  Member.active_team_members
+                when 'inactive'
+                  Member.inactive
+                when 'inactive_team_members'
+                  Member.inactive_team_members
+                when 'unassigned'
+                  Member.unassigned
+                else
+                  Member.all
+                end
   end
 
   def inactive
