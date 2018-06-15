@@ -18,32 +18,15 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="/management">Dashboard</a></li>
-            <li><a href="/members"><strong> Members </strong></a>
-                 <ul>
-                     <li><%= link_to "View Active", members_path(filter: 'active') %></li>
-                     <li><%= link_to "View Active - Stripe", members_path(filter: 'active_stripe') %></li>
-                     <li><%= link_to "View Active - Non Stripe", members_path(filter: 'active_non_stripe') %></li>
-                     <li><%= link_to "View Inactive", members_path(filter: 'inactive') %></li>
-                     <li><%= link_to "View Unassigned", members_path(filter: 'unassigned') %></li>
-                     <li><a href="/members/new">Create New</a></li>
-                </ul>
+            <li><a href="/members"><i class="material-icons">person </i><strong> Members </strong></a>
+                
             </li>
 
-            <li><a href="/teams"><strong> Teams </strong></a>
-                <ul>
-                  <li><%= link_to "View Active Teams", teams_path(filter: 'active') %></li>
-                  <li><%= link_to "View Active Team Members", members_path(filter: 'active_team_members') %></li>
-                  <li><%= link_to "View Inactive Teams", teams_path(filter: 'inactive') %></li>
-                  <li><%= link_to "View Inactive Team Members", members_path(filter: 'inactive_team_members') %></li>
-                  <li><%= link_to "View Unassigned Teams", teams_path(filter: 'unassigned') %></li>
-                  <li><a href="/teams/new">Create New</a>
-
-                </ul>
-
+            <li><a href="/teams"><i class="material-icons">group </i><strong> Teams </strong></a>
             </li>
-
-
           </ul>
+          
+          <hr>
 
           <ul class="nav navbar-nav">
 

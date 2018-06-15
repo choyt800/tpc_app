@@ -1,6 +1,6 @@
 <div class='temporary-data'>
 </div>
-
+<div class="form-group">
 <%= form_for([@member, @custom_subscription], html: {class: 'the-custom-sub-form'}) do |f| %>
   <%= hidden_field_tag :member_stripe_id, @member.stripe_id %>
   <% if @custom_subscription.stripe_sub_id %>
@@ -62,5 +62,6 @@
     </tbody>
   </table>
 <% end %>
+</div>
 
 <div id='all-plan-info' data-info="<%= @all_plans %>"></div>

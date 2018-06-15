@@ -19,15 +19,13 @@
     border-top-width: 0;
     border-bottom-width: 0;
     border-radius: 0;
-    background: #5BC7D4!important;
-    color: #ffffff!important;
+    
 
     .container, .container-fluid {
       width: auto;
       padding-left: 0;
       padding-right: 0;
-      background: #5BC7D4!important;
-      color: #fff!important;
+     
     }
 
     .navbar-header {
@@ -188,12 +186,10 @@
 
 .navbar-default .navbar-form {
     border: 0;
-    font-family: "Garamond";
 }
 
 .navbar-default .navbar-nav > li > a, .navbar-default a {
-  color: #fff;
-  font-family: 'Poppins'!important;
+
   font-size: 1.1em;
   line-height: 1.8em;
  
@@ -202,4 +198,13 @@
 
 .navbar-brand {
   padding-left: 30px;
+}
+
+
+ul.filter-list li {
+  float: right;
+  padding-right: 7px;
+  padding-left: 7px;
+  list-style-type: none;
+
 }

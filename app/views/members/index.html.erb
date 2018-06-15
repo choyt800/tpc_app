@@ -1,40 +1,55 @@
 <div class="form-group">
   <p id="notice"><%= notice %></p>
-  <h1 class="float-right"><i class="material-icons">person </i> Active Members</h1>
-
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="float-right">Members
+      </h1>
+    </div>
+    <div class="col">
+     <ul class="filter-list">
+       <li><%= link_to "Unassigned /", members_path(filter: 'unassigned') %></li>
+       <li><%= link_to "Inactive /", members_path(filter: 'inactive') %></li>
+       <li><%= link_to "Active - Team Members /", members_path(filter: 'active_team_members') %></li>
+       <li><%= link_to "Active - Non Stripe /", members_path(filter: 'active_non_stripe') %></li>
+       <li><%= link_to "Active - Stripe /", members_path(filter: 'active_stripe') %></li>
+       <li><%= link_to "Active - all /", members_path(filter: 'active') %>
+       
+       
+       
+       
+       <li><a href="/members/new"><i class="material-icons">add_circle</i></a> </li>
+       
+    </ul>
+    </div>
+  </div>
   <table id="datatable" class="table">
+    
     <thead>
+      
       <tr>
-        <th>Headshot</th>
+     
         <th>Name</th>
-        <th>Role</th>
-        <th>Company</th>
         <th>Team</th>
-        <th>Email</th>
-        <th>Agreement</th>
         <th>Current Subscriptions</th>
-        <th>Mail service</th>
-        <th>Edit</th>
+       
+     
       </tr>
     </thead>
 
     <tbody>
       <% @members.each do |member| %>
         <tr>
-          <td><%= image_tag member.avatar.url(:thumb) %></td>
-          <td><strong><%= member.first_name %></strong> <br/><strong><%= member.last_name %></strong>
+          <td><%= image_tag member.avatar.url(:thumb) %>
+          <br/>
+          <strong><%= member.first_name %><%= member.last_name %></strong> 
+          <br/>
+          <%= member.company %>
+          <br/>
+          <%= link_to 'Show Member', member, :class =>"button btn btn-default pad-5"  %>
           </td>
-          <td><%= member.role %></td>
-          <td><%= member.company %></td>
+       
           <td><%= member.team ? link_to(member.team.name, member.team) : '' %></td>
-          <td><%= member.email %></td>
-          <td>
-            <% if member.document?%>
-            <u><%= link_to "Yes ", member.document.url %></u>
-            <% else %>
-            No
-            <% end %>
-          </td>
+         
 
           <td>
             <%= member.custom_subscriptions.count %> Custom Subscriptions<br />
@@ -45,15 +60,9 @@
               <%= member.custom_subscriptions.where(payment_type: 'check').count%> via Check
             <% end %>
           </td>
-          <td>
-            <%= if member.has_mail_service
-              member.mailbox_number
-            else
-              "No mail"
-            end
-            %>
-            </td>
-          <td><%= link_to 'Edit Member', member, :class =>"button btn btn-default pad-5"  %></td>
+          
+         
+          
         </tr>
       <% end %>
     </tbody>

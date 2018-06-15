@@ -1,27 +1,40 @@
 <div class="form-group">
   <p id="notice"><%= notice %></p>
-  <h1 class="float-right"><i class="material-icons">group </i> Active Teams</h1>
-
-  <table class="table table-condensed">
-    <thead class="tpc-head">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="float-right">Teams</h1>
+    </div>
+    <div class="col-sm-12">
+        <ul class="filter-list">
+            
+            <li><%= link_to "Inactive Team Members /", members_path(filter: 'inactive_team_members') %></li>
+            <li><%= link_to "Active - Team Members /", members_path(filter: 'active_team_members') %></li>
+            <li><%= link_to "Unassigned Teams /", teams_path(filter: 'unassigned') %></li>
+            <li><%= link_to "Inactive Teams /", teams_path(filter: 'inactive') %></li>
+            <li><%= link_to "Active Teams /", teams_path(filter: 'active') %></li>
+            <li><a href="/teams/new"><i class="material-icons">add_circle</i></a> </li>
+        
+        </ul>
+    </div>
+    </div>
+  <table id="datatable" class="table">
+    <thead>
       <tr>
         <th>Logo</th>
-        <th>Name</th>
-        <th>Team Owner</th>
-        <th>Contact Email</th>
         <th>Members</th>
         <th>Current Subscriptions</th>
-        <th colspan='2'></th>
       </tr>
     </thead>
 
     <tbody>
       <% @teams.each do |team| %>
       <tr>
-        <td><%= image_tag team.avatar.url(:thumb) %></td>
-        <td><%= team.name %></td>
-        <td><%= team.owner %></td>
-        <td><%= team.contact_email %></td>
+        <td><%= image_tag team.avatar.url(:thumb) %>
+        <br/>
+        <%= team.name %>
+        <br/>
+        <%= link_to 'Show Team', team_path(team), :class =>"button btn btn-default pad-5" %>
+        </td>
         <td><%= team.members.count %></td>
         <td>
           <%= team.custom_subscriptions.count %> Custom Subscriptions<br />
@@ -32,13 +45,10 @@
             <%= team.custom_subscriptions.where(payment_type: 'check').count%> via Check
           <% end %>
         </td>
-        <td colspan='2'><%= link_to 'Show Team', team_path(team), :class =>"button btn btn-default pad-5" %></td>
+      
       </tr>
       <% end %>
     </tbody>
   </table>
 
-  <br>
-
-  <%= link_to 'Create New Team', new_team_path, :class =>"button btn btn-default pad-5" %>
 </div>

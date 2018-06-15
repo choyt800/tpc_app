@@ -8,14 +8,12 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background-color: #F0F0F1!important;
   font-size: 14pt!important;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI" Arial, sans-serif;
+  letter-spacing: .02em;
  
 }
 
-table td, table li, table th {
-  font-family: 'Poppins'!important;
-}
 
 
 
@@ -23,13 +21,12 @@ h1, h2, h3 {
     padding-bottom: 5px;
     padding-top: 5px;
     color: #43403C!important;
-    font-family: 'Poppins'!important;
     font-weight: 400!important;
    
 }
 
 h2 {
-    font-size: 34pt!important;
+    font-size: 24pt!important;
    
 }
 
@@ -57,9 +54,6 @@ a:hover {
 }
 
 
-
-
-
 .align-center {
     text-align: center;
 }
@@ -70,7 +64,6 @@ a:hover {
     border-radius: 3;
     border: 2px #5BC7D4 solid;
     color: #43403C!important;
-    font-family: 'Poppins'!important;
     font-weight: normal;
     font-size: 10pt;
     height: 50px;
@@ -114,7 +107,6 @@ a:hover {
 
 
 .table {
-    background-color: #F0F0F1;
     margin-top: 50px;
      
      td {

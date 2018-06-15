@@ -10,11 +10,13 @@
       </ul>
     </div>
   <% end %>
-
+  
   <div class= "row">
     <div class = "col-sm-12 form-group">
-
+    
       <div class="field">
+        <h2 class="default-title">Create New Team</h2>
+        <br/>
         <%= image_tag @team.avatar.url(:medium) %>
         <%= f.label :avatar %>
         <%= f.file_field :avatar %>

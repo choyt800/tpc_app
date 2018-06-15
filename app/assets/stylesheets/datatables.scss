@@ -32,9 +32,6 @@ table.dataTable thead .sorting_desc_disabled {
   background-image: image-url("datatables/sort_desc_disabled.png");
 }
 
-th.sorting {
-  text-align: center;
-}
 
 
 #datatable_filter {
@@ -49,8 +46,8 @@ th.sorting {
     margin-top: 16px;
     outline: 0;
     border: 1px solid black;
-    border-radius: 3px;
-    width: 350px;
+    border-radius: 20px;
+    width: 280px;
   }
  
 }
