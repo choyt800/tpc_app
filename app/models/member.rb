@@ -1,6 +1,4 @@
 class Member < ActiveRecord::Base
-  before_destroy :check
-
   require 'date'
   require 'time'
 

@@ -76,7 +76,7 @@ class MembersController < ApplicationController
   def update
     respond_to do |format|
       if @member.update(member_params)
-        update_stripe(@member)
+        update_stripe(@member) if @member.stripe_id
 
         format.html { redirect_to @member, notice: 'Member was successfully updated.' }
         format.json { render :show, status: :ok, location: @member }

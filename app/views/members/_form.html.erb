@@ -1,6 +1,6 @@
-<div class="form-group">
+<%= form_for(@member) do |f| %>
+  <div class="form-group">
     <h2 class="default-title">Create New Member</h2>
-  <%= form_for(@member) do |f| %>
     <%= f.hidden_field :team_id, value: params[:team_id] %>
     <% if @member.errors.any? %>
       <div id="error_explanation">
