@@ -8,7 +8,7 @@
         <ul class="filter-list">
             
             <li><%= link_to "Inactive Team Members /", members_path(filter: 'inactive_team_members') %></li>
-            <li><%= link_to "Active - Team Members /", members_path(filter: 'active_team_members') %></li>
+            <li><%= link_to "Active Team Members /", members_path(filter: 'active_team_members') %></li>
             <li><%= link_to "Unassigned Teams /", teams_path(filter: 'unassigned') %></li>
             <li><%= link_to "Inactive Teams /", teams_path(filter: 'inactive') %></li>
             <li><%= link_to "Active Teams /", teams_path(filter: 'active') %></li>
@@ -29,13 +29,15 @@
 
     <tbody>
       <% @teams.each do |team| %>
-      <tr>
-        <td><%= image_tag team.avatar.url(:thumb) %>
-        <br/>
-        <%= team.name %>
-        <br/>
-        <%= link_to 'Show Team', team_path(team), :class =>"button btn btn-default pad-5" %>
-        </td>
+       <tr>
+        <td>
+          <%= link_to(team) do %>
+            <%= image_tag team.avatar.url(:thumb) %>
+            <br/>
+            <strong><%= team.name %></strong> 
+          <% end %>
+       </td>
+       
         <td><%= team.members.count %></td>
         <td>
           <%= team.custom_subscriptions.count %> Custom Subscriptions<br />
