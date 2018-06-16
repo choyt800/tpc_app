@@ -10,20 +10,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Secret Thicket</a>
+          <a class="navbar-brand" href="/management">Secret Thicket</a>
 
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/management">Dashboard</a></li>
-            <li><a href="/members"><i class="material-icons">person </i><strong> Members </strong></a>
-                
-            </li>
-
-            <li><a href="/teams"><i class="material-icons">group </i><strong> Teams </strong></a>
-            </li>
+              
+           
+              <li><%= link_to "Members", members_path(filter: 'active') %>
+              </li>
+              
+              <li><%= link_to "Teams", teams_path(filter: 'active') %>
+              </li>
+            
           </ul>
           
           <hr>
