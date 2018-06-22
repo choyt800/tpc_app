@@ -22,6 +22,8 @@ gem 'jquery-datatables'
 gem 'google-webfonts-rails', '~> 0.0.4'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
+gem 'sidekiq'
+gem 'sidekiq-cron'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
@@ -36,4 +38,4 @@ group :production do
   gem 'rails_12factor', '0.0.2'
 end
 
-ruby "2.2.1"
+ruby "2.3.7"
