@@ -7,14 +7,13 @@
     <div class="col-sm-12">
         <ul class="filter-list">
             
-            <li><%= link_to "Inactive Team Members /", members_path(filter: 'inactive_team_members') %></li>
-            <li><%= link_to "Active Team Members /", members_path(filter: 'active_team_members') %></li>
-            <li><%= link_to "Unassigned Teams /", teams_path(filter: 'unassigned') %></li>
-            <li><%= link_to "Inactive Teams /", teams_path(filter: 'inactive') %></li>
-            <li><%= link_to "Active Teams /", teams_path(filter: 'active') %></li>
-            <li>Filter: </li>
             <li><a href="/teams/new"><i class="material-icons">add_circle</i></a> </li>
-        
+            <li>Filter: </li>
+            <li><%= link_to "Active Teams /", teams_path(filter: 'active') %></li>
+            <li><%= link_to "Pending Teams /", teams_path(filter: 'unassigned') %></li>
+            <li><%= link_to "Active Team Members /", members_path(filter: 'active_team_members') %></li>
+            <li><%= link_to "Past Team Members /", members_path(filter: 'inactive_team_members') %></li>
+            <li><%= link_to "Cancelled Teams /", teams_path(filter: 'inactive') %></li>
         </ul>
     </div>
     </div>

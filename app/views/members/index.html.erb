@@ -7,14 +7,15 @@
     </div>
     <div class="col">
      <ul class="filter-list">
-       <li><%= link_to "Unassigned /", members_path(filter: 'unassigned') %></li>
-       <li><%= link_to "Inactive /", members_path(filter: 'inactive') %></li>
-       <li><%= link_to "Active - Team Members /", members_path(filter: 'active_team_members') %></li>
-       <li><%= link_to "Active - Non Stripe /", members_path(filter: 'active_non_stripe') %></li>
-       <li><%= link_to "Active - Stripe /", members_path(filter: 'active_stripe') %></li>
-       <li><%= link_to "Active - all /", members_path(filter: 'active') %></li>
-       <li>Filter: </li>
+      
        <li><a href="/members/new"><i class="material-icons">add_circle</i></a> </li>
+       <li>Filter:</li>
+       <li><%= link_to "Active - All |", members_path(filter: 'active_all') %></li>
+       <li><%= link_to "Active - Stripe |", members_path(filter: 'active_stripe') %></li>
+       <li><%= link_to "Active - Non-Stripe |", members_path(filter: 'active_non_stripe') %></li>
+       <li><%= link_to "Active - Team Members |", members_path(filter: 'active_team_members') %></li>
+       <li><%= link_to "Pending |", members_path(filter: 'unassigned') %></li>
+       <li><%= link_to "Cancelled |", members_path(filter: 'inactive') %></li>
        
     </ul>
     </div>

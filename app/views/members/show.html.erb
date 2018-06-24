@@ -1,7 +1,7 @@
     <div class="form-group">
       <p id="notice"><%= notice %></p>
       <div class="breadcrumbs">
-        <%= link_to 'App home', page_path('management') %> / <%= link_to 'Members Directory', members_path %> / <strong> Member Profile </strong>
+        <%= link_to 'App home', page_path('management') %> / <%= link_to 'Members Directory', members_path(filter: 'active_all') %> / <strong> Member Profile </strong>
       </div>
       <h1 class="member-name"> <%= @member.first_name  %> <%= @member.last_name %></h1>
 
