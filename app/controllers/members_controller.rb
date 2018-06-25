@@ -8,6 +8,8 @@ class MembersController < ApplicationController
     @members =  case params[:filter]
                 when 'active'
                   Member.active
+                when 'active_all'
+                  Member.active_all
                 when 'active_stripe'
                   Member.active_stripe
                 when 'active_non_stripe'

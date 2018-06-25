@@ -20,7 +20,7 @@ class Member < ActiveRecord::Base
   validates :email, presence: true
   
   def self.active_all
-    active.merge(active_team_members)
+    Member.active.union(Member.active_team_members)
   end
   #shows all active members (stripe and non stripe), all active team_members and unassigned members
 

@@ -22,6 +22,7 @@ gem 'jquery-datatables'
 gem 'google-webfonts-rails', '~> 0.0.4'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
+gem 'active_record_union'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
