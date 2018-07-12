@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  require 'sidekiq/cron/web'
+  mount Sidekiq::Web => '/sidekiq'
   devise_for :admins, skip: :registerable
+
   resources :mailboxes
   resources :keycard_checkouts, only: [:index]
   resources :mail_services, only: [:index]

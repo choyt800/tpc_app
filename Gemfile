@@ -22,6 +22,7 @@ gem 'jquery-datatables'
 gem 'google-webfonts-rails', '~> 0.0.4'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
+gem 'rufus-scheduler', '3.4.2'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 
