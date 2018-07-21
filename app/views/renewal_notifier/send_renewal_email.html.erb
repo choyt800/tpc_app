@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Your subscription is about to renew!</h1>
+    <p>Your subscription is going to renew on <%= @custom_subscription.next_invoice_date.strftime("%A, %B %e, %Y")%> for <%= @custom_subscription.pretty_invoice_amount %>.</p>
+    <p>If you'd like to make any changes to your subscription, or need to update your credit card information, please contact the office.</p>
+  </body>
+</html>
