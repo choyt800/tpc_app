@@ -8,8 +8,8 @@ class UpdateStripeDataWorker
           stripe_sub = Stripe::Subscription.retrieve(cs.stripe_sub_id)
           stripe_next_inv = Stripe::Invoice.upcoming(customer: stripe_sub.customer, subscription: stripe_sub.id)
 
-          if cs.invoice_amount != stripe_next_inv.amount_due || cs.next_invoice_date != Time.at(stripe_next_inv.period_start)
-            cs.update_attributes!(invoice_amount: stripe_next_inv.amount_due, next_invoice_date: Time.at(stripe_next_inv.period_start))
+          if cs.invoice_amount != stripe_next_inv.amount_due || cs.next_invoice_date != Time.at(stripe_next_inv.date)
+            cs.update_attributes!(invoice_amount: stripe_next_inv.amount_due, next_invoice_date: Time.at(stripe_next_inv.date))
           end
         rescue Stripe::InvalidRequestError => e
         end

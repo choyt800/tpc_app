@@ -3,7 +3,7 @@ class CheckRenewalWindowWorker
 
   def perform(*args)
     CustomSubscription.all.each do |cs|
-      if cs.stripe_sub_id.present?
+      if cs.stripe_sub_id.present? && cs.next_invoice_date.present?
         days_away = (cs.next_invoice_date.to_date - Date.tomorrow.to_date).to_i
 
         if days_away == 30
