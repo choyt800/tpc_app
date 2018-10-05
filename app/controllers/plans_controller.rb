@@ -104,7 +104,7 @@ class PlansController < ApplicationController
     end
 
     def plan_create_params
-      params.require(:plan).permit(:stripe_id, :name, :amount, :dollar_amount, :interval, :interval_count,
+      params.require(:plan).permit(:name, :amount, :dollar_amount, :interval, :interval_count,
                                    :trial_period_days, :plan_category_id, :category_order)
     end
 end

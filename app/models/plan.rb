@@ -22,8 +22,7 @@ class Plan < ActiveRecord::Base
   end
 
   def create_stripe_plan
-    Stripe::Plan.create(
-      id: @params[:stripe_id],
+    p = Stripe::Plan.create(
       name: @params[:name],
       amount: amount,
       currency: 'usd',
@@ -31,6 +30,8 @@ class Plan < ActiveRecord::Base
       interval: @params[:interval],
       trial_period_days: @params[:trial_period_days]
     )
+
+    self.stripe_id = p.id
   end
 
   def update_stripe_plan
